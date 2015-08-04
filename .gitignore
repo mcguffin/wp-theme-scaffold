@@ -6,5 +6,3 @@
 *.out
 .svn/
 .svnignore
-
-_bs/
