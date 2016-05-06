@@ -15,7 +15,7 @@ $ python /path/to/theme.py "Theme Name" [options]
 
 # Make theme.py available from everywhere #
 ```
-$ mkdir ~/.scripts
+$ mkdir -p ~/.scripts
 $ cd ~/.scripts
 $ git clone git@github.com:mcguffin/wp-theme-scaffold.git
 $ ln -s ./wp-theme-scaffold/theme.py ./wp-theme
