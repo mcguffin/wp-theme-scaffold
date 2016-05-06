@@ -118,11 +118,7 @@ class wp_theme:
 	
 
 usage = '''
-usage ./theme.py 'Theme Name' options
-    options can be any of:
-        --force         Override existing theme
-        grid_columns:<int>		Number of grid columns default 12
-        screen_sizes:<sizes>	Comma separated screen sizes. Default xs,sm,md,lg
+usage ./theme.py 'Theme Name' [ --force ]
 '''
 
 defaults = config = wp_theme.defaults
