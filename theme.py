@@ -31,8 +31,17 @@ class wp_theme:
 		self.theme_source	= os.path.dirname(os.path.realpath(__file__))+'/_bs/'
 	
 	def process_config(self,config):
+		author 						= pwd.getpwuid( os.getuid() ).pw_gecos
+		
+		config['theme_author'] 		= author.decode('utf-8')#.encode('utf-8')
+		config['this_year'] 		= date.today().year
+
+		config['theme_name'] 		= config['theme_name']
 		config['theme_slug'] 		= slugify(config['theme_name'])
-		config['wp_theme_slug']		= slugify(config['theme_name'],'-')
+		config['theme_slug_dash']	= slugify(config['theme_name'],'-')
+		
+		
+		
 		return config
 	
 	def make(self):
@@ -72,12 +81,9 @@ class wp_theme:
 #				print [1 for x in subst if file.match];
 				print file
 				if  [x for x in subst if re.findall('\.'+x+'$',file)]:
-#					continue
-					fin = codecs.open( source , 'rb' , encoding='utf-8' )
-					content = fin.read()
-					fin.close()
-				
-					content = self._substitute(content);
+
+					content = pystache.render( self._read_file_contents(source),self.config)
+					
 					fout = codecs.open( target , 'wb' , encoding='utf-8' )
 					fout.write(content);
 					fout.close()
@@ -88,24 +94,33 @@ class wp_theme:
 		pass
 	
 	
+	def _read_file_contents( self , file_path ):
+		if not os.path.exists(file_path):
+			return ''
+		f = codecs.open(file_path,'rb',encoding='utf-8')
+		contents = f.read()
+		f.close()
+		return contents
+
+
 	def _substitute(self, str):
 		repl = {
 			"'_bs'"				: "'%s'" % self.config['theme_slug'],
-			'_s_'				: '%s_' % self.config['theme_slug'],
-			"Text Domain: _s"	: 'Text Domain: %s' % self.config['theme_slug'],
-			"&nbsp;_s"			: "&nbsp;%s" % self.config['theme_slug'],
-			'_s-'				: '%s-' % self.config['theme_slug']
+			'_bs_'				: '%s_' % self.config['theme_slug_dash'],
+			"Text Domain: _bs"	: 'Text Domain: %s' % self.config['theme_slug_dash'],
+#			"&nbsp;_bs"			: "&nbsp;%s" % self.config['theme_slug'],
+			'_bs-'				: '%s-' % self.config['theme_slug']
 		}
-		for s in repl:
+		for s,r in repl.iteritems():
 #			print s
- 			str = str.replace(s,repl[s])
+ 			str = str.replace(s,r)
 		return str
 	
 
 usage = '''
 usage ./theme.py 'Theme Name' options
     options can be any of:
-        --force         Override existing plugin
+        --force         Override existing theme
         grid_columns:<int>		Number of grid columns default 12
         screen_sizes:<sizes>	Comma separated screen sizes. Default xs,sm,md,lg
 '''
@@ -126,5 +141,10 @@ if '--force' in sys.argv and os.path.exists(maker.theme_dir):
 result = maker.make()
 
 if isinstance(result, Exception):
-	print 'Plugin exists:',result
-	print 'use --force to override existing plugin'
+	print 'Theme exists:',result
+	print 'use --force to override existing theme'
+else:
+	print 'Compiling scss:'
+	subprocess.call(["sass", '{path:s}/sass/style.scss'.format( path = maker.theme_dir ), '{path:s}/style.css'.format( path = maker.theme_dir ), ' --style', 'compressed', '--precision', '8', '--trace' ])
+	subprocess.call(["sass", '{path:s}/sass/editor-style.scss'.format( path = maker.theme_dir ), '{path:s}/editor-style.css'.format( path = maker.theme_dir ), ' --style', 'compressed', '--precision', '8', '--trace' ])
+	print 'done'

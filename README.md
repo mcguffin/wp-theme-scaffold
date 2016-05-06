@@ -3,7 +3,7 @@ Theme Scaffold
 
 Create a blank WordPress theme with bootstrap lib.
 
-Theme _bs Cloned from the fabulous _s theme bay Automattic.
+Theme _bs Cloned from the fabulous _s theme by Automattic.
 
 Usage:
 ```
