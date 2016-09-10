@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import sys, os, shutil, pystache, re, pwd, pprint, shutil,codecs,subprocess
+import sys, os, shutil, pystache, re, pwd, pprint, shutil, codecs, subprocess, string
 from datetime import date
 from pprint import pprint
 
@@ -11,6 +11,9 @@ from pprint import pprint
 def slugify(str,separator='_'):
 	return re.sub(r'\s',separator,str.strip()).lower()
 
+def camelcase( str ):
+	return re.sub(r'\s','', string.capwords( str.strip() ) )
+
 # def plugin_slug(str):
 # 	return slugify(rm_wp(str))
 # 
@@ -19,16 +22,20 @@ def slugify(str,separator='_'):
 
 class wp_theme:
 	defaults = {
-		'theme_name'	: '',
-		'theme_slug'	: '',
-		'grid_columns'	: 12,
-		'screen_sizes'	: 'xs,sm,md,lg'
+		'theme_author'		: '',
+		'this_year'			: '',
+		'theme_name'		: '',
+		'theme_slug'		: '',
+		'theme_slug_dash'	: '',
+		'theme_slug_camel'	: '',
+		'grid_columns'		: 12,
+		'screen_sizes'		: 'xs,sm,md,lg'
 	}
 
 	def __init__(self,config):
-		self.config			= self.process_config(config)
-		self.theme_dir		= os.getcwd()+'/'+slugify(self.config['theme_name'],'-')
-		self.theme_source	= os.path.dirname(os.path.realpath(__file__))+'/_bs/'
+		self.config			= self.process_config( config )
+		self.theme_dir		= os.getcwd() + '/' + slugify( self.config['theme_name'], '-' )
+		self.theme_source	= os.path.dirname( os.path.realpath( __file__ ) ) + '/_bs/'
 	
 	def process_config(self,config):
 		author 						= pwd.getpwuid( os.getuid() ).pw_gecos
@@ -37,10 +44,9 @@ class wp_theme:
 		config['this_year'] 		= date.today().year
 
 		config['theme_name'] 		= config['theme_name']
-		config['theme_slug'] 		= slugify(config['theme_name'])
-		config['theme_slug_dash']	= slugify(config['theme_name'],'-')
-		
-		
+		config['theme_slug'] 		= slugify( config['theme_name'] )
+		config['theme_slug_dash']	= slugify( config['theme_name'], '-' )
+		config['theme_slug_camel']	= camelcase( config['theme_name'] )
 		
 		return config
 	
@@ -60,13 +66,13 @@ class wp_theme:
 		subst = ['php','md','scss','js','css','txt']
 #		print ignore
 		for root, subdirs, files in os.walk(self.theme_source):
-			relroot = root.replace(self.theme_source,'') + '/'
+			relroot = root.replace( self.theme_source, '' ) + '/'
 			
 			# ignore files
 			if [x for x in ignore if relroot.find(x) >= 0]:
 				continue;
 
-			dir = self.theme_dir + '/' + relroot
+			dir = self.theme_dir + '/' + self._substitute_filename( relroot )
 
 			# make subdirs if needed
 			if not os.path.exists(dir):
@@ -77,7 +83,7 @@ class wp_theme:
 				if [x for x in ignore if file.find(x) >= 0]:
 					continue;
 				source = root + '/' + file
-				target = dir + '/' + file
+				target = dir + '/' + self._substitute_filename( file )
 #				print [1 for x in subst if file.match];
 				print file
 				if  [x for x in subst if re.findall('\.'+x+'$',file)]:
@@ -103,19 +109,17 @@ class wp_theme:
 		return contents
 
 
-	def _substitute(self, str):
+	def _substitute_filename(self, str):
 		repl = {
-			"'_bs'"				: "'%s'" % self.config['theme_slug'],
-			'_bs_'				: '%s_' % self.config['theme_slug_dash'],
-			"Text Domain: _bs"	: 'Text Domain: %s' % self.config['theme_slug_dash'],
-#			"&nbsp;_bs"			: "&nbsp;%s" % self.config['theme_slug'],
-			'_bs-'				: '%s-' % self.config['theme_slug']
+			'__theme_slug__'		: self.config['theme_slug'],
+			'__theme_slug_dash__'	: self.config['theme_slug_dash'],
+			'__theme_slug_camel__'	: self.config['theme_slug_camel'],
 		}
 		for s,r in repl.iteritems():
 #			print s
  			str = str.replace(s,r)
 		return str
-	
+
 
 usage = '''
 usage ./theme.py 'Theme Name' [ --force ]
