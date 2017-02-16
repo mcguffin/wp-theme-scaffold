@@ -9,10 +9,11 @@ from pprint import pprint
 # 	return re.sub(r'(?i)^(WP|WordPress\s?)','',str).strip()
 # 
 def slugify(str,separator='_'):
-	return re.sub(r'\s',separator,str.strip()).lower()
+	return re.sub(r'[-_\s]',separator,str.strip()).lower()
 
 def camelcase( str ):
-	return re.sub(r'\s','', string.capwords( str.strip() ) )
+	str = re.sub(r'[-_\s]',' ', str.strip() )
+	return re.sub(r'\s','', string.capwords( str ) )
 
 # def plugin_slug(str):
 # 	return slugify(rm_wp(str))
@@ -46,7 +47,7 @@ class wp_theme:
 		config['theme_name'] 		= config['theme_name']
 		config['theme_slug'] 		= slugify( config['theme_name'] )
 		config['theme_slug_dash']	= slugify( config['theme_name'], '-' )
-		config['theme_slug_camel']	= camelcase( config['theme_name'] )
+		config['theme_slug_camel']	= camelcase( config['theme_slug_dash'] )
 		
 		return config
 	
