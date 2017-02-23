@@ -1,0 +1,18 @@
+.mce-i-big::before {
+	content:'LG';
+	font-size:1.2em;
+	font-weight:bold;
+	letter-spacing: -0.2em;
+	margin-left: -0.15em;
+	position:relative;
+	top:-1px;
+}
+
+.mce-i-small::before {
+	content:'sm';
+	font-size:0.8em;
+	top:-0.1em;
+	position:relative;
+	top:-3px;
+}
+

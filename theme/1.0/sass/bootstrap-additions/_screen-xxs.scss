@@ -1,0 +1,19 @@
+
+$screen-xxs: 0 !default;
+
+@if ( $screen-xxs ) {
+	// define variables
+	$screen-xxs-min:        $screen-xs;
+	$screen-xl-desktop:     $screen-xs-min;
+	$screen-lg-max:         $screen-xs-min - 1;
+	
+	$container-xxs:          $screen-xss-min - $grid-gutter-width;
+	
+	// extend container
+	.container {
+		@media (min-width: $screen-xs-min) {
+			width: $container-xss;
+		}
+	}
+	
+}

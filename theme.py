@@ -15,6 +15,8 @@ def camelcase( str ):
 	str = re.sub(r'[-_\s]',' ', str.strip() )
 	return re.sub(r'\s','', string.capwords( str ) )
 
+#print camelcase('King-Dings')
+#sys.exit()
 # def plugin_slug(str):
 # 	return slugify(rm_wp(str))
 # 
@@ -36,7 +38,7 @@ class wp_theme:
 	def __init__(self,config):
 		self.config			= self.process_config( config )
 		self.theme_dir		= os.getcwd() + '/' + slugify( self.config['theme_name'], '-' )
-		self.theme_source	= os.path.dirname( os.path.realpath( __file__ ) ) + '/_bs/'
+		self.theme_source	= os.path.dirname( os.path.realpath( __file__ ) ) + '/theme/1.0/'
 	
 	def process_config(self,config):
 		author 						= pwd.getpwuid( os.getuid() ).pw_gecos

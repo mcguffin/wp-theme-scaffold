@@ -33,11 +33,3 @@ $ wp-theme "Theme Name" [options]
 
 
 
-ToDo:
------
-
- - [ ] Make standalone version of _bs on bitbucket
- - [ ] Renovate Theme generation process:
- 	- Fork scaffold theme
- 	- make substitutions
- 	- commit -m "initial"
