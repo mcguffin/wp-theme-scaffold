@@ -18,8 +18,10 @@ class Theme extends Core\Singleton {
 		
 		Admin\Settings::instance();
 		Admin\Customizer::instance();
-		Media\Image::instance();
 		Media\Embed::instance();
+		Media\Image::instance();
+		Media\SVG::instance();
+		Media\Upload::instance();
 		WPGridbuilder\Gridbuilder::instance();
 
 		Widgets\Widgets::instance();
@@ -36,8 +38,8 @@ class Theme extends Core\Singleton {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		
 		add_filter( 'kses_allowed_protocols', array( $this, 'add_whatsapp_protocol' ) );
-
 	}
+
 	
 	public function add_whatsapp_protocol( $protocols ) {
 		$protocols[] = 'whatsapp';

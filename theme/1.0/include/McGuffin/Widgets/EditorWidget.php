@@ -1,6 +1,6 @@
 <?php 
 
-namespace KingDesign\Widgets;
+namespace McGuffin\Widgets;
 
 
 class EditorWidget extends Widget {

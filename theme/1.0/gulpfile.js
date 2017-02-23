@@ -2,6 +2,7 @@ var gulp = require('gulp');
 var concat = require('gulp-concat');  
 var uglify = require('gulp-uglify');  
 var sass = require('gulp-sass');
+//var sass = require('gulp-ruby-sass');
 var sourcemaps = require('gulp-sourcemaps');
 var rename = require('gulp-rename');
 
@@ -9,28 +10,26 @@ var paths = {
 	styles	: ['./sass/style.scss','./sass/editor-style.scss']
 };
 
-gulp.task( 'scss:prod', 		function() { 
-    return gulp.src( paths.styles )
-		.pipe( sass( { 
-			outputStyle: 'compressed', omitSourceMapUrl: true 
-		} ).on('error', sass.logError) )
-		.pipe( gulp.dest('./'+path));
-});
+
 gulp.task( 'scss:dev', 		function() { 
-    return gulp.src( paths.styles )
+	return gulp.src( paths.styles )
 		.pipe( sourcemaps.init() )
-        .pipe( sass( { 
-        	outputStyle: 'expanded' 
-        } ).on('error', sass.logError) )
-        .pipe( sourcemaps.write() )
-		.pipe( gulp.dest('./'+path));
+		.pipe( sass({
+			precision: 8,
+			stopOnError: true,
+			require: './sass/library/base64-encode.rb',
+			noCache: true
+		}) )
+		.on('error', sass.logError)
+		.pipe(sourcemaps.write( './' ) )
+		.pipe( gulp.dest('./'));
 });
 
-gulp.task('default', function() {
-	//*
-	gulp.watch(paths.styles, [ 'scss:dev' ] );
-	/*/
-	gulp.watch(paths.styles, [ 'scss:prod' ] );
-	//*/
+
+gulp.task('watch', function() {
+	gulp.watch('./sass/**/*.scss', [ 'scss:dev' ] );
 });
 
+gulp.task('default', ['watch'] );
+
+gulp.start( 'default', 'scss:dev' );

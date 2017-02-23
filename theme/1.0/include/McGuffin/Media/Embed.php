@@ -13,6 +13,6 @@ class Embed extends Core\Singleton {
 	}
 	
 	public function embed_container( $embed_html ) {
-		return sprintf( '<div class="video-embed fixed-aspectratio aspectratio-16x9">%s</div>', $embed_html );
+		return sprintf( '<div class="embed-container fixed-aspectratio aspectratio-16x9">%s</div>', $embed_html );
 	}
 }

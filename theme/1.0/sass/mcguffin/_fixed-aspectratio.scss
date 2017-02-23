@@ -7,15 +7,9 @@ $aspect-screen-sizes: (
 	sm: $screen-sm-min, 
 	md: $screen-md-min, 
 	lg: $screen-lg-min,
+//	xl: $screen-xl-min, // requires bootstrap-additions/screen-xl
 );
-@if ( $screen-xl ) {
-	$aspect-screen-sizes: (
-		sm: $screen-sm-min, 
-		md: $screen-md-min, 
-		lg: $screen-lg-min,
-		xl: $screen-xl-min, 
-	);
-}
+
 // boxes
 .fixed-aspectratio {
 	@include fixedaspect();
