@@ -21,9 +21,9 @@ class Shy extends TinyMce\TinyMce {
 	protected function __construct() {
 		$this->plugin_params = array(
 			'l10n' => array(
-				'soft_hyphen'			=> __( 'Soft Hyphen', '{{theme_slug_dash}}' ),
-				'insert_soft_hyphen'	=> __( 'Insert Soft Hyphen', '{{theme_slug_dash}}' ),
-				'show_invisibles' 		=> __( 'Show Invisibles', '{{theme_slug_dash}}' ),
+				'soft_hyphen'			=> __( 'Soft Hyphen', 'mcguffin' ),
+				'insert_soft_hyphen'	=> __( 'Insert Soft Hyphen', 'mcguffin' ),
+				'show_invisibles' 		=> __( 'Show Invisibles', 'mcguffin' ),
 			),
 		);
 

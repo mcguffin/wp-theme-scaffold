@@ -23,8 +23,8 @@ class Clear extends TinyMce\TinyMce {
 	protected function __construct() {
 		$this->plugin_params = array(
 			'l10n' => array(
-				'clear'			=> __( 'Clear', '{{theme_slug_dash}}' ),
-				'insert_clear'	=> __( 'Insert Clear', '{{theme_slug_dash}}' ),
+				'clear'			=> __( 'Clear', 'mcguffin' ),
+				'insert_clear'	=> __( 'Insert Clear', 'mcguffin' ),
 			),
 		);
 		parent::__construct();

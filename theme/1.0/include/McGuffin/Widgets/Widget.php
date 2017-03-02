@@ -70,11 +70,11 @@ class Widget extends \WP_Widget {
 						wp_enqueue_style( 'repeatmobile-iconfont', get_stylesheet_directory_uri().'/iconfonts.css' );
 
 						$this->icons = apply_filters( 'theme_iconset', array(
-							'dashicons dashicons-menu' => __('Menu','repeatcampus-admin'),
-							'dashicons dashicons-admin-site' => __('Admin Site','repeatcampus-admin'),
-							'dashicons dashicons-dashboard' => __('Dashboard','repeatcampus-admin'),
-							'dashicons dashicons-admin-post' => __('Admin Post','repeatcampus-admin'),
-							'dashicons dashicons-admin-media' => __('Admin Media','repeatcampus-admin'),
+							'dashicons dashicons-menu' => __('Menu','mcguffin'),
+							'dashicons dashicons-admin-site'	=> __('Admin Site','mcguffin'),
+							'dashicons dashicons-dashboard'		=> __('Dashboard','mcguffin'),
+							'dashicons dashicons-admin-post'	=> __('Admin Post','mcguffin'),
+							'dashicons dashicons-admin-media'	=> __('Admin Media','mcguffin'),
 							// ...
 						) );
 						$did_icon = true;
@@ -345,7 +345,7 @@ class Widget extends \WP_Widget {
 		$mime = $field['mime_type'];
 		?>
 			<label for="<?php echo $this->get_field_id( $field_name ); ?>-btn"><?php echo $field[ 'name' ] ?></label> 
-			<button id="<?php echo $field_id ?>-btn" class="select-media button-secondary"><?php _e('Select Media','repeatcampus-admin') ?></button>
+			<button id="<?php echo $field_id ?>-btn" class="select-media button-secondary"><?php _e('Select Media','mcguffin') ?></button>
 			<input type="hidden" name="<?php echo $this->get_field_name( $field_name ) ?>" id="<?php echo $field_id ?>" value="<?php echo $instance[ $field_name ] ?>" />
 
 			<div id="<?php echo $field_id ?>-thumb" class="thumbnail"> </div>
@@ -360,8 +360,8 @@ class Widget extends \WP_Widget {
 					$(btnSel).on( 'click', function( e ) {
 						if ( frame === null ) {
 							var frame_opts = {
-								title: '<?php _e('Select Upload','repeatcampus-admin') ?>',
-								button: { text: '<?php _e('Done','repeatcampus-admin') ?>', close: true }
+								title: '<?php _e('Select Upload','mcguffin') ?>',
+								button: { text: '<?php _e('Done','mcguffin') ?>', close: true }
 							};
 							if ( mime !== '' ) {
 								frame_opts.library = { type: mime };
@@ -400,7 +400,7 @@ class Widget extends \WP_Widget {
 								$('<img />').attr('src',url), 
 
 								new wp.media.view.Button({ 
-									text: '<?php _e('Remove', 'repeatcampus-admin' ); ?>', 
+									text: '<?php _e('Remove', 'mcguffin' ); ?>', 
 									click: function() {
 										$(inpSel).removeAttr( 'value' );
 										$(inpSel).val( '' );
@@ -447,10 +447,10 @@ class Widget extends \WP_Widget {
 
 		?>
 		<input checked="checked" type="radio" id="<?php echo $this->get_field_id( $field_name . '-grid-view' ); ?>" name="<?php echo $this->get_field_name( $field_name . '-icon-select-display' ); ?>" value="grid" />
-		<label class="dashicons-before dashicons-grid-view" for="<?php echo $this->get_field_id( $field_name . '-grid-view' ); ?>" ><?php _e( 'Grid View', 'repeatcampus-admin' ); ?></label>
+		<label class="dashicons-before dashicons-grid-view" for="<?php echo $this->get_field_id( $field_name . '-grid-view' ); ?>" ><?php _e( 'Grid View', 'mcguffin' ); ?></label>
 
 		<input type="radio" id="<?php echo $this->get_field_id( $field_name . '-list-view' ); ?>" name="<?php echo $this->get_field_name( $field_name . '-icon-select-display' ); ?>" value="list" />
-		<label class="dashicons-before dashicons-list-view" for="<?php echo $this->get_field_id( $field_name . '-list-view' ); ?>" ><?php _e( 'List View', 'repeatcampus-admin' ); ?></label>
+		<label class="dashicons-before dashicons-list-view" for="<?php echo $this->get_field_id( $field_name . '-list-view' ); ?>" ><?php _e( 'List View', 'mcguffin' ); ?></label>
 		
 		<hr /><?php
 

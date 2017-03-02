@@ -16,9 +16,9 @@
 
 	<footer id="colophon" class="site-footer">
 		<div class="site-info container">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', '{{theme_slug_dash}}' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', '{{theme_slug_dash}}' ), 'WordPress' ); ?></a>
+			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'mcguffin' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'mcguffin' ), 'WordPress' ); ?></a>
 			<span class="sep"> | </span>
-			<?php printf( esc_html__( 'Theme: %1$s by %2$s.', '{{theme_slug_dash}}' ), '{{theme_slug_dash}}', '<a href="http://automattic.com/" rel="designer">Automattic</a>' ); ?>
+			<?php printf( esc_html__( 'Theme: %1$s by %2$s.', 'mcguffin' ), 'mcguffin', '<a href="http://automattic.com/" rel="designer">Automattic</a>' ); ?>
 		</div><!-- .site-info -->
 	</footer><!-- #colophon -->
 </div><!-- #page -->

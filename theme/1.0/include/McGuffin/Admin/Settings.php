@@ -39,7 +39,7 @@ class Settings extends Core\Singleton {
 		$settings_section = '{{theme_slug}}_settings';
 		// more settings go here ...
 
-		add_settings_section( $settings_section, __( '{{theme_name}}',  '{{theme_slug_dash}}' ), array( &$this, 'settings_description' ), $this->optionset );
+		add_settings_section( $settings_section, __( '{{theme_name}}',  'mcguffin' ), array( &$this, 'settings_description' ), $this->optionset );
 
 		// ... and here
 		$option_name = '{{theme_slug}}_404_page';
@@ -47,7 +47,7 @@ class Settings extends Core\Singleton {
 
 		add_settings_field(
 			$option_name,
-			__( 'Not Found Page',  '{{theme_slug_dash}}' ),
+			__( 'Not Found Page',  'mcguffin' ),
 			array( $this, 'select_page' ),
 			$this->optionset,
 			$settings_section,

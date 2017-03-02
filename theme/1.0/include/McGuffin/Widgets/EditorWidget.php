@@ -14,16 +14,16 @@ class EditorWidget extends Widget {
 	function __construct() {
 		parent::__construct( 
 			'kdc_editor_widget',
-			__( 'Editor', 'king-design' ), 
-			array( 'description' => __( 'Rich text editor', 'king-design' ), ),
+			__( 'Editor', 'mcguffin' ), 
+			array( 'description' => __( 'Rich text editor', 'mcguffin' ), ),
 			array(
 				'title'	=> array(
 					'type'	=> 'text',
-					'name'	=> __('Title', 'king-design' ),
+					'name'	=> __('Title', 'mcguffin' ),
 				),
 				'content'	=> array(
 					'type'	=> 'rte',
-					'name'	=> __('Content', 'king-design' ),
+					'name'	=> __('Content', 'mcguffin' ),
 				),
 			)
 		);

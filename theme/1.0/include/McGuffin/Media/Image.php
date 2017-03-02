@@ -16,21 +16,21 @@ class Image extends Core\Singleton {
 	private function get_image_sizes() {
 		return array(
 			'din-portrait-large'	=> array(
-				'name'			=> __('DIN portrait large','{{theme_slug_dash}}'),
+				'name'			=> __('DIN portrait large','mcguffin'),
 				'width'			=> 900,
 				'height'		=> 1272,
 				'crop'			=> true,
 				'selectable'	=> true,
 			), 
 			'din-portrait-medium'	=> array(
-				'name'			=> __('DIN portrait large','{{theme_slug_dash}}'),
+				'name'			=> __('DIN portrait large','mcguffin'),
 				'width'			=> 600,
 				'height'		=> 848,
 				'crop'			=> true,
 				'selectable'	=> true,
 			),
 			'din-portrait-small'	=> array(
-				'name'			=> __('DIN portrait large','{{theme_slug_dash}}'),
+				'name'			=> __('DIN portrait large','mcguffin'),
 				'width'			=> 480,
 				'height'		=> 679,
 				'crop'			=> true,
@@ -38,21 +38,21 @@ class Image extends Core\Singleton {
 			), 
 
 			'din-landscape-large'	=> array(
-				'name'			=> __('DIN portrait large','{{theme_slug_dash}}'),
+				'name'			=> __('DIN portrait large','mcguffin'),
 				'width'			=> 1200,
 				'height'		=> 848,
 				'crop'			=> true,
 				'selectable'	=> true,
 			),
 			'din-landscape-medium'	=> array(
-				'name'			=> __('DIN portrait large','{{theme_slug_dash}}'),
+				'name'			=> __('DIN portrait large','mcguffin'),
 				'width'			=> 900,
 				'height'		=> 636,
 				'crop'			=> true,
 				'selectable'	=> true,
 			),
 			'din-landscape-small'	=> array(
-				'name'			=> __('DIN portrait large','{{theme_slug_dash}}'),
+				'name'			=> __('DIN portrait large','mcguffin'),
 				'width'			=> 600,
 				'height'		=> 424,
 				'crop'			=> true,
@@ -60,7 +60,7 @@ class Image extends Core\Singleton {
 			),
 
 			'tv-1080p'	=> array(
-				'name'			=> __('TV 16:9','{{theme_slug_dash}}'),
+				'name'			=> __('TV 16:9','mcguffin'),
 				'width'			=> 1920,
 				'height'		=> 1080,
 				'crop'			=> true,
@@ -82,7 +82,7 @@ class Image extends Core\Singleton {
 			),
 
 			'cinema-xl'	=> array(
-				'name'			=> __('Cinema','{{theme_slug_dash}}'),
+				'name'			=> __('Cinema','mcguffin'),
 				'width'			=> 1920,
 				'height'		=> 817,
 				'crop'			=> true,

@@ -56,19 +56,19 @@ class Gridbuilder extends Core\Singleton {
 			'style'	=> 'clear:both;',
 		);
 		$fields[ 'menu_link' ] = array(
-			'title'	=> __( 'Menüeintrag erstellen', 'king-design' ),
+			'title'	=> __( 'Menüeintrag erstellen', 'mcguffin' ),
 			'type'	=> 'checkbox',
 			'priority' => 12,
 			'style'	=> 'box-sizing:border-box;float:left;padding-right:10px;width:33%;',
 		);
 		$fields[ 'menu_title' ] = array(
-			'title'	=> __( 'Menü-Titel', 'king-design' ),
+			'title'	=> __( 'Menü-Titel', 'mcguffin' ),
 			'type'	=> 'text',
 			'priority' => 13,
 			'style'	=> 'box-sizing:border-box;float:left;padding-right:10px;padding-left:10px;width:33%;',
 		);
 		$fields[ 'menu_parent' ] = array(
-			'title'	=> __( 'Übergeordnetes Menü', 'king-design' ),
+			'title'	=> __( 'Übergeordnetes Menü', 'mcguffin' ),
 			'type'	=> 'text',
 			'priority' => 14,
 			'style'	=> 'box-sizing:border-box;float:left;padding-left:10px;width:33%;',

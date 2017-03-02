@@ -14,8 +14,8 @@ class Upload extends Core\Singleton {
 
 	function enable_documents_upload( $post_mime_types ) {
 
-		$post_mime_types['application/pdf'] = array( __( 'PDFs' , 'repeatcampus-admin' ), __( 'Manage PDFs' , 'repeatcampus-admin'), _n_noop( 'PDF <span class="count">(%s)</span>', 'PDFs <span class="count">(%s)</span>' , 'repeatcampus-admin') );
-		$post_mime_types['text/vcard'] = array( __( 'vCards' , 'repeatcampus-admin' ), __( 'Manage vCards' , 'repeatcampus-admin'), _n_noop( 'PDF <span class="count">(%s)</span>', 'vCards <span class="count">(%s)</span>' , 'repeatcampus-admin') );
+		$post_mime_types['application/pdf'] = array( __( 'PDFs' , 'mcguffin' ), __( 'Manage PDFs' , 'mcguffin'), _n_noop( 'PDF <span class="count">(%s)</span>', 'PDFs <span class="count">(%s)</span>' , 'mcguffin') );
+		$post_mime_types['text/vcard'] = array( __( 'vCards' , 'mcguffin' ), __( 'Manage vCards' , 'mcguffin'), _n_noop( 'PDF <span class="count">(%s)</span>', 'vCards <span class="count">(%s)</span>' , 'mcguffin') );
 
 		return $post_mime_types;
 	}

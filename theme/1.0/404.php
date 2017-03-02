@@ -38,11 +38,11 @@ if ( ( $page_id = get_option( '{{theme_slug}}_404_page' ) ) && ( $page = get_pos
 
 			<section class="error-404 not-found">
 				<header class="page-header">
-					<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', '{{theme_slug_dash}}' ); ?></h1>
+					<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'mcguffin' ); ?></h1>
 				</header><!-- .page-header -->
 
 				<div class="page-content">
-					<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try one of the links below or a search?', '{{theme_slug_dash}}' ); ?></p>
+					<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try one of the links below or a search?', 'mcguffin' ); ?></p>
 
 					<?php get_search_form(); ?>
 
@@ -50,7 +50,7 @@ if ( ( $page_id = get_option( '{{theme_slug}}_404_page' ) ) && ( $page = get_pos
 
 					<?php if ( {{theme_slug}}_categorized_blog() ) : // Only show the widget if site has multiple categories. ?>
 					<div class="widget widget_categories">
-						<h2 class="widget-title"><?php esc_html_e( 'Most Used Categories', '{{theme_slug_dash}}' ); ?></h2>
+						<h2 class="widget-title"><?php esc_html_e( 'Most Used Categories', 'mcguffin' ); ?></h2>
 						<ul>
 						<?php
 							wp_list_categories( array(
@@ -67,7 +67,7 @@ if ( ( $page_id = get_option( '{{theme_slug}}_404_page' ) ) && ( $page = get_pos
 
 					<?php
 						/* translators: %1$s: smiley */
-						$archive_content = '<p>' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', '{{theme_slug_dash}}' ), convert_smilies( ':)' ) ) . '</p>';
+						$archive_content = '<p>' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', 'mcguffin' ), convert_smilies( ':)' ) ) . '</p>';
 						the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$archive_content" );
 					?>
 

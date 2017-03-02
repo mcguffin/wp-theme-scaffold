@@ -22,7 +22,7 @@
 
 <body <?php body_class(); ?>>
 <div id="page" class="hfeed site">
-	<a class="skip-link sr-only" href="#content"><?php esc_html_e( 'Skip to content', '{{theme_slug_dash}}' ); ?></a>
+	<a class="skip-link sr-only" href="#content"><?php esc_html_e( 'Skip to content', 'mcguffin' ); ?></a>
 
 	<header id="masthead" class="site-header">
 		<div class="container">
@@ -31,7 +31,7 @@
 						data-toggle="collapse" 
 						data-target="#site-navigation" 
 						aria-expanded="false">
-					<span class="sr-only"><?php esc_html_e( 'Primary Menu', '{{theme_slug_dash}}' ); ?></span>
+					<span class="sr-only"><?php esc_html_e( 'Primary Menu', 'mcguffin' ); ?></span>
 				</button>
 
 				<?php if ( is_front_page() && is_home() ) : ?>

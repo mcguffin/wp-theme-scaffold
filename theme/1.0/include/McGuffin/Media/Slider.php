@@ -108,7 +108,7 @@ class Slider extends Core\Singleton {
 
 					$output .= sprintf( "\t\t\t\t\t<a class=\"btn btn-primary icon-angle-double-right\" href=\"%s\">%s</a>\n",
 							get_permalink($project_item->ID),
-							__('Go to project','studio-rakete') );
+							__('Go to project','mcguffin') );
 						
 					$output .= "\t\t\t\t</div>\n";
 					$output .= "\t\t\t</div>\n";
@@ -120,11 +120,11 @@ class Slider extends Core\Singleton {
 
 			$output .= "\t<a class=\"left carousel-control\" href=\"#{$slider_id}\" role=\"button\" data-slide=\"prev\">\n";
 			$output .= "\t\t<span class=\"arrow icon-left-open-thick\" aria-hidden=\"true\"></span>\n";
-			$output .= sprintf("\t\t<span class=\"sr-only\">%s</span>\n", __('Previous Slide','studio-rakete') );
+			$output .= sprintf("\t\t<span class=\"sr-only\">%s</span>\n", __('Previous Slide','mcguffin') );
 			$output .= "\t</a>\n";
 			$output .= "\t<a class=\"right carousel-control\" href=\"#{$slider_id}\" role=\"button\" data-slide=\"next\">\n";
 			$output .= "\t\t<span class=\"arrow icon-right-open-thick\" aria-hidden=\"true\"></span>\n";
-			$output .= sprintf("\t\t<span class=\"sr-only\">%s</span>\n", __('Next Slide','studio-rakete') );
+			$output .= sprintf("\t\t<span class=\"sr-only\">%s</span>\n", __('Next Slide','mcguffin') );
 			$output .= "\t</a>\n";
 			
 			$output .= "</div>\n";

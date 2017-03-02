@@ -23,8 +23,8 @@ class BigSmall extends TinyMce\TinyMce {
 	protected function __construct() {
 		$this->plugin_params = array(
 			'l10n' => array(
-				'small'	=> __( 'Small', '{{theme_slug_dash}}' ),
-				'big'	=> __( 'Big', '{{theme_slug_dash}}' ),
+				'small'	=> __( 'Small', 'mcguffin' ),
+				'big'	=> __( 'Big', 'mcguffin' ),
 			),
 		);
 		parent::__construct();
