@@ -147,10 +147,10 @@ if isinstance(result, Exception):
 	print 'Theme exists:',result
 	print 'use --force to override existing theme'
 else:
-	print 'Setup gulp'
-	os.chdir( maker.theme_dir );
-	subprocess.call( ['npm', 'install'])
-	subprocess.call( ['gulp'])
+# 	print 'Setup gulp'
+# 	os.chdir( maker.theme_dir );
+# 	subprocess.call( ['npm', 'install'])
+# 	subprocess.call( ['gulp'])
 #	subprocess.call(["sass", '{path:s}/sass/style.scss'.format( path = maker.theme_dir ), '{path:s}/style.css'.format( path = maker.theme_dir ), ' --style', 'compressed', '--precision', '8', '--trace' ])
 #	subprocess.call(["sass", '{path:s}/sass/editor-style.scss'.format( path = maker.theme_dir ), '{path:s}/editor-style.css'.format( path = maker.theme_dir ), ' --style', 'compressed', '--precision', '8', '--trace' ])
 	print 'done'

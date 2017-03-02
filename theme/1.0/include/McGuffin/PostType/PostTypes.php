@@ -1,6 +1,6 @@
 <?php
 
-namespace McGuffin\PostType
+namespace McGuffin\PostType;
 
 use McGuffin\Core;
 
