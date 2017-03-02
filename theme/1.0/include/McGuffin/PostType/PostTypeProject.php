@@ -24,6 +24,7 @@ use McGuffin\Core;
 class PostTypeProject extends PostType {
 
 	protected $post_type_slug = 'project';
+
 	/**
 	 * Register Post Types
 	 * 
@@ -67,7 +68,40 @@ class PostTypeProject extends PostType {
 			'capability_type'     => 'post',
 		);
 		
-		register_post_type( , $project_args );
+		register_post_type( $this->post_type_slug, $project_args );
+
+
+		/**
+		 *	Branches
+		 */
+		$project_cat_labels = array(
+			'name'              => _x( 'Categories', 'taxonomy general name' , 'mcguffin' ),
+			'singular_name'     => _x( 'Category', 'taxonomy singular name' , 'mcguffin' ),
+			'search_items'      => __( 'Search Categories' , 'mcguffin' ),
+			'all_items'         => __( 'All Categories' , 'mcguffin' ),
+			'parent_item'       => __( 'Parent Category' , 'mcguffin' ),
+			'parent_item_colon' => __( 'Parent Category:' , 'mcguffin' ),
+			'edit_item'         => __( 'Edit Category' , 'mcguffin' ),
+			'update_item'       => __( 'Update Category' , 'mcguffin' ),
+			'add_new_item'      => __( 'Add New Category' , 'mcguffin' ),
+			'new_item_name'     => __( 'New Category' , 'mcguffin' ),
+			'menu_name'         => __( 'Categories' , 'mcguffin' ),
+			'popular_items'		=> null,
+		);
+
+		$project_cat_labels_args = array(
+			'hierarchical'		=> false,
+			'ordered'			=> true,
+			'labels'			=> $project_cat_labels,
+			'show_ui'			=> true,
+			'public'			=> true,
+			'show_admin_column' => true,
+			'meta_box_cb'		=> false,//array( &$this , 'term_checkbox_meta_box' ),
+		);
+
+		register_taxonomy( 'project_cat', array( 'project' ) , $project_cat_labels_args );
 
 	}
+	
+	
 }

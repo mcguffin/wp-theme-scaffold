@@ -11,8 +11,8 @@ abstract class PostType extends Core\Singleton {
 	 * Private constructor
 	 */
 	protected function __construct() {
-		add_action( 'init' , array( &$this , 'init' ) );
-		add_action( 'init' , array( &$this , 'register_post_types' ) , 0 );
+		add_action( 'init' , array( $this , 'init' ) );
+		add_action( 'init' , array( $this , 'register_post_types' ) , 0 );
 		parent::__construct();
 	}
 

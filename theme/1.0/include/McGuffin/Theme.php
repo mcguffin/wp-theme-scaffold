@@ -22,8 +22,8 @@ class Theme extends Core\Singleton {
 		Media\Image::instance();
 		Media\SVG::instance();
 		Media\Upload::instance();
-		WPGridbuilder\Gridbuilder::instance();
-
+//		WPGridbuilder\Gridbuilder::instance();
+		PostType\PostTypes::instance();
 		Widgets\Widgets::instance();
 
 		if ( is_admin( ) ) {
@@ -77,9 +77,9 @@ class Theme extends Core\Singleton {
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
-			'social'	=> esc_html__( 'Social Menu', 'king-design' ),
-			'contact'	=> esc_html__( 'Contact Menu (Mobile)', 'king-design' ),
-			'footer'	=> esc_html__( 'Footer Menu', 'king-design' ),
+			'social'	=> esc_html__( 'Social Menu', 'mcguffin' ),
+			'contact'	=> esc_html__( 'Contact Menu (Mobile)', 'mcguffin' ),
+			'footer'	=> esc_html__( 'Footer Menu', 'mcguffin' ),
 		) );
 
 		/*
