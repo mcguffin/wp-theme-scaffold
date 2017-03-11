@@ -66,7 +66,7 @@ class wp_theme:
 		ignore = [x.replace('\n','') for x in ignore if len(x) > 0 and x[0] != '#']
 		ignore.append('.git/')
 		ignore.append('.gitignore')
-		subst = ['php','md','scss','js','css','txt']
+		subst = ['php','md','scss','js','css','txt','json']
 #		print ignore
 		for root, subdirs, files in os.walk(self.theme_source):
 			relroot = root.replace( self.theme_source, '' ) + '/'
@@ -147,9 +147,9 @@ if isinstance(result, Exception):
 	print 'Theme exists:',result
 	print 'use --force to override existing theme'
 else:
-# 	print 'Setup gulp'
-# 	os.chdir( maker.theme_dir );
-# 	subprocess.call( ['npm', 'install'])
+ 	print 'Setup gulp'
+ 	os.chdir( maker.theme_dir );
+ 	subprocess.call( ['npm', 'install'])
 # 	subprocess.call( ['gulp'])
 #	subprocess.call(["sass", '{path:s}/sass/style.scss'.format( path = maker.theme_dir ), '{path:s}/style.css'.format( path = maker.theme_dir ), ' --style', 'compressed', '--precision', '8', '--trace' ])
 #	subprocess.call(["sass", '{path:s}/sass/editor-style.scss'.format( path = maker.theme_dir ), '{path:s}/editor-style.css'.format( path = maker.theme_dir ), ' --style', 'compressed', '--precision', '8', '--trace' ])

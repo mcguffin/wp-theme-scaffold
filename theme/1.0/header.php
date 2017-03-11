@@ -57,11 +57,5 @@
 		</div>
 
 	</header><!-- #masthead -->
-	<div class="jumbotron">
-		<div class="container">
-			<h1>Well...</h1>
-			<p>So far so good</p>
-		</div>
-	</div>
 	<div id="content" class="site-content">
 		<div class="container">
