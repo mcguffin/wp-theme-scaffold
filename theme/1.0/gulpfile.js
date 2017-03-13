@@ -8,42 +8,55 @@ var importer	= require('gulp-fontello-import');
 var replace		= require('gulp-replace');
 var loadConfig	= require('load-config-file');
 var source		= require('vinyl-source-stream');
+var clean		= require('gulp-clean');
+var runSequence	= require('run-sequence');
 
 loadConfig.register('.json', JSON.parse); 
 
-var paths = {
-	styles	: ['./sass/style.scss','./sass/editor-style.scss']
+var path = {
+	styles	: ['./sass/style.scss','./sass/editor-style.scss'],
+	tmp		: './src/tmp/',
 };
 
 
 
+// Fontello: settings object
 var fontello = {
-	configFile:	'./src/icons/config.json',
-	iconDir: 	'./src/icons',
-	fontDest:	'./fonts/fontello/',
-	sassDest:	'./sass/fonts/',
-	tmpDir:		'./src/tmp/',
+	sourceDir			: './src/icons/',
+	sourceConfigFile	: 'config.json',
+	configFile			: 'config-generated.json',
+	fontDest			: './fonts/fontello/',
+	scssDest			: './sass/fonts/',
 };
 
-gulp.task( 'fontello-import', function( cb ) {
+// Fontello: copy original fontello config
+gulp.task( 'fontello-config', function(cb) {
+	return gulp.src( fontello.sourceDir + fontello.sourceConfigFile )
+		.pipe( rename( fontello.configFile ) )
+		.pipe( gulp.dest( path.tmp ) );
+} );
+
+// Fontello: import SVG-Icons into fontello config
+gulp.task( 'fontello-import', ['fontello-config'], function( cb ) {
 	// scan icon dir
 	importer.importSvg({
-		config:	fontello.configFile,
-		svgsrc:	fontello.iconDir,
+		config:	path.tmp + fontello.configFile,
+		svgsrc:	fontello.sourceDir,
 	},cb);
 });
 
-
+// Fontello: generate font from fontello config
 gulp.task( 'fontello-generate', ['fontello-import'], function(cb) {
     importer.getFont({
-		config:	fontello.configFile,
+		config:	path.tmp + fontello.configFile,
 		font:	fontello.fontDest,
-		css:	fontello.tmpDir,
+		css:	path.tmp,
     },cb);
 } );
 
+// Fontello: generate scss from fontello css
 gulp.task( 'fontello-scss', ['fontello-generate'], function(cb) {
-	var fontConfig	= loadConfig( fontello.configFile ),
+	var fontConfig	= loadConfig( fontello.sourceDir + fontello.sourceConfigFile ),
 		fontName	= fontConfig.name,
 		prefix		= fontConfig.css_prefix_text;
 
@@ -52,20 +65,31 @@ gulp.task( 'fontello-scss', ['fontello-generate'], function(cb) {
 
 	var cachebuster = source( '_fontello-cachebuster.scss' );
 	cachebuster.end( "$fontello-cachebuster: '" + (new Date()).getTime().toString(16) + "'\n" );
-	cachebuster.pipe( gulp.dest( fontello.sassDest ) )
+	cachebuster.pipe( gulp.dest( fontello.scssDest ) )
 
-	return gulp.src( fontello.tmpDir + fontName + '-codes.css' )
+	return gulp.src( path.tmp + fontName +'-codes.css')
 		.pipe(replace(s, r))
 		.pipe(rename('_fontello-codes.scss'))
-		.pipe( gulp.dest( fontello.sassDest ) );
+		.pipe( gulp.dest( fontello.scssDest ) );
+});
+
+// Fontello: cleanup 
+gulp.task( 'fontello-clean', function() {
+	return gulp.src( path.tmp + '*.*', { read: false } )
+		.pipe( clean() );
+});
+
+// Fontello: main task
+gulp.task('fontello', function() {
+	runSequence('fontello-scss', 'fontello-clean');
 });
 
 
 
 
 
-gulp.task( 'scss:dev',	function() { 
-	return gulp.src( paths.styles )
+gulp.task( 'scss',	function() { 
+	return gulp.src( path.styles )
 		.pipe( sourcemaps.init() )
 		.pipe( sass({
 			precision: 8,
@@ -81,12 +105,12 @@ gulp.task( 'scss:dev',	function() {
 
 
 gulp.task('watch', function() {
- 	gulp.watch( fontello.iconDir + '/*.svg', [ 'fontello-scss' ] );
-	gulp.watch('./sass/**/*.scss', [ 'scss:dev' ] );
+	gulp.watch('./sass/**/*.scss', [ 'scss' ] );
+ 	gulp.watch( fontello.sourceDir + '*.*', [ 'fontello' ] );
 });
 
 gulp.task('default', ['watch'] );
 
-gulp.start( 'default', ['fontello-scss'] );
+gulp.start( 'default', [ 'fontello','scss'] );
 
 
