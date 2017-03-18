@@ -22,6 +22,7 @@ msgstr ""
 "X-Poedit-Basepath: ../\n"
 "Last-Translator: \n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: node_modules\n"
 
 #: 404.php:17
 msgid "Oops! That page can&rsquo;t be found."
