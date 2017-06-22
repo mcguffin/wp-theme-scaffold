@@ -26,6 +26,7 @@ class Settings extends Core\Singleton {
 
 		// add default options
 		add_option( '{{theme_slug}}_404_page', 0 );
+		add_option( '{{theme_slug}}_google_maps_api_key', '' );
 	}
 
 	/**
@@ -55,6 +56,23 @@ class Settings extends Core\Singleton {
 				'option_name' => $option_name,
 			)
 		);
+
+
+		// ... and here
+		$option_name = '{{theme_slug}}_google_maps_api_key';
+		register_setting( $this->optionset , $option_name, 'sanitize_text_field' );
+
+		add_settings_field(
+			$option_name,
+			__( 'Google Maps API-Key',  'mcguffin' ),
+			array( $this, 'input_text' ),
+			$this->optionset,
+			$settings_section,
+			array(
+				'option_name' => $option_name,
+			)
+		);
+
 
 
 	}

@@ -38,7 +38,17 @@ class Theme extends Core\Singleton {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		
 		add_filter( 'kses_allowed_protocols', array( $this, 'add_whatsapp_protocol' ) );
+
+		add_filter('acf/fields/google_map/api', array( $this, 'google_maps_api_key' ) );
+
 	}
+
+
+	public function google_maps_api_key( $api ) {
+		$api['key'] = get_option('{{theme_slug}}_google_maps_api_key');
+		return $api;
+	}
+	
 
 	
 	public function add_whatsapp_protocol( $protocols ) {
