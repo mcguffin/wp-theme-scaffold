@@ -126,12 +126,68 @@ class Theme extends Core\Singleton {
 		wp_enqueue_style( '{{theme_slug_dash}}-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,700italic', array() );
 		wp_enqueue_style( '{{theme_slug_dash}}-style', get_stylesheet_uri(), array( '{{theme_slug_dash}}-fonts' ), $version );
 
-		wp_enqueue_script( 'modernizr', 			$this->getAssetUrl(  '/js/modernizr.custom.js' ), array(), $version, true );
-		wp_enqueue_script( 'bootstrap', 			$this->getAssetUrl(  '/js/bootstrap/bootstrap.js' ), array('jquery'), $bs_version, true );
-		wp_enqueue_script( 'aria-expanded', 		$this->getAssetUrl(  '/js/aria-expanded.js' ), array('jquery'), $version, true );
-		wp_enqueue_script( 'smooth-anchor-nav', 	$this->getAssetUrl(  '/js/smooth-anchor-nav.js' ), array('jquery'), $version, true );
-		wp_enqueue_script( 'objectfit-polyfil',		$this->getAssetUrl( '/js/objectfit.js' ), array( 'jquery', 'bootstrap' ), $version, true );
-		wp_enqueue_script( '{{theme_slug_dash}}', 	$this->getAssetUrl(  '/js/project.js' ), array( 'jquery', 'bootstrap' ), $version, true );
+		wp_register_script( 'modernizr',
+			$this->getAssetUrl( '/js/modernizr.custom.js' ),
+			array(), 
+			$version, 
+			true 
+		);
+		wp_register_script( 'bootstrap',
+			$this->getAssetUrl( '/js/bootstrap/bootstrap.js' ), 
+			array('jquery'), 
+			$bs_version, 
+			true
+		);
+		wp_register_script( 'aria-expanded',
+			$this->getAssetUrl( '/js/aria-expanded.js' ),
+			array('jquery'), 
+			$version, 
+			true 
+		);
+		wp_register_script( 'jquery-mobile',
+			$this->getAssetUrl( '/js/jquery.mobile.custom.js' ),
+			array('jquery'),
+			$version,
+			true
+		);
+		wp_register_script( 'scroll-here',
+			$this->getAssetUrl( '/js/scroll-here.js' ),
+			array('jquery'),
+			$version,
+			true
+		);
+		wp_register_script( 'jquery-viewport-events',
+			$this->getAssetUrl( '/js/jquery-viewport-events.js' ),
+			array('jquery'),
+			$version,
+			true
+		);
+		wp_register_script( 'lazyload',
+			$this->getAssetUrl( '/js/lazyload.js' ),
+			array('jquery'),
+			$version,
+			true
+		);
+		wp_register_script( 'objectfit-polyfil',
+			$this->getAssetUrl( '/js/objectfit.js' ),
+			array( 'jquery' ),
+			$version,
+			true
+		);
+		
+		$deps = array(
+			'jquery', 
+			'modernizr',
+			'bootstrap',
+			'jquery-mobile',
+			'jquery-viewport-events',
+			'lazyload',
+			'scroll-here',
+			'aria-expanded',
+			'objectfit-polyfil'
+		);
+
+		wp_enqueue_script( '{{theme_slug_dash}}', 	$this->getAssetUrl( '/js/project.js' ), $deps, $version, true );
 	}
 	
 	public function getAssetUrl( $url ) {
