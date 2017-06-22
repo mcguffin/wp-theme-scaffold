@@ -63,8 +63,8 @@ gulp.task( 'fontello-scss', ['fontello-generate'], function(cb) {
 	var s = new RegExp( "\."+prefix+"([a-z0-9-_]+):before \{ content: '\\\\([a-f0-9]+)'; \}", 'g' );
 	var r = "$" + prefix + "$1: '\\$2';\n." + prefix + "$1:before { content: $" + prefix + "$1; }";
 
-	var cachebuster = source( '_fontello-cachebuster.scss' );
-	cachebuster.end( "$fontello-cachebuster: '" + (new Date()).getTime().toString(16) + "'\n" );
+	var cachebuster = source( '_fontello-vars.scss' );
+	cachebuster.end( "$fontello-cachebuster: '" + (new Date()).getTime().toString(16) + "';\n$fontello-fontname: '"+fontName+"';\n" );
 	cachebuster.pipe( gulp.dest( fontello.scssDest ) )
 
 	return gulp.src( path.tmp + fontName +'-codes.css')
