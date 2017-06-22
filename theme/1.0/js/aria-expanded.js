@@ -1,13 +1,77 @@
+/**
+ *	Aria Expand
+ *	===========
+ *	Version 1.0.0
+ *
+ *	Usage (1):
+ *	==========
+ *
+ *	<html>
+ *	<button aria-controls="the-nav">Toggle Nav</button>
+ *	<nav id="the-nav" aria-expanded="false">
+ *		...
+ *	</nav>
+ *	</html>
+ *
+ *	<style>
+ *	#the-nav[aria-expanded="false"] {
+ *		height:0;
+ *	}
+ *	</style>
+ *
+ *
+ *	Usage (2):
+ *	==========
+ *
+ *	<script>
+ *
+ *	// FUNCTIONS
+ *
+ *	// expand
+ *	$('#the-nav').ariaSetState(true);
+ *
+ *	// collapse
+ *	$('#the-nav').ariaSetState(false);
+ *
+ *	// toggle
+ *	$('#the-nav').ariaToggleState(false);
+ *
+ *	// EVENTS
+ *
+ *	// before expanding
+ *	$('#the-nav').on('aria-expand', function(e){
+ *		// prevent expansion
+ *		e.preventDefault();
+ *	} );
+ *
+ *	// after expanded
+ *	$('#the-nav').on('aria-expanded', callback );
+ *
+ *	// before collapsing
+ *	$('#the-nav').on('aria-collapse', function(e){
+ *		// prevent collapsing
+ *		e.preventDefault();
+ *	} );
+ *
+ *	// after collapse
+ *	$('#the-nav').on('aria-collapsed', callback );
+ *	</script>
+ */
 (function($){
 
 	$.fn.extend({
 		ariaSetState: function( newState ) {
-			var state;
+			var state, e;
 			if ( this.is('[aria-expanded]') ) {
 				state = this.attr( 'aria-expanded' ) == 'true';
 				if ( state != newState ) {
-					this.attr( 'aria-expanded', newState.toString() );
-					this.trigger( newState ? 'aria-expand' : 'aria-collapse' );
+					e = $.Event(newState ? 'aria-expand' : 'aria-collapse');
+					e.bubbles = false;
+					this.trigger( e );
+					if ( ! e.isDefaultPrevented() ) {
+						this.attr( 'aria-expanded', newState.toString() );
+						this.trigger( newState ? 'aria-expanded' : 'aria-collapsed' );
+					}
 				}
 			}
 			return this;
@@ -21,7 +85,7 @@
 			return this;
 		}
 	});
-	
+
 
 	$(document)
 		.on('click','[aria-controls]',function(e){
@@ -33,7 +97,7 @@
 		})
 		.on( 'click', function(e) {
 			if ( ! $(e.target).closest('[aria-expanded="true"]').length ) {
-				$('[aria-expanded="true"]').ariaSetState( false );
+				$('[aria-expanded="true"]').not('[data-aria-keep-open="true"]').ariaSetState( false );
 			}
 		} )
 		.on('keyup', function( event ) {
