@@ -13,7 +13,6 @@ class Widgets extends Core\Singleton {
 	}
 	function widgets_init() {
 		$core = \McGuffin\Theme::instance();
-		wp_enqueue_style( '{{theme_slug_dash}}-widgets', $core->getAssetUrl( '/css/admin/widgets.css' ) );
 
 		EditorWidget::register();
 

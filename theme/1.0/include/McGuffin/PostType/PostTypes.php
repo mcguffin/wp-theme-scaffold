@@ -22,8 +22,15 @@ class PostTypes extends Core\Singleton {
 		add_filter( "get_next_post_sort", array( $this, 'adjacent_by_menu_order_clause_next' ), 10, 2 );
 		add_filter( "get_previous_post_sort", array( $this, 'adjacent_by_menu_order_clause_prev' ), 10, 2 );
 
-		add_action( 'init' , array( $this , 'register_taxonomies' ) );
+		add_action( 'init' , array( $this , 'register_post_types' ) );
 	}
+
+	public function register_post_types() {
+		PostTypeRestaurant::instance();
+		PostTypeMenu::instance();
+	}
+
+
 
 	function adjacent_where_clause_prev( $clause, $in_same_term, $excluded_terms, $taxonomy, $post ) {
 		if ( ! is_admin() && $post->post_type == 'project' ) {
