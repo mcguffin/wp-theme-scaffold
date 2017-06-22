@@ -1,13 +1,13 @@
-@import 'fontello-cachebuster';
+@import 'fontello-vars';
 
 @font-face {
   font-family: 'couleur';
-  src: url('fonts/fontello/{{theme_slug_dash}}.eot?#{$fontello-cachebuster}');
-  src: url('fonts/fontello/{{theme_slug_dash}}.eot?#{$fontello-cachebuster}#iefix') format('embedded-opentype'),
-       url('fonts/fontello/{{theme_slug_dash}}.woff2?#{$fontello-cachebuster}') format('woff2'),
-       url('fonts/fontello/{{theme_slug_dash}}.woff?#{$fontello-cachebuster}') format('woff'),
-       url('fonts/fontello/{{theme_slug_dash}}.ttf?#{$fontello-cachebuster}') format('truetype'),
-       url('fonts/fontello/{{theme_slug_dash}}.svg?#{$fontello-cachebuster}#{{theme_slug_dash}}') format('svg');
+  src: url('fonts/fontello/#{$fontello-fontname}.eot?#{$fontello-cachebuster}');
+  src: url('fonts/fontello/#{$fontello-fontname}.eot?#{$fontello-cachebuster}#iefix') format('embedded-opentype'),
+       url('fonts/fontello/#{$fontello-fontname}.woff2?#{$fontello-cachebuster}') format('woff2'),
+       url('fonts/fontello/#{$fontello-fontname}.woff?#{$fontello-cachebuster}') format('woff'),
+       url('fonts/fontello/#{$fontello-fontname}.ttf?#{$fontello-cachebuster}') format('truetype'),
+       url('fonts/fontello/#{$fontello-fontname}.svg?#{$fontello-cachebuster}##{$fontello-fontname}') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,7 +24,7 @@
  
 @mixin fontello(){
 
-	font-family: "{{theme_slug_dash}}";
+	font-family: "#{$fontello-fontname}";
 	font-style: normal;
 	font-weight: normal;
 	speak: none;
