@@ -27,13 +27,7 @@ class Gridbuilder extends Core\Singleton {
 	}
 
 	public function widget_types( $widget_types ) {
-		$return_types = array();
-		foreach ( $widget_types as $widget_class => $name ) {
-			if ( strpos( $widget_class, 'KingDesign' ) === 0 ) {
-				$return_types[$widget_class] = $name;
-			}
-		}
-		return $return_types;
+		return $widget_types;
 	}
 	
 	public function row_attr( $attr, $item ) {
