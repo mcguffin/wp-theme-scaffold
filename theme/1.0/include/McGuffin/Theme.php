@@ -174,7 +174,7 @@ class Theme extends Core\Singleton {
 			$version,
 			true
 		);
-		
+
 		$deps = array(
 			'jquery', 
 			'modernizr',
