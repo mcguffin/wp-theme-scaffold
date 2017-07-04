@@ -1,23 +1,34 @@
-var gulp		= require('gulp');
-var concat		= require('gulp-concat');  
-var uglify		= require('gulp-uglify');  
-var sass		= require('gulp-sass');
-var sourcemaps	= require('gulp-sourcemaps');
-var rename		= require('gulp-rename');
-var importer	= require('gulp-fontello-import');
-var replace		= require('gulp-replace');
-var loadConfig	= require('load-config-file');
-var source		= require('vinyl-source-stream');
-var clean		= require('gulp-clean');
-var runSequence	= require('run-sequence');
-
-loadConfig.register('.json', JSON.parse); 
+var autoprefixer	= require('gulp-autoprefixer');
+var gulp			= require('gulp');
+var concat			= require('gulp-concat');  
+var uglify			= require('gulp-uglify');  
+var sass			= require('gulp-sass');
+var sourcemaps		= require('gulp-sourcemaps');
+var rename			= require('gulp-rename');
+var importer		= require('gulp-fontello-import');
+var replace			= require('gulp-replace');
+var source			= require('vinyl-source-stream');
+var clean			= require('gulp-clean');
+var runSequence		= require('run-sequence');
+var nodeSass		= require('node-sass');
 
 var path = {
 	styles	: ['./sass/style.scss','./sass/editor-style.scss'],
 	tmp		: './src/tmp/',
 };
 
+var sassOptions = {
+	outputStyle: 'compressed',
+	precision: 8,
+	stopOnError: true,
+	functions: {
+		'base64Encode($string)': function($string) {
+			var buffer = new Buffer( $string.getValue() );
+			return nodeSass.types.String( buffer.toString('base64') );
+		}
+	}
+
+};
 
 
 // Fontello: settings object
@@ -56,7 +67,7 @@ gulp.task( 'fontello-generate', ['fontello-import'], function(cb) {
 
 // Fontello: generate scss from fontello css
 gulp.task( 'fontello-scss', ['fontello-generate'], function(cb) {
-	var fontConfig	= loadConfig( fontello.sourceDir + fontello.sourceConfigFile ),
+	var fontConfig	= require( fontello.sourceDir + fontello.sourceConfigFile ),
 		fontName	= fontConfig.name,
 		prefix		= fontConfig.css_prefix_text;
 
@@ -68,8 +79,8 @@ gulp.task( 'fontello-scss', ['fontello-generate'], function(cb) {
 	cachebuster.pipe( gulp.dest( fontello.scssDest ) )
 
 	return gulp.src( path.tmp + fontName +'-codes.css')
-		.pipe(replace(s, r))
-		.pipe(rename('_fontello-codes.scss'))
+		.pipe( replace(s, r) )
+		.pipe( rename('_fontello-codes.scss') )
 		.pipe( gulp.dest( fontello.scssDest ) );
 });
 
@@ -81,7 +92,7 @@ gulp.task( 'fontello-clean', function() {
 
 // Fontello: main task
 gulp.task('fontello', function() {
-	runSequence('fontello-scss', 'fontello-clean');
+	runSequence( 'fontello-scss', 'fontello-clean', 'scss' );
 });
 
 
@@ -91,14 +102,12 @@ gulp.task('fontello', function() {
 gulp.task( 'scss',	function() { 
 	return gulp.src( path.styles )
 		.pipe( sourcemaps.init() )
-		.pipe( sass({
-			precision: 8,
-			stopOnError: true,
-			require: './sass/library/base64-encode.rb',
-			noCache: true
-		}) )
-		.on('error', sass.logError)
-		.pipe(sourcemaps.write( './' ) )
+		.pipe(
+        	sass( sassOptions )
+        	.on('error', sass.logError) 
+		)
+        .pipe( autoprefixer( { browsers: ['last 2 versions'] } ) )
+		.pipe( sourcemaps.write( './' ) )
 		.pipe( gulp.dest('./'));
 });
 
@@ -109,8 +118,7 @@ gulp.task('watch', function() {
  	gulp.watch( fontello.sourceDir + '*.*', [ 'fontello' ] );
 });
 
-gulp.task('default', ['watch'] );
+gulp.task('default', ['scss', 'watch'] );
 
-gulp.start( 'default', [ 'fontello','scss'] );
 
 
