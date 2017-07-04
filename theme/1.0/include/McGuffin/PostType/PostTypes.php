@@ -26,8 +26,7 @@ class PostTypes extends Core\Singleton {
 	}
 
 	public function register_post_types() {
-		PostTypeRestaurant::instance();
-		PostTypeMenu::instance();
+		PostTypeProject::instance();
 	}
 
 
