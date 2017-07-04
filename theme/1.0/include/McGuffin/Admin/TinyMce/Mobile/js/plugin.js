@@ -1,4 +1,6 @@
-tinymce.PluginManager.add( 'mobile' , function( editor ){
+var mobilePluginCallback;
+
+mobilePluginCallback = function( editor ){
 	var mobileBtn, nodes = 'H1,H2,H3,H4,H5,H6,DIV,P,PRE,ADDRESS',
 		mobile_values = [
 			{ 'value' : '' , 'text' : 'Everywhere' },
@@ -57,8 +59,7 @@ tinymce.PluginManager.add( 'mobile' , function( editor ){
 		}
 		
 	});
+};
 
-
-
-} );
+tinymce.PluginManager.add( 'mobile', mobilePluginCallback );
 

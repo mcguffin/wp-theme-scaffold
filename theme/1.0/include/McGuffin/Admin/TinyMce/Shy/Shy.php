@@ -17,6 +17,7 @@ class Shy extends TinyMce\TinyMce {
 	
 	protected $toolbar_css	= true;
 	protected $editor_css	= true;
+	protected $text_widget = true;
 	
 	protected function __construct() {
 		$this->plugin_params = array(

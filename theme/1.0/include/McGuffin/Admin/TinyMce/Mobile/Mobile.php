@@ -15,5 +15,6 @@ class Mobile extends TinyMce\TinyMce {
 	);
 
 	protected $editor_css = true;
+	protected $text_widget = true;
 
 }

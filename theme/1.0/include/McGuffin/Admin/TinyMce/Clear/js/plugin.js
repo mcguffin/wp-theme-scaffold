@@ -1,4 +1,6 @@
-tinymce.PluginManager.add( 'clear' , function( editor ){
+var clearPluginCallback;
+
+clearPluginCallback = function( editor ){
 
 	var the_clear = '<div contenteditable="false" class="clear"></div>',
 		$ = jQuery;
@@ -30,5 +32,7 @@ tinymce.PluginManager.add( 'clear' , function( editor ){
 			});
 		}
 	});
-});
+};
+
+tinymce.PluginManager.add( 'clear', clearPluginCallback );
 

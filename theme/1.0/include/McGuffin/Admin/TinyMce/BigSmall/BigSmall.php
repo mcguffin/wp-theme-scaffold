@@ -16,6 +16,7 @@ class BigSmall extends TinyMce\TinyMce {
 	);
 
 	protected $toolbar_css = true;
+	protected $text_widget = true;
 
 	/**
 	 * Private constructor

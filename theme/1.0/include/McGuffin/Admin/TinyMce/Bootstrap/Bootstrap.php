@@ -14,6 +14,7 @@ class Bootstrap extends TinyMce\TinyMce {
 		),
 	);
 	
+	protected $text_widget = true;
 
 	/**
 	 * Private constructor

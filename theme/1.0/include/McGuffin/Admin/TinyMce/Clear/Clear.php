@@ -16,6 +16,7 @@ class Clear extends TinyMce\TinyMce {
 
 	protected $editor_css = true;
 	protected $toolbar_css = true;
+	protected $text_widget = true;
 
 	/**
 	 * Private constructor

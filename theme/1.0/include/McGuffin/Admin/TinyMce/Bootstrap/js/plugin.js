@@ -1,6 +1,8 @@
+var bootstrapPluginCallback;
+
 //(function($){
 
-tinymce.PluginManager.add( 'bootstrap' , function( editor ){
+bootstrapPluginCallback = function( editor ){
 	var classesBtn, $ = jQuery,
 		l10n = mce_bootstrap.l10n, 
 		classes = mce_bootstrap.classes;
@@ -69,7 +71,9 @@ tinymce.PluginManager.add( 'bootstrap' , function( editor ){
 		
 	});
 
-} );
+}
+
+tinymce.PluginManager.add( 'bootstrap', bootstrapPluginCallback );
 
 
 //})(jQuery);

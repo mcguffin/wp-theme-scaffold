@@ -44,6 +44,12 @@ abstract class TinyMce extends Core\Singleton {
 	 *	boolean
 	 */
 	protected $toolbar_css = false;
+	
+	/**
+	 *	Load custom css for toolbar.
+	 *	boolean
+	 */
+	protected $text_widget = false;
 
 	/**
 	 *	Load custom css for editor.
@@ -72,6 +78,8 @@ abstract class TinyMce extends Core\Singleton {
 
 		$this->asset_dir_uri = trailingslashit( get_template_directory_uri() ) . trailingslashit( implode( DIRECTORY_SEPARATOR, $parts ) );
 
+		$this->asset_dir_path = trailingslashit( get_template_directory() ) . trailingslashit( implode( DIRECTORY_SEPARATOR, $parts ) );
+
 		// add tinymce buttons
 		$this->editor_buttons = wp_parse_args( $this->editor_buttons, array(
 			'mce_buttons'	=> false,
@@ -98,10 +106,26 @@ abstract class TinyMce extends Core\Singleton {
 		if ( $this->toolbar_css !== false ) {
 			add_action( "admin_print_scripts", array( $this, 'enqueue_toolbar_css') );
 		}
-
+		if ( $this->text_widget !== false ) {
+			add_action( 'print_default_editor_scripts', array( $this, 'print_editor_scripts' ) );
+		}
 
 	}
 
+	/**
+	 *	@action print_default_editor_scripts
+	 */
+	public function print_editor_scripts() {
+		?>
+		<script type="text/javascript">
+		/* TinyMCE plugin <?php echo $this->module_name ?> */
+		jQuery( document ).on( 'tinymce-editor-setup', function( event, editor ) {
+<?php echo file_get_contents( $this->get_asset_path( 'js/plugin.js' ) ); ?>;
+<?php echo $this->module_name ?>PluginCallback( editor );
+		});
+		</script>
+		<?php
+	}
 
 	/**
 	 *	Add MCE plugin
@@ -109,7 +133,7 @@ abstract class TinyMce extends Core\Singleton {
 	 *	@filter mce_external_plugins
 	 */
 	public function add_plugin( $plugins_array ) {
-		$plugins_array[ $this->module_name ] = $this->get_asset_url( sprintf( 'js/plugin.js', $this->module_name ) );
+		$plugins_array[ $this->module_name ] = $this->get_asset_url( 'js/plugin.js' );
 		return $plugins_array;
 	}
 
@@ -177,6 +201,16 @@ abstract class TinyMce extends Core\Singleton {
 	 */
 	protected function get_asset_url( $asset ) {
 		return $this->asset_dir_uri . ltrim( $asset, '/' );
+	}
+
+	/**
+	 *	Get asset path for this editor plugin
+	 *
+	 *	@param	string	$asset	Dir part relative to plugin class
+	 *	@return wp_enqueue_editor
+	 */
+	protected function get_asset_path( $asset ) {
+		return $this->asset_dir_path . ltrim( $asset, '/' );
 	}
 
 }

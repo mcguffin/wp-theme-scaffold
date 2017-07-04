@@ -1,4 +1,6 @@
-tinymce.PluginManager.add( 'shy' , function( editor ){
+var shyPluginCallback;
+
+shyPluginCallback = function( editor ){
 	var the_shy  			= '&shy;',
 		the_visible_shy		= '<img title="'+mce_shy.l10n.soft_hyphen+'" data-wp-entity="shy" src="'+tinymce.Env.transparentSrc+'" data-mce-resize="false" data-mce-placeholder="1" />';
 //	var the_visible_br = '<img title="Linebreak" data-wp-entity="br" src="'+tinymce.Env.transparentSrc+'" data-mce-resize="false" data-mce-placeholder="1" />';
@@ -75,5 +77,6 @@ tinymce.PluginManager.add( 'shy' , function( editor ){
 		toggleInvisibles( getUserSetting( 'showinvis' ) === '1' ? 'show' : 'hide' );
 	})
 	
-} );
+};
 
+tinymce.PluginManager.add( 'shy', shyPluginCallback );
