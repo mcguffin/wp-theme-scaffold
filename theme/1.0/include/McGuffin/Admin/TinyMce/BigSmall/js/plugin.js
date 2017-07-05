@@ -45,15 +45,10 @@ var bigsmallPluginCallback;
 			}
 		});
 
-		if ( !! editor.initialized ) {
+		editor.on( 'init', function(){
 			editor.formatter.register('big', {inline: 'big'});
 			editor.formatter.register('small', {inline: 'small'});
-		} else {
-			editor.on( 'init', function(){
-				editor.formatter.register('big', {inline: 'big'});
-				editor.formatter.register('small', {inline: 'small'});
-			});
-		}
+		});
 
 	};
 

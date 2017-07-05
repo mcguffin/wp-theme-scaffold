@@ -32,6 +32,7 @@ class Theme extends Core\Singleton {
 			Admin\TinyMce\Clear\Clear::instance();
 			Admin\TinyMce\Mobile\Mobile::instance();
 			Admin\TinyMce\Shy\Shy::instance();
+			Admin\TinyMce\Uppercase\Uppercase::instance();
 		}
 
 		add_action( 'after_setup_theme', array( $this, 'setup' ) );

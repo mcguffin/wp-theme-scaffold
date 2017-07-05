@@ -92,8 +92,6 @@ abstract class TinyMce extends Core\Singleton {
 			}
 		}
 		
-		// add tinymce plugin
-		add_filter( 'mce_external_plugins', array( $this, 'add_plugin' ) );
 
 		// add tinymce plugin parameters
 		if ( $this->plugin_params !== false ) {
@@ -110,6 +108,15 @@ abstract class TinyMce extends Core\Singleton {
 			add_action( 'print_default_editor_scripts', array( $this, 'print_editor_scripts' ) );
 		}
 
+		// add tinymce plugin
+		if ( $this->text_widget !== false ) {
+			// will only work with both default editor and widget
+			add_action( 'print_default_editor_scripts', array( $this, 'print_editor_scripts' ) );
+		} else {
+			// will only work with default editor
+			add_filter( 'mce_external_plugins', array( $this, 'add_plugin' ) );
+		}
+
 	}
 
 	/**
@@ -123,6 +130,7 @@ abstract class TinyMce extends Core\Singleton {
 <?php echo file_get_contents( $this->get_asset_path( 'js/plugin.js' ) ); ?>;
 <?php echo $this->module_name ?>PluginCallback( editor );
 		});
+		/* END: TinyMCE plugin <?php echo $this->module_name ?> */
 		</script>
 		<?php
 	}
