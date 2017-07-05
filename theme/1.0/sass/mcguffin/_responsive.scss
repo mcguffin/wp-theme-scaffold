@@ -1,6 +1,5 @@
 
 
-
 @media only screen and (min-width: $screen-sm) {
 	.pull-right-sm {
 	  float: right !important;
@@ -62,5 +61,26 @@
 @media only screen and (orientation:landscape) {
 	.visible-portrait {
 		display:none !important;
+	}
+}
+
+
+.fullscreen {
+	min-height:100vh;
+}
+
+@media screen and (min-width: $screen-sm-min) {
+	.fullscreen-sm {
+		min-height:100vh;
+	}
+}
+@media screen and (min-width: $screen-md-min) {
+	.fullscreen-md {
+		min-height:100vh;
+	}
+}
+@media screen and (min-width: $screen-lg-min) {
+	.fullscreen-lg {
+		min-height:100vh;
 	}
 }

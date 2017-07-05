@@ -1,10 +1,11 @@
 
 /* hide / show non-js / js-only elements */
-.no-js .js,
-.js .no-js {
-	display:none;
+html {
+	&.no-js .js,
+	&.js .no-js {
+		display:none;
+	}
 }
-
 
 /* hide / show no-touch / touch-only elements */
 html {

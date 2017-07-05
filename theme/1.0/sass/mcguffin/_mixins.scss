@@ -81,23 +81,12 @@
 
 
 
+
 @mixin vcenter() {
-	/*
-	display: table-cell;
-	height:100%;
-	/*/
-	white-space: nowrap;
-	&:before {
-		display:inline-block;
-		vertical-align: middle;
-		content:'';
-		height:100%;
-		width:0px;
-	}
-	&>* {
-		display:inline-block;
-		vertical-align: middle;
-	}
-	//*/
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+	-webkit-align-items: center;
+    align-items: center;
 }
 
