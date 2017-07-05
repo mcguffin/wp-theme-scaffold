@@ -1,12 +1,13 @@
 <?php
 
 namespace McGuffin\Widgets;
-
+use McGuffin;
 use McGuffin\Core;
 
 class Widget extends \WP_Widget {
 
 	protected $fields	= null;
+
 	protected $defaults	= '';
 
 	static function register() {
@@ -25,6 +26,7 @@ class Widget extends \WP_Widget {
 		parent::__construct( $widget_id, $name, $options );
 
 		$this->fields = $fields;
+		$theme = McGuffin\Theme::instance();
 
 		foreach ( $this->fields as $name => $field ) {
 			
@@ -66,8 +68,8 @@ class Widget extends \WP_Widget {
 					break;
 				case 'icon':
 					if ( ! $did_icon && is_admin() ) {
-						wp_enqueue_style( 'repeatmobile-icon-field', get_stylesheet_directory_uri().'/inc/widgets/repeatmobile-icon-field.css' );
-						wp_enqueue_style( 'repeatmobile-iconfont', get_stylesheet_directory_uri().'/iconfonts.css' );
+						wp_enqueue_style( 'repeatmobile-icon-field', $theme->getAssetUrl( '/inc/widgets/repeatmobile-icon-field.css' ) );
+						wp_enqueue_style( 'repeatmobile-iconfont', $theme->getAssetUrl( '/iconfonts.css' ) );
 
 						$this->icons = apply_filters( 'theme_iconset', array(
 							'dashicons dashicons-menu' => __('Menu','mcguffin'),
@@ -105,9 +107,16 @@ class Widget extends \WP_Widget {
 				case 'number':
 					break;
 				case 'maps':
+					$this->fields[ $name ] = wp_parse_args( $this->fields[ $name ], array( 'marker' => true ) );
+					$api_url = 'https://maps.googleapis.com/maps/api/js?v=3&key=' . get_option( 'onepager_google_maps_api_key' );
+					wp_enqueue_script( 'google-maps-js-api', $api_url );
 					break;
 			}
 		}
+	}
+
+	function enqueue_maps(){
+		wp_enqueue_script( 'google-maps-js-api' );
 	}
 
 	function enqueue_color_picker(){
@@ -473,30 +482,122 @@ class Widget extends \WP_Widget {
 	 */
 	protected function input_maps( $field_name, $field, $instance ) {
 		$input_id = $this->get_field_id( $field_name );
-		$apikey = get_option( 'googlemaps_apikey' );
+		$apikey = get_option( 'onepager_google_maps_api_key' );
+		$field_name_attr = $this->get_field_name( $field_name );
+		$marker = $this->fields[$field_name]['marker'];
 		
-		$src = sprintf( 'https://www.google.com/maps/embed/v1/place?q=%s&key=%s',
-			$instance[ $field_name ],
-			$apikey );
+		$instance[ $field_name ] = wp_parse_args( $instance[ $field_name ], array(
+			'query'	=> '',
+			'lat'	=> 45,
+			'lng'	=> 0,
+			'zoom'	=> 10,
+		));
+		
 
 		?>
 			<label><?php echo esc_html( $field['name'] ) ?></label>
-			<input class="widefat" data-maps-el="#<?php echo $input_id; ?>-map" id="<?php echo $input_id; ?>" name="<?php echo $this->get_field_name( $field_name ); ?>" type="text" value="<?php echo esc_attr( $instance[ $field_name ] ); ?>" />
-			<iframe style="width:100%;height:400px;" class="maps" src="<?php echo $src; ?>"  id="<?php echo $input_id; ?>-map"  />
+
+			<input class="widefat" 
+				data-maps-el="#<?php echo $input_id; ?>-map" 
+				id="<?php echo $input_id; ?>-query" 
+				name="<?php echo $field_name_attr ?>[query]" 
+				type="text" 
+				value="<?php echo esc_attr( $instance[ $field_name ]['query'] ); ?>" 
+				/>
+
+			<input data-maps-el="#<?php echo $input_id; ?>-map" 
+				id="<?php echo $input_id; ?>-lat" 
+				name="<?php echo $field_name_attr ?>[lat]" 
+				type="hidden" 
+				value="<?php echo esc_attr( $instance[ $field_name ]['lat'] ); ?>" 
+				/>
+			<input data-maps-el="#<?php echo $input_id; ?>-map" 
+				id="<?php echo $input_id; ?>-lng" 
+				name="<?php echo $field_name_attr ?>[lng]" 
+				type="hidden" 
+				value="<?php echo esc_attr( $instance[ $field_name ]['lng'] ); ?>" 
+				/>
+			<input data-maps-el="#<?php echo $input_id; ?>-map" 
+				id="<?php echo $input_id; ?>-zoom" 
+				name="<?php echo $field_name_attr ?>[zoom]" 
+				type="hidden" 
+				value="<?php echo esc_attr( $instance[ $field_name ]['zoom'] ); ?>" 
+				/>
+			<div style="width:100%;height:400px;" id="<?php echo $input_id; ?>-map"></div>
+			
 			<script type="text/javascript">
-				(function($){
-				
-				$(document).on( 'change keyup', '#<?php echo $input_id; ?>', function() {
-					var maps_id = $(this).attr( 'data-maps-el' ),
-						$map = $( maps_id ),
-						query = escape( $(this).val() ),
-						url = 'https://www.google.com/maps/embed/v1/place?q='+query+'&key=<?php echo $apikey; ?>';
-					
-					$map.attr( 'src', url );
+
+			(function($){
+
+				var el = $('#<?php echo $input_id; ?>-map').get(0),
+					map, marker,
+					geocoder = new google.maps.Geocoder(),
+					$lng = $( '#<?php echo $input_id; ?>-lng' ),
+					$lat = $( '#<?php echo $input_id; ?>-lat' ),
+					$zoom = $( '#<?php echo $input_id; ?>-zoom' ),
+					lng = parseFloat( $lng.val() ),
+					lat = parseFloat( $lat.val() ),
+					zoom = parseInt(  $zoom.val() ),
+					searchTimeout = null;
+
+				map = new google.maps.Map( el, {
+					center: {
+						lat: lat,
+						lng: lng,
+					},
+					zoom: zoom,
+					scrollwheel: false
+				});
+<?php if ( $marker ) { ?>
+				marker = new google.maps.Marker({
+					position:{
+						lat: lat,
+						lng: lng,
+					},
+					visible:true,
+					map:map
+				});
+<?php } ?>
+				map.addListener('zoom_changed',function(){
+					$zoom.val( map.getZoom() );
+				});;
+				map.addListener('center_changed',function(){
+					var center = map.getCenter();
+					$lat.val( center.lat() );
+					$lng.val( center.lng() );
+				});
+
+				$(document).on( 'change keyup', '#<?php echo $input_id; ?>-query', function() {
+					var $self = $(this), addr = $(this).val();
+					if ( !! searchTimeout ) {
+						clearTimeout( searchTimeout );
+						searchTimeout = null;
+					}
+					if ( ! addr ) {
+						return;
+					}
+					searchTimeout = setTimeout(function(){
+						geocoder.geocode( { 'address': addr }, function( results, status ){
+							console.log(results);
+							if ( status == 'OK' ) {
+								map.setCenter( results[0].geometry.location );
+								!! results[0].geometry.bounds && map.fitBounds( results[0].geometry.bounds );
+								$self.val( results[0].formatted_address );
+<?php if ( $marker ) { ?>
+								marker.setPosition( results[0].geometry.location );
+								marker.setVisible( true );
+<?php } ?>
+							} else {
+								marker.setVisible( false );
+							}
+						clearTimeout( searchTimeout );
+						searchTimeout = null;
+						});
+					},500);
 
 				});
-				
-				})(jQuery);
+			
+			})(jQuery);
 			
 			</script>
 		<?php
@@ -597,6 +698,29 @@ class Widget extends \WP_Widget {
 		<?php 
 	}
 
+
+	/**
+	 *	Text input
+	 *
+	 *	@param	string	$field_name
+	 *	@param	assoc	$field
+	 *	@param	assoc	$instance
+	 */
+	protected function input_number( $field_name, $field, $instance ) {
+		$attr = wp_parse_args( $field['attr'], array(
+			'id'	=> $this->get_field_id( $field_name ),
+			'name'	=> $this->get_field_name( $field_name ),
+			'value'	=> esc_attr( $instance[ $field_name ] ),
+			'class'	=> 'widefat',
+			'type'	=> 'number',
+		));
+		?>
+		<p>
+			<label for="<?php echo $this->get_field_id( $field_name ); ?>"><?php echo $field[ 'name' ] ?></label> 
+			<input <?php echo $this->mk_attr( $attr ); ?> />
+		</p>
+		<?php 
+	}
 	/**
 	 *	Textarea input
 	 *

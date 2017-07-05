@@ -45,7 +45,7 @@ class Theme extends Core\Singleton {
 	}
 
 
-	public function google_maps_api_key( $api ) {
+	public function google_maps_api_key( $api = null ) {
 		$api['key'] = get_option('{{theme_slug}}_google_maps_api_key');
 		return $api;
 	}
@@ -171,6 +171,12 @@ class Theme extends Core\Singleton {
 		);
 		wp_register_script( 'objectfit-polyfil',
 			$this->getAssetUrl( '/js/objectfit.js' ),
+			array( 'jquery' ),
+			$version,
+			true
+		);
+		wp_register_script( 'google-maps-js-api',
+			'https://maps.googleapis.com/maps/api/js?v=3&key='. get_option('{{theme_slug}}_google_maps_api_key'),
 			array( 'jquery' ),
 			$version,
 			true

@@ -18,53 +18,49 @@ class MapMarkerWidget extends Widget {
 		parent::__construct( 
 			'mcguffin_map_marker_widget',
 			__( 'Map Marker', 'mcguffin'), 
-			array( 'description' => __( 'A Google Map', 'mcguffin'), ),
+			array( 'description' => __( 'A Map Marker', 'mcguffin'), ),
 			array(
-				'title'	=> array(
-					'type'	=> 'text',
-					'name'	=> __('Title', 'mcguffin'),
+				'title'		=> array(
+					'type'			=> 'text',
+					'name'			=> __('Title', 'mcguffin'),
 				),
 				'map_id'	=> array(
-					'type'	=> 'text',
-					'name'	=> __('Map ID', 'mcguffin'),
-					'width'	=> '50%',
-					'default'	=> 'map',
+					'type'			=> 'text',
+					'name'			=> __('Map ID', 'mcguffin'),
+					'width'			=> '50%',
+					'default'		=> 'map',
+					'description'	=> __('The ID you entered in the map.','mcguffin'),
 				),
-				'street_address'	=> array(
-					'type'	=> 'text',
-					'name'	=> __('Street Address', 'mcguffin'),
-					'width'	=> '50%',
+				'street_address' => array(
+					'type'			=> 'text',
+					'name'		=> __('Street Address', 'mcguffin'),
+					'width'		=> '50%',
 				),
 				'zip_city'	=> array(
-					'type'	=> 'text',
-					'name'	=> __('Zip and City', 'mcguffin'),
-					'width'	=> '50%',
+					'type'		=> 'text',
+					'name'		=> __('Zip and City', 'mcguffin'),
+					'width'		=> '50%',
 				),
 				'phone'	=> array(
-					'type'	=> 'text',
-					'name'	=> __('Phone', 'mcguffin'),
-					'width'	=> '50%',
+					'type'		=> 'text',
+					'name'		=> __('Phone', 'mcguffin'),
+					'width'		=> '50%',
 				),
 				'fax'	=> array(
-					'type'	=> 'text',
-					'name'	=> __('Fax', 'mcguffin'),
-					'width'	=> '50%',
+					'type'		=> 'text',
+					'name'		=> __('Fax', 'mcguffin'),
+					'width'		=> '50%',
 				),
 				'email'	=> array(
-					'type'	=> 'text',
-					'name'	=> __('Email', 'mcguffin'),
-					'width'	=> '50%',
+					'type'		=> 'text',
+					'name'		=> __('Email', 'mcguffin'),
+					'width'		=> '50%',
 				),
 
-				'position_lat'	=> array(
-					'type'	=> 'text',
-					'name'	=> __('Latitude', 'mcguffin'),
-					'width'	=> '50%',
-				),
-				'position_lon'	=> array(
-					'type'	=> 'text',
-					'name'	=> __('Longitude', 'mcguffin'),
-					'width'	=> '50%',
+				'map_view'	=> array(
+					'type'		=> 'maps',
+					'name'		=> __('Map View', 'mcguffin'),
+					'marker'	=> true,
 				),
 			)
 		);
@@ -82,8 +78,8 @@ class MapMarkerWidget extends Widget {
 
 		$instance 	= wp_parse_args( $instance, $this->defaults );
 		$map_id		= sanitize_key( $instance['map_id'] );
-		$lat		= floatval( $instance['position_lat'] );
-		$lng		= floatval( $instance['position_lon'] );
+		$lat		= floatval( $instance['map_view']['lat'] );
+		$lng		= floatval( $instance['map_view']['lng'] );
 		$flyout_id	= sprintf( '%s-%s',  $map_id, self::$_instance_count );
 
 		?>
