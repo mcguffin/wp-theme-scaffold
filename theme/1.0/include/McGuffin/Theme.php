@@ -59,7 +59,7 @@ class Theme extends Core\Singleton {
 
 	public function setup() {
 
-		load_theme_textdomain( '{{theme_slug_dash}}', get_template_directory() . '/languages' );
+		load_theme_textdomain( 'mcguffin', get_template_directory() . '/languages' );
 
 		// Add default posts and comments RSS feed links to head.
 		add_theme_support( 'automatic-feed-links' );
