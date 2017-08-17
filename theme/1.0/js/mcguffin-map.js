@@ -1,3 +1,6 @@
+/**
+ * @version 1.0.0
+ */
 (function($){
 	var maps = {},
 		flyouts = {},

@@ -482,7 +482,7 @@ class Widget extends \WP_Widget {
 	 */
 	protected function input_maps( $field_name, $field, $instance ) {
 		$input_id = $this->get_field_id( $field_name );
-		$apikey = get_option( 'onepager_google_maps_api_key' );
+		$apikey = get_option('{{theme_slug}}_google_maps_api_key');
 		$field_name_attr = $this->get_field_name( $field_name );
 		$marker = $this->fields[$field_name]['marker'];
 		
