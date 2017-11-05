@@ -35,6 +35,8 @@ class Theme extends Core\Singleton {
 			Admin\TinyMce\Uppercase\Uppercase::instance();
 		}
 
+		add_action( 'admin_init', array( $this, 'admin_init' ) );
+
 		add_action( 'after_setup_theme', array( $this, 'setup' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		
@@ -44,6 +46,14 @@ class Theme extends Core\Singleton {
 
 	}
 
+	public function admin_init() {
+		Admin\TinyMce\BigSmall\BigSmall::instance();
+		Admin\TinyMce\Bootstrap\Bootstrap::instance();
+		Admin\TinyMce\Clear\Clear::instance();
+		Admin\TinyMce\Mobile\Mobile::instance();
+		Admin\TinyMce\Shy\Shy::instance();
+		Admin\TinyMce\Uppercase\Uppercase::instance();
+	}
 
 	public function google_maps_api_key( $api = null ) {
 		$api['key'] = get_option('{{theme_slug}}_google_maps_api_key');
@@ -198,11 +208,11 @@ class Theme extends Core\Singleton {
 	}
 	
 	public function getAssetUrl( $url ) {
-		return get_template_directory_uri() . $url;
+		return trailingslashit( get_template_directory_uri() ) . $url;
 	}
 	
 	public function getAssetPath( $url ) {
-		return get_template_directory() . $url;
+		return trailingslashit( get_template_directory() ) . $url;
 	}
 	
 }

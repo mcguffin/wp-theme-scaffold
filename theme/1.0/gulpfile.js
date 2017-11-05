@@ -1,7 +1,7 @@
 var autoprefixer	= require('gulp-autoprefixer');
 var gulp			= require('gulp');
-var concat			= require('gulp-concat');  
-var uglify			= require('gulp-uglify');  
+var concat			= require('gulp-concat');
+var uglify			= require('gulp-uglify');
 var sass			= require('gulp-sass');
 var sourcemaps		= require('gulp-sourcemaps');
 var rename			= require('gulp-rename');
@@ -13,7 +13,7 @@ var runSequence		= require('run-sequence');
 var nodeSass		= require('node-sass');
 
 var path = {
-	styles	: ['./sass/style.scss','./sass/editor-style.scss'],
+	styles	: ['./src/scss/style.scss','./src/scss/editor-style.scss'],
 	tmp		: './src/tmp/',
 };
 
@@ -37,7 +37,7 @@ var fontello = {
 	sourceConfigFile	: 'config.json',
 	configFile			: 'config-generated.json',
 	fontDest			: './fonts/fontello/',
-	scssDest			: './sass/fonts/',
+	scssDest			: './src/scss/fonts/',
 };
 
 // Fontello: copy original fontello config
@@ -84,7 +84,7 @@ gulp.task( 'fontello-scss', ['fontello-generate'], function(cb) {
 		.pipe( gulp.dest( fontello.scssDest ) );
 });
 
-// Fontello: cleanup 
+// Fontello: cleanup
 gulp.task( 'fontello-clean', function() {
 	return gulp.src( path.tmp + '*.*', { read: false } )
 		.pipe( clean() );
@@ -99,12 +99,12 @@ gulp.task('fontello', function() {
 
 
 
-gulp.task( 'scss',	function() { 
+gulp.task( 'scss',	function() {
 	return gulp.src( path.styles )
 		.pipe( sourcemaps.init() )
 		.pipe(
         	sass( sassOptions )
-        	.on('error', sass.logError) 
+        	.on('error', sass.logError)
 		)
         .pipe( autoprefixer( { browsers: ['last 2 versions'] } ) )
 		.pipe( sourcemaps.write( './' ) )
@@ -114,11 +114,8 @@ gulp.task( 'scss',	function() {
 
 
 gulp.task('watch', function() {
-	gulp.watch('./sass/**/*.scss', [ 'scss' ] );
+	gulp.watch('./src/scss/**/*.scss', [ 'scss' ] );
  	gulp.watch( fontello.sourceDir + '*.*', [ 'fontello' ] );
 });
 
 gulp.task('default', ['scss', 'watch'] );
-
-
-

@@ -1,7 +1,7 @@
 @import 'fontello-vars';
 
 @font-face {
-  font-family: 'couleur';
+  font-family: '#{$fontello-fontname}';
   src: url('fonts/fontello/#{$fontello-fontname}.eot?#{$fontello-cachebuster}');
   src: url('fonts/fontello/#{$fontello-fontname}.eot?#{$fontello-cachebuster}#iefix') format('embedded-opentype'),
        url('fonts/fontello/#{$fontello-fontname}.woff2?#{$fontello-cachebuster}') format('woff2'),
@@ -16,12 +16,12 @@
 /*
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
-    font-family: 'couleur';
+    font-family: '#{$fontello-fontname}';
     src: url('../font/couleur.svg?18473869#couleur') format('svg');
   }
 }
 */
- 
+
 @mixin fontello(){
 
 	font-family: "#{$fontello-fontname}";

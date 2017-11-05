@@ -22,50 +22,56 @@ class PostTypes extends Core\Singleton {
 		add_filter( "get_next_post_sort", array( $this, 'adjacent_by_menu_order_clause_next' ), 10, 2 );
 		add_filter( "get_previous_post_sort", array( $this, 'adjacent_by_menu_order_clause_prev' ), 10, 2 );
 
-		add_action( 'init' , array( $this , 'register_post_types' ) );
+		add_action('init', array( $this, 'init' ) );
+
+		$this->init_post_types();
 	}
 
-	public function register_post_types() {
+	private function init_post_types() {
 		PostTypeProject::instance();
 	}
 
+	public function init() {
+		unregister_taxonomy_for_object_type( 'post_tag', 'post' );
+	}
 
 
-	function adjacent_where_clause_prev( $clause, $in_same_term, $excluded_terms, $taxonomy, $post ) {
+
+	public function adjacent_where_clause_prev( $clause, $in_same_term, $excluded_terms, $taxonomy, $post ) {
 		if ( ! is_admin() && $post->post_type == 'project' ) {
 			return $this->adjacent_where_clause( $post, '<' );
 		}
 		return $clause;
 	}
-	function adjacent_where_clause_next( $clause, $in_same_term, $excluded_terms, $taxonomy, $post ) {
+	public function adjacent_where_clause_next( $clause, $in_same_term, $excluded_terms, $taxonomy, $post ) {
 		if ( ! is_admin() && $post->post_type == 'project' ) {
 			return $this->adjacent_where_clause( $post, '>' );
 		}
 		return $clause;
 	}
-	
+
 	private function adjacent_where_clause( $post, $op ) {
 		global $wpdb;
 		return $wpdb->prepare( "WHERE p.menu_order $op %d AND p.post_type = %s", $post->menu_order,  $post->post_type );
 	}
-	
-	function adjacent_by_menu_order_clause_prev( $clause, $post ) {
+
+	public function adjacent_by_menu_order_clause_prev( $clause, $post ) {
 		if ( $post->post_type == 'project' ) {
 			return "ORDER BY p.menu_order DESC LIMIT 1";
 		}
 		return $clause;
 	}
-	function adjacent_by_menu_order_clause_next( $clause, $post ) {
+	public function adjacent_by_menu_order_clause_next( $clause, $post ) {
 		if ( $post->post_type == 'project' ) {
 			return "ORDER BY p.menu_order ASC LIMIT 1";
 		}
 		return $clause;
 	}
-	function sortable_post_types( $post_types ) {
+	public function sortable_post_types( $post_types ) {
 		return array( 'project' );
 	}
 
-	
+
 	private function hide_post_type( $post_type , $slug ) {
 		global $wp_post_types;
 		if ( isset( $wp_post_types[ $post_type ] ) ) {

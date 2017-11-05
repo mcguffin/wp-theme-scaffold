@@ -7,9 +7,14 @@
  * @package _s
  */
 
-get_header(); 
+get_header();
 
-if ( ( $page_id = get_option( '{{theme_slug}}_404_page' ) ) && ( $page = get_post( $page_id ) ) ) {
+if ( $page_id = get_option( '{{theme_slug}}_404_page' ) ) {
+
+	$subquery = new WP_Query(array(
+		'post_type'	=> 'page',
+		'post__in'	=> array( $page_id ),
+	))
 
 ?>
 	<div id="primary" class="content-area">
@@ -19,8 +24,8 @@ if ( ( $page_id = get_option( '{{theme_slug}}_404_page' ) ) && ( $page = get_pos
 
 			<?php get_template_part( 'template-parts/content', 'page' ); ?>
 
-		<?php endwhile; // End of the loop. 
-		
+		<?php endwhile; // End of the loop.
+
 		wp_reset_postdata();
 
 		?>
@@ -79,7 +84,6 @@ if ( ( $page_id = get_option( '{{theme_slug}}_404_page' ) ) && ( $page = get_pos
 		</main><!-- #main -->
 	</div><!-- #primary -->
 
-<?php 
+<?php
 }
-get_footer(); 
-
+get_footer();

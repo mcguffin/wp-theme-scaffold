@@ -63,11 +63,25 @@ abstract class TinyMce extends Core\Singleton {
 	 */
 	private $asset_dir_uri = null;
 
+	/**
+	 *	Asset dir for derived class
+	 *	string path
+	 */
+	private $asset_dir_path = null;
+
+	/**
+	 *	Asset dir for derived class
+	 *	string path
+	 */
+	private $theme = null;
+
 
 	/**
 	 * Private constructor
 	 */
 	protected function __construct() {
+
+		$this->theme = McGuffin\Theme::instance();
 
 		if ( is_null( $this->module_name ) ) {
 			throw( new Exception( '`$module_name` must be defined in a derived classes.' ) );
@@ -76,9 +90,9 @@ abstract class TinyMce extends Core\Singleton {
 		$parts = array_slice( explode( '\\', get_class( $this ) ), 0, -1 );
 		array_unshift( $parts, 'include' );
 
-		$this->asset_dir_uri = trailingslashit( get_template_directory_uri() ) . trailingslashit( implode( DIRECTORY_SEPARATOR, $parts ) );
+		$this->asset_dir_uri = trailingslashit( implode( DIRECTORY_SEPARATOR, $parts ) );
 
-		$this->asset_dir_path = trailingslashit( get_template_directory() ) . trailingslashit( implode( DIRECTORY_SEPARATOR, $parts ) );
+		$this->asset_dir_path = trailingslashit( implode( DIRECTORY_SEPARATOR, $parts ) );
 
 		// add tinymce buttons
 		$this->editor_buttons = wp_parse_args( $this->editor_buttons, array(
@@ -110,12 +124,13 @@ abstract class TinyMce extends Core\Singleton {
 
 		// add tinymce plugin
 		if ( $this->text_widget !== false ) {
-			// will only work with both default editor and widget
+			// looks like it will only works with widget?
 			add_action( 'print_default_editor_scripts', array( $this, 'print_editor_scripts' ) );
-		} else {
-			// will only work with default editor
-			add_filter( 'mce_external_plugins', array( $this, 'add_plugin' ) );
 		}
+		// will only work with default editor
+		add_filter( 'mce_external_plugins', array( $this, 'add_plugin' ) );
+
+		parent::__construct();
 
 	}
 
@@ -127,7 +142,7 @@ abstract class TinyMce extends Core\Singleton {
 		<script type="text/javascript">
 		/* TinyMCE plugin <?php echo $this->module_name ?> */
 		jQuery( document ).on( 'tinymce-editor-setup', function( event, editor ) {
-<?php echo file_get_contents( $this->get_asset_path( 'js/plugin.js' ) ); ?>;
+<?php echo file_get_contents( $this->getAssetPath( 'js/plugin.js' ) ); ?>;
 <?php echo $this->module_name ?>PluginCallback( editor );
 		});
 		/* END: TinyMCE plugin <?php echo $this->module_name ?> */
@@ -141,7 +156,7 @@ abstract class TinyMce extends Core\Singleton {
 	 *	@filter mce_external_plugins
 	 */
 	public function add_plugin( $plugins_array ) {
-		$plugins_array[ $this->module_name ] = $this->get_asset_url( 'js/plugin.js' );
+		$plugins_array[ $this->module_name ] = $this->getAssetUrl( 'js/plugin.js' );
 		return $plugins_array;
 	}
 
@@ -172,7 +187,7 @@ abstract class TinyMce extends Core\Singleton {
 	 */
 	public function enqueue_toolbar_css() {
 		$asset_id = sprintf( 'tinymce-%s-toolbar-css', $this->module_name );
-		$asset_url = $this->get_asset_url( 'css/toolbar.css' );
+		$asset_url = $this->getAssetUrl( 'css/toolbar.css' );
 		wp_enqueue_style( $asset_id, $asset_url );
 	}
 
@@ -182,7 +197,7 @@ abstract class TinyMce extends Core\Singleton {
 	 *	@filter mce_css
 	 */
 	public function mce_css( $styles ) {
-		$mce_css = $this->get_asset_url( 'css/editor.css' );
+		$mce_css = $this->getAssetUrl( 'css/editor.css' );
 		$styles .= ','. $mce_css;
 		return $styles;
 	}
@@ -204,21 +219,21 @@ abstract class TinyMce extends Core\Singleton {
 	/**
 	 *	Get asset url for this editor plugin
 	 *
-	 *	@param	string	$asset	URL part relative to plugin class
-	 *	@return wp_enqueue_editor
+	 *	@param	string	$asset	URL part relative to theme root
+	 *	@return string	url
 	 */
-	protected function get_asset_url( $asset ) {
-		return $this->asset_dir_uri . ltrim( $asset, '/' );
+	protected function getAssetUrl( $asset ) {
+		return $this->theme->getAssetUrl( $this->asset_dir_uri . ltrim( $asset, '/' ) );
 	}
 
 	/**
 	 *	Get asset path for this editor plugin
 	 *
-	 *	@param	string	$asset	Dir part relative to plugin class
-	 *	@return wp_enqueue_editor
+	 *	@param	string	$asset	Dir part relative to theme root
+	 *	@return path
 	 */
-	protected function get_asset_path( $asset ) {
-		return $this->asset_dir_path . ltrim( $asset, '/' );
+	protected function getAssetPath( $asset ) {
+		return $this->theme->getAssetPath( $this->asset_dir_path . ltrim( $asset, '/' )  );
 	}
 
 }
