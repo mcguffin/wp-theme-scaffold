@@ -4,15 +4,15 @@ namespace McGuffin\Admin;
 
 use McGuffin\Core;
 
-if ( ! defined('ABSPATH') ) 
+if ( ! defined('ABSPATH') )
 	die();
 
 
 class Settings extends Core\Singleton {
-	
+
 	/**
 	 * Setup which to WP options page the Rainbow options will be added.
-	 * 
+	 *
 	 * Possible values: general | writing | reading | discussion | media | permalink
 	 */
 	private $optionset = 'reading'; // writing | reading | discussion | media | permalink
@@ -27,6 +27,15 @@ class Settings extends Core\Singleton {
 		// add default options
 		add_option( '{{theme_slug}}_404_page', 0 );
 		add_option( '{{theme_slug}}_google_maps_api_key', '' );
+
+		acf_add_options_sub_page(array(
+			'page_title' 	=> __('Company','mcguffin'),
+			'menu_title' 	=> __('Company','mcguffin'),
+			'parent_slug' 	=> 'options-general.php',
+			'post_id'		=> 'company',
+			'autoload'		=> true,
+			'capability'	=> 'editor',
+		));
 	}
 
 	/**
@@ -92,7 +101,7 @@ class Settings extends Core\Singleton {
 	 */
 	public function input_text( $args ){
 		$setting = get_option( $args['option_name'] );
-		
+
 		?><input class="regular-text ltr" name="<?php echo $args['option_name'] ?>" value="<?php echo $setting ?>" /><?php
 
 		if ( isset($args['option_description']) ) {
@@ -111,12 +120,12 @@ class Settings extends Core\Singleton {
 
 
 		?><label for="<?php echo $args['option_name']; ?>"><?php
-			echo wp_dropdown_pages( array( 
-				'name' => $args['option_name'], 
-				'echo' => 0, 
-				'show_option_none' => __( '&mdash; Select &mdash;' ), 
-				'option_none_value' => '0', 
-				'selected' => $setting 
+			echo wp_dropdown_pages( array(
+				'name' => $args['option_name'],
+				'echo' => 0,
+				'show_option_none' => __( '&mdash; Select &mdash;' ),
+				'option_none_value' => '0',
+				'selected' => $setting
 			) );
 		?></label><?php
 
