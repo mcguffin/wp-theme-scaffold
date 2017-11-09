@@ -3,149 +3,243 @@
 
 namespace McGuffin\Media;
 
+use McGuffin\Admin;
 use McGuffin\Core;
 
-class Slider extends Core\Singleton {
+class Slider extends Admin\Singleton {
+
+	private $slider_count = 0;
+	private $prev_wp_query = null;
+
 	protected function __construct() {
 		add_filter( 'post_gallery', array( $this, 'post_gallery' ), 10, 3 );
+
+		add_action('print_media_templates', array( $this, 'print_media_templates' ) );
+		add_action('wp_enqueue_media', array( $this, 'wp_enqueue_media' ) );
+
+
+		parent::__construct();
 	}
 
 	function post_gallery( $output, $atts, $instance ) {
-		$get_posts_args = shortcode_atts( array( 
+		$get_posts_args = shortcode_atts( array(
 			'include'			=> '',
-			'post_status' 		=> 'inherit', 
-			'post_type' 		=> 'attachment', 
-			'post_mime_type'	=> 'image', 
-			'order'				=> 'ASC', 
+			'post_status' 		=> 'inherit',
+			'post_type' 		=> 'attachment',
+			'post_mime_type'	=> 'image',
+			'order'				=> 'ASC',
 			'orderby'			=> 'post__in',
+			'size'				=> 'content-large',
 		), $atts );
-	
+
 		$attachments = get_posts( $get_posts_args );
-		return get_{{theme_slug}}_slider( $attachments, $atts );
-	}
-	
-	public function get_slider( $slider_items, $slider_args ) {
-		$output = '';
-	
-		$format_image_sizes = array(
-			'cinema'		=> 'cinema-lg',
-			'tv'			=> 'tv-720p',
-			'din-landscape'	=> 'din-landscape-large',
-		);
-	
-		$defaults = array(
-			'format'	=> 'tv', // cinema, tv, din-landscape
-			'interval'	=> 5,
-			'autoplay'	=> false,
-			'item_tag'	=> 'div',
-		);
-
-		// apply defaults
-		$slider_args = wp_parse_args( $slider_args, $defaults );
-
-		// sanitize
-		$slider_args['item_tag'] = preg_replace( '/[^a-z0-9]/i', '', $slider_args['item_tag'] );
-		if ( empty( $slider_args['item_tag'] ) ) {
-			$slider_args['item_tag'] = $defaults['item_tag'];
-		}
-		$slider_args['interval'] = floatval( $slider_args['interval'] );
-
-		$slider_args['autoplay'] = boolval( $slider_args['autoplay'] );
-		if ( ! isset( $format_image_sizes[ $slider_args['format'] ] ) ) {
-			$slider_args['format'] = $defaults['format'];
-		}
-
-		if ( count( $slider_items ) ) {
-			static $slider_count = 0;
-			$slider_count++;
-		
-			$item_tag		= $slider_args['item_tag'];
-			$slider_format	= $slider_args['format'];
-			$image_size		= $format_image_sizes[ $slider_format ];
-			$interval		= intval( $slider_args['interval'] * 1000 );
-			$ride			= $slider_args['autoplay'] ? 'data-ride="carousel"' : '';
-		
-			$slider_id		= sprintf( 'slider-%d', $slider_count );
-			$slider_items	= array_values( $slider_items );
-
-		
-			$output .= "<div id=\"{$slider_id}\" class=\"carousel slide\" {$ride} data-pause=\"hover\" data-interval=\"{$interval}\">\n";
-			$output .= "\t<ol class=\"carousel-indicators\">\n";
-			foreach ( $slider_items as $i => $slider_item ) {
-				$output .= sprintf( "\t<li data-target=\"#%s\" data-slide-to=\"%d\" %s></li>\n", $slider_id, $i, $i==0 ? 'class="active"' : '' );
-			}
-			$output .= "\t</ol>\n";
-
-			$output .= "\t<div class=\"carousel-inner\" role=\"listbox\">\n";
-
-			foreach ( $slider_items as $i => $slider_item ) {
-				$output .= sprintf( "\t\t<%s class=\"item fixed-aspectratio aspectratio-din-landscape aspectratio-sm-%s %s\">\n", $item_tag, $slider_format, $i==0 ? 'active' : '' );
-				if ( $attachment_item = $this->slider_item_is( 'attachment', $slider_item ) ) {
-
-					$output .= wp_get_attachment_image( $attachment_item->ID, 'din-landscape-small', false, array( 'class' => 'visible-xs' ) );
-					$output .= wp_get_attachment_image( $attachment_item->ID, $image_size, false, array( 'class' => 'header-image hidden-xs' ) );
-
-				} else if ( $image_item = $this->slider_item_is( 'image', $slider_item ) ) {
-
-					$output .= wp_get_attachment_image( $image_item['id'], 'din-landscape-small', false, array( 'class' => 'visible-xs' ) );
-					$output .= wp_get_attachment_image( $image_item['id'], $image_size, false, array( 'class' => 'header-image hidden-xs' ) );
-
-	/*
-				} else if ( $video_item = _{{theme_slug}}_slider_item_is( 'video', $slider_item ) ) {
-
-					$output .= {{theme_slug}}_video( $video_item->ID );
-
-	*/
-				} else if ( $project_item = $this->slider_item_is( 'project', $slider_item ) ) {
-
-					if ( $image_id = the_{{theme_slug}}_project_header_image_id( $project_item->ID, $image_size ) ) {
-						$output .= wp_get_attachment_image( $image_id, 'din-landscape-small', false, array( 'class' => 'visible-xs' ) );
-						$output .= wp_get_attachment_image( $image_id, $image_size, false, array( 'class' => 'header-image hidden-xs' ) );
-					}
-					$output .= "\t\t\t<div>\n";
-					$output .= "\t\t\t\t<div class=\"project-header\">\n";
-					$output .= sprintf("\t\t\t\t\t<h2 class=\"project-title\">%s</h2>\n", get_the_title( $project_item->ID ));
-
-					$output .= sprintf( "\t\t\t\t\t<a class=\"btn btn-primary icon-angle-double-right\" href=\"%s\">%s</a>\n",
-							get_permalink($project_item->ID),
-							__('Go to project','mcguffin') );
-						
-					$output .= "\t\t\t\t</div>\n";
-					$output .= "\t\t\t</div>\n";
-				}
-				$output .= sprintf( "\t\t</%s>\n", $item_tag );
-			}
-			$output .= "\t</div>\n";
-		
-
-			$output .= "\t<a class=\"left carousel-control\" href=\"#{$slider_id}\" role=\"button\" data-slide=\"prev\">\n";
-			$output .= "\t\t<span class=\"arrow icon-left-open-thick\" aria-hidden=\"true\"></span>\n";
-			$output .= sprintf("\t\t<span class=\"sr-only\">%s</span>\n", __('Previous Slide','mcguffin') );
-			$output .= "\t</a>\n";
-			$output .= "\t<a class=\"right carousel-control\" href=\"#{$slider_id}\" role=\"button\" data-slide=\"next\">\n";
-			$output .= "\t\t<span class=\"arrow icon-right-open-thick\" aria-hidden=\"true\"></span>\n";
-			$output .= sprintf("\t\t<span class=\"sr-only\">%s</span>\n", __('Next Slide','mcguffin') );
-			$output .= "\t</a>\n";
-			
-			$output .= "</div>\n";
-		}
-		return $output;
-
+		return $this->get_slider( $attachments, $atts );
 	}
 
-	function slider_item_is( $what, $item ) {
-	
+	public function __get( $what ) {
+		if ( isset( $this->current_slider_args[ $what ] ) ) {
+			return $this->current_slider_args[ $what ];
+		}
+	}
+
+	public function get_slider( $slider_items, $slider_args = array() ) {
+		global $wp_query;
+
+		$this->slider_count++;
+
+		$this->current_slider_args = wp_parse_args( $slider_args, array(
+			'class'			=> '', // cinema, tv, din-landscape
+			'interval'		=> 10,
+			'autoplay'		=> false,
+			'caption'		=> true,
+
+			'id'			=> sprintf( 'slider-%d', $this->slider_count ),
+
+			'item_tag'		=> 'figure',
+			'item_class'	=> '',
+
+			'size'			=> 'tv-1080p',
+			'image_attr'	=> array(),
+			'add_sources'	=> array(),
+		));
+
+		// normalize slider items to post IDs
+		if ( ! is_array( $slider_items ) ) {
+			$slider_items = explode( ',', $slider_items );
+		}
+		$slider_items = array_map( array( $this, 'normalize_slider_item' ), $slider_items );
+		$slider_items = array_filter( $slider_items, 'absint' );
+
+		$this->prev_wp_query = $wp_query;
+
+		// no items - no slider!
+		if ( ! count($slider_items) ) {
+			return;
+		}
+
+		// query slider items
+		query_posts( array(
+			'posts_per_page'	=> -1,
+			'post__in'			=> $slider_items,
+			'orderby'			=> 'post__in',
+			'post_status'		=> array( 'publish', 'inherit' ),
+			'post_type'			=> 'any',
+		) );
+
+		ob_start( );
+
+		if ( isset( $this->current_slider_args['image_attr']['sizes'] ) ) {
+			add_filter( 'wp_calculate_image_sizes', array( $this, 'image_sizes_attribute' ), 10, 5 );
+		}
+
+		if ( ! empty( $this->current_slider_args['add_sources'] ) ) {
+			add_filter( 'wp_calculate_image_srcset', array( $this, 'image_sources' ), 10, 5 );
+		}
+
+		get_template_part( 'template-parts/slider/slider', '' );
+
+		if ( isset( $this->current_slider_args['add_sources'] ) ) {
+			remove_filter( 'wp_calculate_image_srcset', array( $this, 'image_sources' ), 10 );
+		}
+
+		if ( isset( $this->current_slider_args['image_attr']['sizes'] ) ) {
+			remove_filter( 'wp_calculate_image_sizes', array( $this, 'image_sizes_attribute' ), 10 );
+		}
+
+
+		$wp_query = $this->prev_wp_query;
+		wp_reset_query();
+		$ret = ob_get_clean( );
+
+		return $ret;
+	}
+	public function image_sizes_attribute( $sizes, $size, $image_src, $image_meta, $attachment_id ) {
+		if ( isset( $this->current_slider_args['image_attr']['sizes'] ) ) {
+			return $this->current_slider_args['image_attr']['sizes'];
+		}
+		return $sizes;
+	}
+	public function image_sources( $sources, $size_array, $image_src, $image_meta, $attachment_id ) {
+		foreach ( $this->current_slider_args['add_sources'] as $size => $descriptor ) {
+			$source = wp_get_attachment_image_src( $attachment_id, $size );
+			$sources[] = array(
+				'url'			=> $source[0],
+				'descriptor'	=> $descriptor,
+				'value'			=> $descriptor == 'w' ? $source[1] : $source[2],
+			);
+		}
+		return $sources;
+	}
+
+	private function normalize_slider_item( $item ) {
 		if ( is_numeric( $item ) ) {
-			$item = get_post( $item );
+			return absint( $item );
 		}
-
-		if ( is_array( $item ) && isset( $item['type'] ) && $item['type'] == $what ) {
-			return $item;
-		} else if ( is_a( $item, 'WP_Post' ) && isset( $item->post_type ) && $item->post_type == $what ) {
-			return $item;
+		if ( is_array( $item ) && ( ( $lowercaseID = isset( $item['id'] ) ) || isset( $item['ID'] ) ) ) {
+			return $this->normalize_slider_item( $item[ $lowercaseID ? 'id' : 'ID' ] );
+		}
+		if ( is_object( $item ) && ( ( $lowercaseID = isset( $item->id ) ) || isset( $item->ID ) ) ) {
+			$prop = $lowercaseID ? 'id' : 'ID';
+			return $this->normalize_slider_item( $item->$prop );
 		}
 		return false;
 	}
 
-}
+	public function wp_enqueue_media() {
+		$asset_url = $this->getAssetUrl( 'js/slider.js' );
 
+		wp_enqueue_script( 'mguffin-gallery-admin', $asset_url );
+	}
+
+
+	public function print_media_templates() {
+		?>
+		<script type="text/html" id="tmpl-mcguffin-gallery-settings">
+			<h2><?php _e( 'Gallery Settings' ); ?></h2>
+<?php /*
+			<label class="setting">
+				<span><?php _e('Link To'); ?></span>
+				<select class="link-to"
+					data-setting="link"
+					<# if ( data.userSettings ) { #>
+						data-user-setting="urlbutton"
+					<# } #>>
+
+					<option value="post" <# if ( ! wp.media.galleryDefaults.link || 'post' == wp.media.galleryDefaults.link ) {
+						#>selected="selected"<# }
+					#>>
+						<?php esc_html_e( 'Attachment Page' ); ?>
+					</option>
+					<option value="file" <# if ( 'file' == wp.media.galleryDefaults.link ) { #>selected="selected"<# } #>>
+						<?php esc_html_e( 'Media File' ); ?>
+					</option>
+					<option value="none" <# if ( 'none' == wp.media.galleryDefaults.link ) { #>selected="selected"<# } #>>
+						<?php esc_html_e( 'None' ); ?>
+					</option>
+				</select>
+			</label>
+
+			<label class="setting">
+				<span><?php _e('Columns'); ?></span>
+				<select class="columns" name="columns"
+					data-setting="columns">
+					<?php for ( $i = 1; $i <= 9; $i++ ) : ?>
+						<option value="<?php echo esc_attr( $i ); ?>" <#
+							if ( <?php echo $i ?> == wp.media.galleryDefaults.columns ) { #>selected="selected"<# }
+						#>>
+							<?php echo esc_html( $i ); ?>
+						</option>
+					<?php endfor; ?>
+				</select>
+			</label>
+
+			<label class="setting">
+				<span><?php _e( 'Random Order' ); ?></span>
+				<input type="checkbox" data-setting="_orderbyRandom" />
+			</label>
+*/ ?>
+
+			<input type="hidden" name="link-to" value="0" data-setting="urlbutton" />
+
+			<input type="hidden" name="columns" value="none" data-setting="columns" />
+
+			<label class="setting">
+				<span><?php _e( 'Autoplay', 'mcguffin' ); ?></span>
+				<input type="checkbox" data-setting="autoplay" />
+			</label>
+
+			<label class="setting">
+				<span><?php _e( 'Seconds per Slide', 'mcguffin' ); ?></span>
+				<input type="text" data-setting="interval" style="float:none;width:80px;" />
+			</label>
+
+			<label class="setting size">
+				<span><?php _e( 'Size' ); ?></span>
+				<select class="size" name="size"
+					data-setting="size"
+					<# if ( data.userSettings ) { #>
+						data-user-setting="imgsize"
+					<# } #>
+					>
+					<?php
+					/** This filter is documented in wp-admin/includes/media.php */
+					$size_names = apply_filters( 'image_size_names_choose', array(
+						'thumbnail' => __( 'Thumbnail' ),
+						'medium'    => __( 'Medium' ),
+						'large'     => __( 'Large' ),
+						'full'      => __( 'Full Size' ),
+					) );
+
+					foreach ( $size_names as $size => $label ) : ?>
+						<option value="<?php echo esc_attr( $size ); ?>">
+							<?php echo esc_html( $label ); ?>
+						</option>
+					<?php endforeach; ?>
+				</select>
+			</label>
+		</script>
+
+		<?php
+	}
+
+}
