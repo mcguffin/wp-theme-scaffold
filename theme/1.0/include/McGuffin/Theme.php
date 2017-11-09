@@ -15,7 +15,7 @@ namespace McGuffin;
 class Theme extends Core\Singleton {
 
 	protected function __construct() {
-		
+
 		Admin\Settings::instance();
 		Admin\Customizer::instance();
 		Media\Embed::instance();
@@ -26,20 +26,11 @@ class Theme extends Core\Singleton {
 		PostType\PostTypes::instance();
 		Widgets\Widgets::instance();
 
-		if ( is_admin( ) ) {
-			Admin\TinyMce\BigSmall\BigSmall::instance();
-			Admin\TinyMce\Bootstrap\Bootstrap::instance();
-			Admin\TinyMce\Clear\Clear::instance();
-			Admin\TinyMce\Mobile\Mobile::instance();
-			Admin\TinyMce\Shy\Shy::instance();
-			Admin\TinyMce\Uppercase\Uppercase::instance();
-		}
-
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 
 		add_action( 'after_setup_theme', array( $this, 'setup' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-		
+
 		add_filter( 'kses_allowed_protocols', array( $this, 'add_whatsapp_protocol' ) );
 
 		add_filter('acf/fields/google_map/api', array( $this, 'google_maps_api_key' ) );
@@ -59,9 +50,9 @@ class Theme extends Core\Singleton {
 		$api['key'] = get_option('{{theme_slug}}_google_maps_api_key');
 		return $api;
 	}
-	
 
-	
+
+
 	public function add_whatsapp_protocol( $protocols ) {
 		$protocols[] = 'whatsapp';
 		return $protocols;
@@ -139,21 +130,21 @@ class Theme extends Core\Singleton {
 
 		wp_register_script( 'modernizr',
 			$this->getAssetUrl( '/js/modernizr.custom.js' ),
-			array(), 
-			$version, 
-			true 
+			array(),
+			$version,
+			true
 		);
 		wp_register_script( 'bootstrap',
-			$this->getAssetUrl( '/js/bootstrap/bootstrap.js' ), 
-			array('jquery'), 
-			$bs_version, 
+			$this->getAssetUrl( '/js/bootstrap/bootstrap.js' ),
+			array('jquery'),
+			$bs_version,
 			true
 		);
 		wp_register_script( 'aria-expanded',
 			$this->getAssetUrl( '/js/aria-expanded.js' ),
-			array('jquery'), 
-			$version, 
-			true 
+			array('jquery'),
+			$version,
+			true
 		);
 		wp_register_script( 'jquery-mobile',
 			$this->getAssetUrl( '/js/jquery.mobile.custom.js' ),
@@ -193,7 +184,7 @@ class Theme extends Core\Singleton {
 		);
 
 		$deps = array(
-			'jquery', 
+			'jquery',
 			'modernizr',
 			'bootstrap',
 			'jquery-mobile',
@@ -206,17 +197,13 @@ class Theme extends Core\Singleton {
 
 		wp_enqueue_script( '{{theme_slug_dash}}', 	$this->getAssetUrl( '/js/project.js' ), $deps, $version, true );
 	}
-	
+
 	public function getAssetUrl( $url ) {
 		return trailingslashit( get_template_directory_uri() ) . $url;
 	}
-	
+
 	public function getAssetPath( $url ) {
 		return trailingslashit( get_template_directory() ) . $url;
 	}
-	
+
 }
-
-
-
-

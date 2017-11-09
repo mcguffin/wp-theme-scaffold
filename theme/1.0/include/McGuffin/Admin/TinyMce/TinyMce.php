@@ -38,13 +38,13 @@ abstract class TinyMce extends Core\Singleton {
 	 *
 	 */
 	protected $plugin_params = false;
-	
+
 	/**
 	 *	Load custom css for toolbar.
 	 *	boolean
 	 */
 	protected $toolbar_css = false;
-	
+
 	/**
 	 *	Load custom css for toolbar.
 	 *	boolean
@@ -81,7 +81,7 @@ abstract class TinyMce extends Core\Singleton {
 	 */
 	protected function __construct() {
 
-		$this->theme = McGuffin\Theme::instance();
+		$this->theme = \McGuffin\Theme::instance();
 
 		if ( is_null( $this->module_name ) ) {
 			throw( new Exception( '`$module_name` must be defined in a derived classes.' ) );
@@ -99,13 +99,13 @@ abstract class TinyMce extends Core\Singleton {
 			'mce_buttons'	=> false,
 			'mce_buttons_2'	=> false,
 		) );
-		
+
 		foreach ( $this->editor_buttons as $hook => $buttons ) {
 			if ( $buttons !== false ) {
 				add_filter( $hook, array( $this, 'add_buttons' ) );
 			}
 		}
-		
+
 
 		// add tinymce plugin parameters
 		if ( $this->plugin_params !== false ) {
