@@ -134,19 +134,67 @@ abstract class TinyMce extends Core\Singleton {
 
 	}
 
+
 	/**
 	 *	@action print_default_editor_scripts
 	 */
 	public function print_editor_scripts() {
+
+		$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+
+		$js_settings = array() + $this->mce_settings;
+
+		// add editor css
+		if ( $this->editor_css ) {
+			$js_settings = wp_parse_args( $js_settings, array(
+				'content_css'	=> $this->get_mce_css_url(),
+			) );
+		}
+
+		// add buttons
+		foreach ( $this->editor_buttons as $row => $btns ) {
+
+			$toolbar_idx = preg_replace('/([^0-9]+)/imsU','', $row );
+
+			if ( ! $btns ) {
+				continue;
+			}
+
+			$js_settings[ 'toolbar' . $toolbar_idx ] = implode( ',', array_keys($btns) );
+		}
+
+		// add plugin
+		$js_settings['external_plugins'] = $this->add_plugin( array() );
+
 		?>
-		<script type="text/javascript">
-		/* TinyMCE plugin <?php echo $this->module_name ?> */
-		jQuery( document ).on( 'tinymce-editor-setup', function( event, editor ) {
-<?php echo file_get_contents( $this->getAssetPath( 'js/plugin.js' ) ); ?>;
-<?php echo $this->module_name ?>PluginCallback( editor );
+<script type="text/javascript">
+/* TinyMCE plugin <?php echo $this->module_name ?> */
+// extend wp editor settings
+(function($){
+	var orig = window.wp.editor.getDefaultSettings;
+	window.wp.editor.getDefaultSettings = function() {
+		var settings = orig.apply( this, arguments ),
+			mergeSettings = <?php echo json_encode( $js_settings ); ?>;
+		$.each( mergeSettings, function(i,el) {
+			var type,
+				override = ['entity_encoding', 'language', 'resize', 'skin', 'theme','wp_lang_attr'];
+			if ( ! ( i in settings.tinymce ) || (i in override) || 'booelan' === typeof settings.tinymce[i] ) {
+				settings.tinymce[i] = el;
+			} else {
+				type = typeof settings.tinymce[i];
+				if ( 'string' === type ) {
+					settings.tinymce[i] += ',' + el;
+				} else if ( 'object' === type ) {
+					settings.tinymce[i] = $.extend( true, settings.tinymce[i], el );
+				}
+			}
 		});
-		/* END: TinyMCE plugin <?php echo $this->module_name ?> */
-		</script>
+		return settings;
+	}
+})(jQuery);
+/* END: TinyMCE plugin <?php echo $this->module_name ?> */
+
+</script>
 		<?php
 	}
 
@@ -187,9 +235,16 @@ abstract class TinyMce extends Core\Singleton {
 	 */
 	public function enqueue_toolbar_css() {
 		$asset_id = sprintf( 'tinymce-%s-toolbar-css', $this->module_name );
-		$asset_url = $this->getAssetUrl( 'css/toolbar.css' );
-		wp_enqueue_style( $asset_id, $asset_url );
+		wp_enqueue_style( $asset_id, $this->get_toolbar_css_url() );
 	}
+
+	/**
+	 *	@return string URL to editor css
+	 */
+	 protected function get_toolbar_css_url() {
+ 		$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
+ 		return $this->getAssetUrl( 'css/toolbar.css' );
+ 	}
 
 	/**
 	 *	Add editor css
@@ -197,9 +252,17 @@ abstract class TinyMce extends Core\Singleton {
 	 *	@filter mce_css
 	 */
 	public function mce_css( $styles ) {
-		$mce_css = $this->getAssetUrl( 'css/editor.css' );
+		$mce_css = $this->get_mce_css_url();
 		$styles .= ','. $mce_css;
 		return $styles;
+	}
+
+
+	/**
+	 *	@return string URL to editor css
+	 */
+	protected function get_mce_css_url() {
+		return $this->getAssetUrl( 'css/editor.css' );
 	}
 
 
