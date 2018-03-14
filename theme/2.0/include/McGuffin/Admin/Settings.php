@@ -28,14 +28,16 @@ class Settings extends Core\Singleton {
 		add_option( '{{theme_slug}}_404_page', 0 );
 		add_option( '{{theme_slug}}_google_maps_api_key', '' );
 
-		acf_add_options_sub_page(array(
-			'page_title' 	=> __('Company','mcguffin'),
-			'menu_title' 	=> __('Company','mcguffin'),
-			'parent_slug' 	=> 'options-general.php',
-			'post_id'		=> 'company',
-			'autoload'		=> true,
-			'capability'	=> 'editor',
-		));
+		if ( function_exists( 'acf_add_options_sub_page' ) ) {
+			acf_add_options_sub_page(array(
+				'page_title' 	=> __('Contacts','mcguffin'),
+				'menu_title' 	=> __('Contacts','mcguffin'),
+				'parent_slug' 	=> 'options-general.php',
+				'post_id'		=> 'company',
+				'autoload'		=> true,
+				'capability'	=> 'editor',
+			));
+		}
 	}
 
 	/**
