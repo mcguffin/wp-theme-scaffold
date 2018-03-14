@@ -15,16 +15,17 @@ namespace McGuffin;
 class Theme extends Core\Singleton {
 
 	protected function __construct() {
+		if ( is_admin() ) {
+			Admin\Settings::instance();
+		}
 
-		Admin\Settings::instance();
 		Admin\Customizer::instance();
+
 		Media\Embed::instance();
 		Media\Image::instance();
 		Media\SVG::instance();
 		Media\Upload::instance();
-//		WPGridbuilder\Gridbuilder::instance();
-		PostType\PostTypes::instance();
-		Widgets\Widgets::instance();
+
 
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 
@@ -38,12 +39,6 @@ class Theme extends Core\Singleton {
 	}
 
 	public function admin_init() {
-		Admin\TinyMce\BigSmall\BigSmall::instance();
-		Admin\TinyMce\Bootstrap\Bootstrap::instance();
-		Admin\TinyMce\Clear\Clear::instance();
-		Admin\TinyMce\Mobile\Mobile::instance();
-		Admin\TinyMce\Shy\Shy::instance();
-		Admin\TinyMce\Uppercase\Uppercase::instance();
 	}
 
 	public function google_maps_api_key( $api = null ) {
@@ -129,13 +124,13 @@ class Theme extends Core\Singleton {
 		wp_enqueue_style( '{{theme_slug_dash}}-style', get_stylesheet_uri(), array( '{{theme_slug_dash}}-fonts' ), $version );
 
 		wp_register_script( 'modernizr',
-			$this->getAssetUrl( '/js/modernizr.custom.js' ),
+			$this->getAssetUrl( '/js/vendor/modernizr.custom.js' ),
 			array(),
 			$version,
 			true
 		);
 		wp_register_script( 'bootstrap',
-			$this->getAssetUrl( '/js/bootstrap/bootstrap.js' ),
+			$this->getAssetUrl( '/js/vendor/bootstrap/bootstrap.js' ),
 			array('jquery'),
 			$bs_version,
 			true
@@ -147,7 +142,7 @@ class Theme extends Core\Singleton {
 			true
 		);
 		wp_register_script( 'jquery-mobile',
-			$this->getAssetUrl( '/js/jquery.mobile.custom.js' ),
+			$this->getAssetUrl( '/js/vendor/jquery.mobile.custom.js' ),
 			array('jquery'),
 			$version,
 			true
@@ -176,12 +171,15 @@ class Theme extends Core\Singleton {
 			$version,
 			true
 		);
-		wp_register_script( 'google-maps-js-api',
-			'https://maps.googleapis.com/maps/api/js?v=3&key='. get_option('{{theme_slug}}_google_maps_api_key'),
-			array( 'jquery' ),
-			$version,
-			true
-		);
+
+		if ( $gm_api_key = get_option('{{theme_slug}}_google_maps_api_key') ) {
+			wp_register_script( 'google-maps-js-api',
+				'https://maps.googleapis.com/maps/api/js?v=3&key='. $gm_api_key,
+				array( 'jquery' ),
+				$version,
+				true
+			);
+		}
 
 		$deps = array(
 			'jquery',

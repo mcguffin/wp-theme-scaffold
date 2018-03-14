@@ -4,13 +4,13 @@ namespace McGuffin\Admin;
 
 use McGuffin\Core;
 
-if ( ! defined('ABSPATH') ) 
+if ( ! defined('ABSPATH') )
 	die();
 
 class Customizer extends Core\Singleton {
 
 	protected function __construct() {
-		add_action( 'customize_register', array( $this, 'customize_register' ) );	
+		add_action( 'customize_register', array( $this, 'customize_register' ) );
 		add_action( 'customize_preview_init', array( $this, 'customize_preview_js' ) );
 	}
 
@@ -31,11 +31,10 @@ class Customizer extends Core\Singleton {
 	 */
 	function customize_preview_js() {
 
-		$version	= wp_get_theme()->Version;
+		$version = wp_get_theme()->Version;
 
 		wp_enqueue_script( '{{theme_slug}}_customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), $version, true );
 
 	}
 
 }
-
