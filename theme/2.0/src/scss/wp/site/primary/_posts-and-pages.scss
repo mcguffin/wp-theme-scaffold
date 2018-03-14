@@ -1,0 +1,27 @@
+.sticky {
+	display: block;
+}
+
+.hentry {
+}
+
+.byline,
+.updated:not(.published){
+	display: none;
+}
+
+.single .byline,
+.group-blog .byline {
+	display: inline;
+}
+
+.page-content,
+.entry-content,
+.entry-summary {
+	margin:0;
+}
+
+.page-links {
+	clear: both;
+	margin:0;
+}

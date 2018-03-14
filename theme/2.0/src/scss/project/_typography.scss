@@ -1,0 +1,64 @@
+html,body {
+	font-family:$font__body;
+	font-size:1em;
+	line-height:1.5em;
+
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+h1,h2,h3,h4,h5,h6 {
+	// ...
+}
+h1,h2 {
+	// ...
+	font-family:$font__heading;
+}
+
+
+h1, .h1,
+h2, .h2 {
+	text-transform:uppercase;
+	small {
+		font-weight:300;
+	}
+}
+h1, .h1 {
+	font-size:$font-size-h3;
+	line-height:$line-height-h3;
+	@media (min-width: $screen-sm-min) {
+		font-size:$font-size-h1;
+		line-height:$line-height-h1;
+	}
+	small {
+		font-size:$font-size-h5;
+		line-height:$line-height-h5;
+		@media (min-width: $screen-sm-min) {
+			font-size:$font-size-h2;
+			line-height:$line-height-h2;
+		}
+	}
+}
+h2, .h2 {
+	font-size:$font-size-h4;
+	line-height:$line-height-h4;
+	@media (min-width: $screen-sm-min) {
+		font-size:$font-size-h2;
+		line-height:$line-height-h2;
+	}
+	small {
+		font-size:$font-size-h6;
+		line-height:$line-height-h6;
+		@media (min-width: $screen-sm-min) {
+			font-size:$font-size-h3;
+			line-height:$line-height-h3;
+		}
+	}
+}
+h3, .h3 {
+	font-size:$font-size-h6;
+	line-height:$line-height-h6;
+	@media (min-width: $screen-sm-min) {
+		font-size:$font-size-h3;
+		line-height:$line-height-h3;
+	}
+}

@@ -7,7 +7,7 @@ from pprint import pprint
 
 # def rm_wp(str):
 # 	return re.sub(r'(?i)^(WP|WordPress\s?)','',str).strip()
-# 
+#
 def slugify(str,separator='_'):
 	return re.sub(r'[-_\s]',separator,str.strip()).lower()
 
@@ -19,7 +19,7 @@ def camelcase( str ):
 #sys.exit()
 # def plugin_slug(str):
 # 	return slugify(rm_wp(str))
-# 
+#
 # def plugin_classname(str):
 # 	return ''.join(x for x in rm_wp(str).title() if not x.isspace())
 
@@ -38,11 +38,11 @@ class wp_theme:
 	def __init__(self,config):
 		self.config			= self.process_config( config )
 		self.theme_dir		= os.getcwd() + '/' + slugify( self.config['theme_name'], '-' )
-		self.theme_source	= os.path.dirname( os.path.realpath( __file__ ) ) + '/theme/1.0/'
-	
+		self.theme_source	= os.path.dirname( os.path.realpath( __file__ ) ) + '/theme/2.0/'
+
 	def process_config(self,config):
 		author 						= pwd.getpwuid( os.getuid() ).pw_gecos
-		
+
 		config['theme_author'] 		= author.decode('utf-8')#.encode('utf-8')
 		config['this_year'] 		= date.today().year
 
@@ -50,9 +50,9 @@ class wp_theme:
 		config['theme_slug'] 		= slugify( config['theme_name'] )
 		config['theme_slug_dash']	= slugify( config['theme_name'], '-' )
 		config['theme_slug_camel']	= camelcase( config['theme_slug_dash'] )
-		
+
 		return config
-	
+
 	def make(self):
 		try:
 			os.mkdir(self.theme_dir)
@@ -70,7 +70,7 @@ class wp_theme:
 #		print ignore
 		for root, subdirs, files in os.walk(self.theme_source):
 			relroot = root.replace( self.theme_source, '' ) + '/'
-			
+
 			# ignore files
 			if [x for x in ignore if relroot.find(x) >= 0]:
 				continue;
@@ -92,17 +92,17 @@ class wp_theme:
 				if  [x for x in subst if re.findall('\.'+x+'$',file)]:
 
 					content = pystache.render( self._read_file_contents(source),self.config)
-					
+
 					fout = codecs.open( target , 'wb' , encoding='utf-8' )
 					fout.write(content);
 					fout.close()
 				else:
 					shutil.copyfile(source , target)
-			
-		# 
+
+		#
 		pass
-	
-	
+
+
 	def _read_file_contents( self , file_path ):
 		if not os.path.exists(file_path):
 			return ''

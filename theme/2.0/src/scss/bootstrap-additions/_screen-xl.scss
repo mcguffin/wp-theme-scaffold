@@ -1,0 +1,78 @@
+
+$screen-xl: 0 !default;
+
+$screen-xl-min: 		$screen-xl;
+$screen-xl-desktop:     $screen-xl-min;
+$screen-lg-max:         $screen-xl-min - 1;
+
+@if ( $screen-xl ) {
+	// define variables
+	
+	$container-xl:          $screen-xl-min - $grid-gutter-width !default;
+	
+	// extend container
+	.container {
+		@media (min-width: $screen-xl-min) {
+			width: $container-xl;
+		}
+	}
+	
+	
+	// grid
+	//
+	// Columns, offsets, pushes, and pulls for the large desktop device range.
+	$list: '.col-xl-1';
+	@for $i from (1 + 1) through $grid-columns {
+		$list: "#{$list}, .col-xl-#{$i}";
+	} 
+	#{$list} {
+		position: relative;
+		// Prevent columns from collapsing when empty
+		min-height: 1px;
+		// Inner gutter via padding
+		padding-left:  ceil(($grid-gutter-width / 2));
+		padding-right: floor(($grid-gutter-width / 2));
+	}
+	
+	@media (min-width: $screen-xl-min) {
+		@include make-grid(xl);
+	}
+
+
+	// Responsive visibility
+	//
+	// Columns, offsets, pushes, and pulls for the large desktop device range.
+	@include responsive-invisibility('.visible-xl');
+
+	.visible-xl-block,
+	.visible-xl-inline,
+	.visible-xl-inline-block {
+		display: none !important;
+	}
+
+
+	@media (min-width: $screen-xl-min) {
+	  @include responsive-visibility('.visible-xl');
+	}
+	.visible-lg-block {
+		@media (min-width: $screen-xl-min) {
+			display: block !important;
+		}
+	}
+	.visible-xl-inline {
+		@media (min-width: $screen-xl-min) {
+			display: inline !important;
+		}
+	}
+	.visible-xl-inline-block {
+		@media (min-width: $screen-xl-min) {
+			display: inline-block !important;
+		}
+	}
+
+	@media (min-width: $screen-xl-min) {
+		@include responsive-invisibility('.hidden-xl');
+	}
+
+	
+}

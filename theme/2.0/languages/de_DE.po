@@ -1,0 +1,580 @@
+# Copyright (C) 2017 Jörn Lund
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: _bs v0.0.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-07-04 11:10+0100\n"
+"PO-Revision-Date: 2017-07-04 11:23+0100\n"
+"Last-Translator: Jörn Lund <joern@podpirate.org>\n"
+"Language-Team: \n"
+"Language: de_DE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.1\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c;_nc:4c,1,2;_x:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_ex:1,2c;"
+"esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Textdomain-Support: yes\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: node_modules\n"
+
+#: 404.php:41
+msgid "Oops! That page can&rsquo;t be found."
+msgstr "Huch! Die Seite wurde nicht gefunden."
+
+#: 404.php:45
+msgid ""
+"It looks like nothing was found at this location. Maybe try one of the links "
+"below or a search?"
+msgstr ""
+"Es sieht so aus, als wäre hier nichts zu finden. Vielleicht klappt es mit "
+"einem der Links unten oder einer Suche?"
+
+#: 404.php:53
+msgid "Most Used Categories"
+msgstr "Oft benutzte Kategorien"
+
+#: 404.php:70
+#, php-format
+msgid "Try looking in the monthly archives. %1$s"
+msgstr "Versuche es in den Monats-Archiven. %1$s"
+
+#: comments.php:31
+#, php-format
+msgctxt "comments title"
+msgid "One thought on &ldquo;%2$s&rdquo;"
+msgid_plural "%1$s thoughts on &ldquo;%2$s&rdquo;"
+msgstr[0] "Ein Kommentar zu &ldquo;%2$s&rdquo;"
+msgstr[1] "%1$s Kommentare zu &ldquo;%2$s&rdquo;"
+
+#: comments.php:40 comments.php:61
+msgid "Comment navigation"
+msgstr "Kommentarnavigation"
+
+#: comments.php:43 comments.php:64
+msgid "Older Comments"
+msgstr "Ältere Kommentare"
+
+#: comments.php:44 comments.php:65
+msgid "Newer Comments"
+msgstr "Neuere Kommentare"
+
+#: comments.php:77
+msgid "Comments are closed."
+msgstr "Kommentare sind abgeschaltet"
+
+#: footer.php:19
+msgid "https://wordpress.org/"
+msgstr "https://wordpress.org/"
+
+#: footer.php:19
+#, php-format
+msgid "Proudly powered by %s"
+msgstr "Stolz präsentiert von %s"
+
+#: footer.php:21
+#, php-format
+msgid "Theme: %1$s by %2$s."
+msgstr "Theme: %1$s von %2$s."
+
+#: header.php:25
+msgid "Skip to content"
+msgstr "Weiter zum Inhalt"
+
+#: header.php:34
+msgid "Primary Menu"
+msgstr "Primäres Menü"
+
+#: include/McGuffin/Admin/Settings.php:43
+msgid "OnePager"
+msgstr "OnePager"
+
+#: include/McGuffin/Admin/Settings.php:51
+msgid "Not Found Page"
+msgstr "Nicht-Gefunden-Seite"
+
+#: include/McGuffin/Admin/Settings.php:67
+msgid "Google Maps API-Key"
+msgstr "Google Maps API-Schlüssel"
+
+#: include/McGuffin/Admin/Settings.php:117
+msgid "&mdash; Select &mdash;"
+msgstr "&mdash; Auswählen &mdash;"
+
+#: include/McGuffin/Admin/TinyMce/BigSmall/BigSmall.php:26
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:103
+msgid "Small"
+msgstr "Klein"
+
+#: include/McGuffin/Admin/TinyMce/BigSmall/BigSmall.php:27
+msgid "Big"
+msgstr "Groß"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:51
+msgid "Link style"
+msgstr "Link-Stil"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:54
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:67
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:80
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:93
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:102
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:110
+msgid "Normal"
+msgstr "Normal"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:55
+msgid "Button Default"
+msgstr "Button Standard"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:56
+msgid "Button Primary"
+msgstr "Button Primär"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:57
+msgid "Button Success"
+msgstr "Button Erfolg"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:58
+msgid "Button Info"
+msgstr "Button Info"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:59
+msgid "Button Warning"
+msgstr "Button Warnung"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:60
+msgid "Button Danger"
+msgstr "Button Gefahr"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:64
+msgid "Heading style"
+msgstr "Headline-Stil"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:68
+msgid "H1"
+msgstr "H1"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:69
+msgid "H2"
+msgstr "H2"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:70
+msgid "H3"
+msgstr "H3"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:71
+msgid "H4"
+msgstr "H4"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:72
+msgid "H5"
+msgstr "H5"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:73
+msgid "H6"
+msgstr "H6"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:77
+msgid "Paragraph style"
+msgstr "Absatz-Stil"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:81
+msgid "Lead"
+msgstr "Einleitung"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:82
+msgid "Alert Success"
+msgstr "Erfolgsmeldung"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:83
+msgid "Alert Info"
+msgstr "Info-Meldung"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:84
+msgid "Alert Warning"
+msgstr "Warnmeldung"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:85
+msgid "Alert Danger"
+msgstr "Gefahrenmeldung"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:90
+msgid "List style"
+msgstr "Listen-Stil"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:94
+msgid "Unstyled List"
+msgstr "Ungestylte Liste"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:95
+msgid "Inline List"
+msgstr "Inline-Liste"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:99
+msgid "Horizontal ruler style"
+msgstr "Style Horizontale Linie"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:107
+msgid "Blockquote"
+msgstr "Zitatblock"
+
+#: include/McGuffin/Admin/TinyMce/Bootstrap/Bootstrap.php:111
+msgid "Reverse"
+msgstr "Rückwärts"
+
+#: include/McGuffin/Admin/TinyMce/Clear/Clear.php:26
+msgid "Clear"
+msgstr "Clear"
+
+#: include/McGuffin/Admin/TinyMce/Clear/Clear.php:27
+msgid "Insert Clear"
+msgstr "Clear einfügen"
+
+#: include/McGuffin/Admin/TinyMce/Shy/Shy.php:24
+msgid "Soft Hyphen"
+msgstr "Weiche Trennung"
+
+#: include/McGuffin/Admin/TinyMce/Shy/Shy.php:25
+msgid "Insert Soft Hyphen"
+msgstr "Weiche Trennung einfügen"
+
+#: include/McGuffin/Admin/TinyMce/Shy/Shy.php:26
+msgid "Show Invisibles"
+msgstr "Unsichtbare anzeigen"
+
+#: include/McGuffin/Media/Image.php:19 include/McGuffin/Media/Image.php:26
+#: include/McGuffin/Media/Image.php:33 include/McGuffin/Media/Image.php:41
+#: include/McGuffin/Media/Image.php:48 include/McGuffin/Media/Image.php:55
+msgid "DIN portrait large"
+msgstr "Großes DIN Hochformat"
+
+#: include/McGuffin/Media/Image.php:63
+msgid "TV 16:9"
+msgstr "TV 16:9"
+
+#: include/McGuffin/Media/Image.php:85
+msgid "Cinema"
+msgstr "Kino"
+
+#: include/McGuffin/Media/Slider.php:111
+msgid "Go to project"
+msgstr "Zum Projekt"
+
+#: include/McGuffin/Media/Slider.php:123
+msgid "Previous Slide"
+msgstr "Voriges Bild"
+
+#: include/McGuffin/Media/Slider.php:127
+msgid "Next Slide"
+msgstr "Nächstes Bild"
+
+#: include/McGuffin/Media/Upload.php:17
+msgid "PDFs"
+msgstr "PDFs"
+
+#: include/McGuffin/Media/Upload.php:17
+msgid "Manage PDFs"
+msgstr "PDFs verwalten"
+
+#: include/McGuffin/Media/Upload.php:17 include/McGuffin/Media/Upload.php:18
+#, php-format
+msgid "PDF <span class=\"count\">(%s)</span>"
+msgid_plural "PDFs <span class=\"count\">(%s)</span>"
+msgstr[0] "PDF <span class=\"count\">(%s)</span>"
+msgstr[1] "PDFs <span class=\"count\">(%s)</span>"
+
+#: include/McGuffin/Media/Upload.php:18
+msgid "vCards"
+msgstr "vCards"
+
+#: include/McGuffin/Media/Upload.php:18
+msgid "Manage vCards"
+msgstr "vCards verwalten"
+
+#: include/McGuffin/PostType/PostTypeProject.php:36
+msgctxt "Post Type General Name"
+msgid "Projects"
+msgstr "Projekte"
+
+#: include/McGuffin/PostType/PostTypeProject.php:37
+msgctxt "Post Type Singular Name"
+msgid "Project"
+msgstr "Projekt"
+
+#: include/McGuffin/PostType/PostTypeProject.php:38
+msgid "Projects"
+msgstr "Projekte"
+
+#: include/McGuffin/PostType/PostTypeProject.php:39
+msgid "Parent Item:"
+msgstr "Übergeordnetes Objekt:"
+
+#: include/McGuffin/PostType/PostTypeProject.php:40
+msgid "All Projects"
+msgstr "Alle Projekte"
+
+#: include/McGuffin/PostType/PostTypeProject.php:41
+msgid "View Project"
+msgstr "Projekt ansehen"
+
+#: include/McGuffin/PostType/PostTypeProject.php:42
+msgid "Add New Project"
+msgstr "Neues Projekt hinzuf."
+
+#: include/McGuffin/PostType/PostTypeProject.php:43
+msgid "Add Project"
+msgstr "Projekt hinzuf."
+
+#: include/McGuffin/PostType/PostTypeProject.php:44
+msgid "Edit Project"
+msgstr "Projekt bearbeiten"
+
+#: include/McGuffin/PostType/PostTypeProject.php:45
+msgid "Update Project"
+msgstr "Projekt aktualisieren"
+
+#: include/McGuffin/PostType/PostTypeProject.php:46
+msgid "Search Projects"
+msgstr "Projekte durchsuchen"
+
+#: include/McGuffin/PostType/PostTypeProject.php:47
+msgid "Not found"
+msgstr "Nicht gefunden"
+
+#: include/McGuffin/PostType/PostTypeProject.php:48
+msgid "Not found in Trash"
+msgstr "Nichts im Papierkorb gefunden"
+
+#: include/McGuffin/PostType/PostTypeProject.php:51
+msgid "Project"
+msgstr "Projekt"
+
+#: include/McGuffin/PostType/PostTypeProject.php:52
+msgid "Project Description"
+msgstr "Projektbeschreibung"
+
+#: include/McGuffin/PostType/PostTypeProject.php:78
+msgctxt "taxonomy general name"
+msgid "Categories"
+msgstr "Kategorien"
+
+#: include/McGuffin/PostType/PostTypeProject.php:79
+msgctxt "taxonomy singular name"
+msgid "Category"
+msgstr "Kategorie"
+
+#: include/McGuffin/PostType/PostTypeProject.php:80
+msgid "Search Categories"
+msgstr "Kategoerien durchsuchen"
+
+#: include/McGuffin/PostType/PostTypeProject.php:81
+msgid "All Categories"
+msgstr "Alle Kategorien"
+
+#: include/McGuffin/PostType/PostTypeProject.php:82
+msgid "Parent Category"
+msgstr "Übergeordnete Kategorie"
+
+#: include/McGuffin/PostType/PostTypeProject.php:83
+msgid "Parent Category:"
+msgstr "Übergeordnete Kategorie:"
+
+#: include/McGuffin/PostType/PostTypeProject.php:84
+msgid "Edit Category"
+msgstr "Kategorie bearbeiten"
+
+#: include/McGuffin/PostType/PostTypeProject.php:85
+msgid "Update Category"
+msgstr "Kategorie aktualisieren"
+
+#: include/McGuffin/PostType/PostTypeProject.php:86
+msgid "Add New Category"
+msgstr "Neue Kategorie hinzuf."
+
+#: include/McGuffin/PostType/PostTypeProject.php:87
+msgid "New Category"
+msgstr "Neue Kategorie"
+
+#: include/McGuffin/PostType/PostTypeProject.php:88
+msgid "Categories"
+msgstr "Kategorien"
+
+#: include/McGuffin/Theme.php:90
+msgid "Social Menu"
+msgstr "Social-Menü"
+
+#: include/McGuffin/Theme.php:91
+msgid "Contact Menu (Mobile)"
+msgstr "Kontaktmenü"
+
+#: include/McGuffin/Theme.php:92
+msgid "Footer Menu"
+msgstr "Footer-Menü"
+
+#: include/McGuffin/WPGridbuilder/Gridbuilder.php:59
+msgid "Create menu entry"
+msgstr "Menüeintrag erstellen"
+
+#: include/McGuffin/WPGridbuilder/Gridbuilder.php:65
+msgid "Menu-Title"
+msgstr "Menü-Name"
+
+#: include/McGuffin/WPGridbuilder/Gridbuilder.php:71
+msgid "Parent Menu"
+msgstr "Übergeordnete Menü"
+
+#: include/McGuffin/Widgets/EditorWidget.php:17
+msgid "Editor"
+msgstr "Editor"
+
+#: include/McGuffin/Widgets/EditorWidget.php:18
+msgid "Rich text editor"
+msgstr "Richt-Text-Editor"
+
+#: include/McGuffin/Widgets/EditorWidget.php:22
+msgid "Title"
+msgstr "Titel"
+
+#: include/McGuffin/Widgets/EditorWidget.php:26
+msgid "Content"
+msgstr "Inhalt"
+
+#: include/McGuffin/Widgets/Widget.php:73
+msgid "Menu"
+msgstr "Menü"
+
+#: include/McGuffin/Widgets/Widget.php:74
+msgid "Admin Site"
+msgstr "Site"
+
+#: include/McGuffin/Widgets/Widget.php:75
+msgid "Dashboard"
+msgstr "Dashboard"
+
+#: include/McGuffin/Widgets/Widget.php:76
+msgid "Admin Post"
+msgstr "Beitrag"
+
+#: include/McGuffin/Widgets/Widget.php:77
+msgid "Admin Media"
+msgstr "Medien"
+
+#: include/McGuffin/Widgets/Widget.php:348
+msgid "Select Media"
+msgstr "Medien auswählen"
+
+#: include/McGuffin/Widgets/Widget.php:363
+msgid "Select Upload"
+msgstr "Uploads auswählen"
+
+#: include/McGuffin/Widgets/Widget.php:364
+msgid "Done"
+msgstr "Fertig"
+
+#: include/McGuffin/Widgets/Widget.php:403
+msgid "Remove"
+msgstr "Entfernen"
+
+#: include/McGuffin/Widgets/Widget.php:450
+msgid "Grid View"
+msgstr "Grid-Ansicht"
+
+#: include/McGuffin/Widgets/Widget.php:453
+msgid "List View"
+msgstr "Listenansicht"
+
+#: include/McGuffin/Widgets/Widgets.php:21
+msgid "Footer"
+msgstr "Footer"
+
+#: include/template-tags.php:29
+#, php-format
+msgctxt "post date"
+msgid "Posted on %s"
+msgstr "Veröffentlicht am %s"
+
+#: include/template-tags.php:34
+#, php-format
+msgctxt "post author"
+msgid "by %s"
+msgstr "von %s"
+
+#: include/template-tags.php:51 include/template-tags.php:57
+msgid ", "
+msgstr ", "
+
+#: include/template-tags.php:53
+#, php-format
+msgid "Posted in %1$s"
+msgstr "Abgelegt in %1$s"
+
+#: include/template-tags.php:59
+#, php-format
+msgid "Tagged %1$s"
+msgstr "Schlagworte %1$s"
+
+#: include/template-tags.php:65
+msgid "Leave a comment"
+msgstr "Schreibe einen Kommentar"
+
+#: include/template-tags.php:65
+msgid "1 Comment"
+msgstr "1 Kommentar"
+
+#: include/template-tags.php:65
+msgid "% Comments"
+msgstr "% Kommentare"
+
+#: include/template-tags.php:69 template-parts/content-page.php:28
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: search.php:18
+#, php-format
+msgid "Search Results for: %s"
+msgstr "Suchergebnis für: %s"
+
+#: template-parts/content-none.php:14
+msgid "Nothing Found"
+msgstr "Nichts gefunden"
+
+#: template-parts/content-none.php:20
+#, php-format
+msgid ""
+"Ready to publish your first post? <a href=\"%1$s\">Get started here</a>."
+msgstr ""
+"Bereit den ersten Beitrag zu schreiben? <a href=\"%1$s\">Hier geht’s los</a>."
+
+#: template-parts/content-none.php:24
+msgid ""
+"Sorry, but nothing matched your search terms. Please try again with some "
+"different keywords."
+msgstr ""
+"Kein Ergebnis für Deine Suchbegriffe. Bitte versuche es mit einem anderen "
+"Begriff."
+
+#: template-parts/content-none.php:29
+msgid ""
+"It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
+"searching can help."
+msgstr ""
+"Es sieht so aus, als wäre hier nichts zu finden. Vielleicht hilft eine Suche?"
+
+#: template-parts/content-page.php:21 template-parts/content-single.php:25
+#: template-parts/content.php:34
+msgid "Pages:"
+msgstr "Seiten:"
+
+#: template-parts/content.php:27
+#, php-format
+msgid "Continue reading %s <span class=\"meta-nav\">&rarr;</span>"
+msgstr "%s weiterlesen <span class=\"meta-nav\">&rarr;</span>"
+
+#~ msgid "Menü-Titel"
+#~ msgstr "Menü-Titel"

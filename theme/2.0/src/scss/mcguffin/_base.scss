@@ -1,0 +1,29 @@
+
+/* hide / show non-js / js-only elements */
+html {
+	&.no-js .js,
+	&.js .no-js {
+		display:none;
+	}
+}
+
+/* hide / show no-touch / touch-only elements */
+html {
+	&.no-touch .touch,
+	&.touch .no-touch,
+	&.no-touchscreen .touchscreen,
+	&.touchscreen .no-touchscreen {
+		display:none !important; 
+	}
+}
+
+
+/* vertical centering */
+.vcenter {
+	@include vcenter();
+}
+
+.hcenter {
+	margin-left:auto;
+	margin-right:auto;
+}

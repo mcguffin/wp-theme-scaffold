@@ -1,0 +1,60 @@
+
+
+/*--------------------------------------------------------------
+# Site variables
+--------------------------------------------------------------*/
+@import "variables/variables";
+
+@import "bootstrap-variables";
+
+/*--------------------------------------------------------------
+# Fonts
+--------------------------------------------------------------*/
+@import "fonts/fonts";
+
+/*--------------------------------------------------------------
+# Bootstrap
+--------------------------------------------------------------*/
+// Core variables and mixins
+@import "bootstrap/bootstrap/variables";
+@import "bootstrap/bootstrap/mixins";
+
+// Reset and dependencies
+@import "bootstrap/bootstrap/normalize";
+
+// Core CSS
+@import "bootstrap/bootstrap/scaffolding";
+@import "bootstrap/bootstrap/type";
+@import "bootstrap/bootstrap/code";
+@import "bootstrap/bootstrap/tables";
+@import "bootstrap/bootstrap/buttons";
+
+// Components
+@import "bootstrap/bootstrap/labels";
+@import "bootstrap/bootstrap/badges";
+@import "bootstrap/bootstrap/thumbnails";
+@import "bootstrap/bootstrap/alerts";
+@import "bootstrap/bootstrap/responsive-embed";
+
+/*--------------------------------------------------------------
+# Bootstrap Additions
+--------------------------------------------------------------*/
+@import "bootstrap-additions/bootstrap-additions";
+
+
+/*--------------------------------------------------------------
+# WP-Styles
+--------------------------------------------------------------*/
+@import "wp/wp";
+
+/*--------------------------------------------------------------
+# McGuffin extensions
+--------------------------------------------------------------*/
+@import "mcguffin/mcguffin";
+
+@import 'project/typography';
+
+
+#tinymce {
+	padding:10px;
+}

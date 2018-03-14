@@ -1,0 +1,34 @@
+
+$aspect-names:  '',   '',   '',   '',   '',   '',    'cinema', 'din-landscape', 'din-portrait';
+$aspect-w:       1,    2,    3,    3,    4,    16,    2.35,    sqrt(2),         1;
+$aspect-h:       1,    1,    1,    2,    3,     9,    1,       1,               sqrt(2);
+
+$aspect-screen-sizes: (
+	sm: $screen-sm-min, 
+	md: $screen-md-min, 
+	lg: $screen-lg-min,
+);
+
+// boxes
+.fixed-aspectratio {
+	@include fixedaspect();
+}
+@for $i from 1 through length($aspect-names) {
+	$name: nth($aspect-names, $i);
+	$w: nth($aspect-w, $i);
+	$h: nth($aspect-h, $i);
+	@include aspectratio($w, $h, $name);
+
+	@each $size-name, $screen-size in $aspect-screen-sizes {
+		$aspect-name: ".fixed-aspectratio-#{$size-name}";
+		@if $name == '' {
+			$name: "#{$w}x#{$h}";
+		}
+		@media (min-width: $screen-size) {
+			#{$aspect-name} {
+				@include fixedaspect();
+			}
+			@include aspectratio($w,$h, "#{$size-name}-#{$name}");
+		}
+	}
+}
