@@ -1,7 +1,7 @@
 /*!
-Theme Name: {{theme_name}}
+Theme Name: Eichhofstrasse 14
 Theme URI: https://github.com/mcguffin/wp-theme-scaffold
-Author: {{theme_author}}
+Author: Jörn Lund
 Author URI: https://github.com/mcguffin
 Description: This is a blank WordPress Theme based on Twitter Bootstrap.
 Version: 1.0.0
@@ -9,7 +9,7 @@ License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: mcguffin
 
-&copy {{this_year}} {{theme_author}}
+&copy 2018 Jörn Lund
 
 This theme, like WordPress, is licensed under the GPL.
 Use it to make something cool, have fun, and share what you've learned with others.
@@ -21,7 +21,7 @@ Use it to make something cool, have fun, and share what you've learned with othe
 --------------------------------------------------------------*/
 @import "variables/variables";
 
-@import "bootstrap-variables";
+//@import "bootstrap-variables";
 
 /*--------------------------------------------------------------
 # Fonts
@@ -31,22 +31,20 @@ Use it to make something cool, have fun, and share what you've learned with othe
 /*--------------------------------------------------------------
 # Bootstrap
 --------------------------------------------------------------*/
-@import "bootstrap/bootstrap";
-@import "bootstrap-additions/bootstrap-additions";
+@import "../../node_modules/bootstrap/scss/bootstrap";
 
 
 /*--------------------------------------------------------------
 # McGuffin extensions
 --------------------------------------------------------------*/
-@import "mcguffin/mcguffin";
+//@import "mcguffin/mcguffin";
 
 /*--------------------------------------------------------------
 # WP-Styles
 --------------------------------------------------------------*/
-@import "wp/wp";
+//@import "wp/wp";
 
 /*--------------------------------------------------------------
 # Project stuff
 --------------------------------------------------------------*/
-@import "project/project";
-
+//@import "project/project";

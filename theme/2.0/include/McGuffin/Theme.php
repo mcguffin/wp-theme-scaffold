@@ -124,7 +124,7 @@ class Theme extends Core\Singleton {
 		wp_enqueue_style( '{{theme_slug_dash}}-style', get_stylesheet_uri(), array( '{{theme_slug_dash}}-fonts' ), $version );
 
 		wp_register_script( 'modernizr',
-			$this->getAssetUrl( '/js/vendor/modernizr.custom.js' ),
+			$this->getAssetUrl( '/js/vendor/modernizr-custom.js' ),
 			array(),
 			$version,
 			true
