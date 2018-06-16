@@ -43,9 +43,8 @@
  *
  *	Changelog:
  *	----------
- *	1.1.0 - Add wildcard event
- *	      - Add Prefix param
- *	      - trigger
+ *	1.1.0 - Add Prefix param
+ *	      - Trigger global 'viewport'
  *	1.0.0 initial
  */
 
@@ -141,7 +140,7 @@
 					$el.data( prefix + '-state', state );
 					$el.data( prefix + '-substate', substate );
 
-					if ( ! stateChange || ! substateChange ) {
+					if ( ! stateChange && ! substateChange ) {
 						return;
 					}
 
@@ -149,7 +148,6 @@
 						type		: prefix,
 						oldState	: prevState,
 					}) );
-
 					if ( stateChange ) {
 						$el.trigger( new $.Event({
 							type		: prefix + ':' + state,

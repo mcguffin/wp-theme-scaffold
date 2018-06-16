@@ -34,7 +34,7 @@ class Theme extends Core\Singleton {
 
 		add_filter( 'kses_allowed_protocols', array( $this, 'add_whatsapp_protocol' ) );
 
-		add_filter('acf/fields/google_map/api', array( $this, 'google_maps_api_key' ) );
+		add_filter( 'acf/fields/google_map/api', array( $this, 'google_maps_api_key' ) );
 
 	}
 
