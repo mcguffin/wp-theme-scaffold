@@ -1,6 +1,6 @@
 {
-  "name": "_bs",
-  "version": "1.0.1",
+  "name": "wp-theme-scaffold",
+  "version": "2.0.0",
   "description": "Eichhofstrasse 14",
   "main": "js/admin/edit.min.js",
   "scripts": {
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mcguffin/_bs.git"
+    "url": "git+https://github.com/mcguffin/wp-theme-scaffold.git"
   },
   "author": "Jörn Lund",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mcguffin/_bs/issues"
+    "url": "https://github.com/mcguffin/wp-theme-scaffold/issues"
   },
-  "homepage": "https://github.com/mcguffin/_bs#readme",
+  "homepage": "https://github.com/mcguffin/wp-theme-scaffold#readme",
   "devDependencies": {
     "bootstrap": "^4.0.0",
     "gulp": "^3.9.1",
@@ -23,6 +23,7 @@
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.1",
     "gulp-fontello-import": "0.0.1",
+	"gulp-modernizr": "^2.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-sass": "^3.0.0",
