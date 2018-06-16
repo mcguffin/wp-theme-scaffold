@@ -29,8 +29,7 @@ Deploying:
 These directories only exist for development purposes and should not be included in the
 production system:
 
- - `sources/`
- - `sass/`
+ - `src/`
 
 ToDo:
 -----

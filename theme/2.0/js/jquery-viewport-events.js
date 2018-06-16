@@ -1,9 +1,9 @@
 /**
  *	Viewport Events
  *	===============
- *	Version 1.0.0
+ *	Version 1.1.0
  *
- *	(c) 2018 Jörn Lund 
+ *	(c) 2018 Jörn Lund
  *	https://github.com/mcguffin
  *
  *	Functions:
@@ -31,16 +31,22 @@
  *	<script>
  *		// make '.thing' trigger viewport events
  *		$('.thing').viewportEvents();
+ *		$('.thing').viewportEvents( 60, '');
  *
  *
  *		// triggered when '.thing' enters viewport
  *		$('.thing').on('viewport:in:enter',function(e) {
  *			console.log( e.oldState );
+ *			console.log( $(this).data('viewport-state') );
  *		});
  *	</script>
  *
- *
- *
+ *	Changelog:
+ *	----------
+ *	1.1.0 - Add wildcard event
+ *	      - Add Prefix param
+ *	      - trigger
+ *	1.0.0 initial
  */
 
 (function($) {
@@ -66,12 +72,19 @@
 		if ( elTop > viewportBottom ) {
 			return 'out:below';
 		}
+		try {
+			elHeight = $el[0].getBoundingClientRect().height;
+		} catch(err) {
+			elHeight = $el.height(); // always INT
+		}
+		elBottom = Math.floor( elTop + elHeight );
 
-		elHeight = $el.height();
-		elBottom = elTop + elHeight;
+		elTop = Math.floor( elTop );
+		elHeight = Math.floor( elHeight );
+		elBottom = Math.floor( elBottom );
 
 		// early return
-		if ( elBottom < viewportTop ) {
+		if ( elBottom <= viewportTop ) {
 			return 'out:above';
 		}
 
@@ -107,9 +120,10 @@
 	}
 
 	$.fn.extend({
-		viewportEvents: function(customOffset) {
+		viewportEvents: function( customOffset, prefix ) {
 			var self = this;
-			customOffset = customOffset || 0;
+			var customOffset = customOffset || 0;
+			var prefix = prefix || 'viewport';
 
 			init();
 
@@ -118,22 +132,33 @@
 				self.each( function(i,el) {
 					var $el = $(el),
 						substate = getViewportState( $el, customOffset ),
-						prevSubstate = $el.data('viewport-substate'),
+						prevSubstate = $el.data( prefix + '-substate'),
 						state = substate.substr( 0, substate.indexOf(':') );
-						prevState = $el.data('viewport-state');
+						prevState = $el.data( prefix + '-state'),
+						stateChange = state != prevState,
+						substateChange = substate != prevSubstate;
 
-					$el.data('viewport-state', state );
-					$el.data('viewport-substate', substate );
+					$el.data( prefix + '-state', state );
+					$el.data( prefix + '-substate', substate );
 
-					if ( state != prevState ) {
+					if ( ! stateChange || ! substateChange ) {
+						return;
+					}
+
+					$el.trigger( new $.Event({
+						type		: prefix,
+						oldState	: prevState,
+					}) );
+
+					if ( stateChange ) {
 						$el.trigger( new $.Event({
-							type		: 'viewport:' + state,
+							type		: prefix + ':' + state,
 							oldState	: prevState,
 						}) );
 					}
-					if ( substate != prevSubstate ) {
+					if ( substateChange ) {
 						$el.trigger( new $.Event({
-							type		: 'viewport:' + substate,
+							type		: prefix + ':' + substate,
 							oldState	: prevSubstate,
 						}) );
 					}
