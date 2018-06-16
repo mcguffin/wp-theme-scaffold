@@ -9,7 +9,7 @@ from pprint import pprint
 # 	return re.sub(r'(?i)^(WP|WordPress\s?)','',str).strip()
 #
 def slugify(str,separator='_'):
-	return re.sub(r'[-_\s]',separator,str.strip()).lower()
+	return re.sub(r'[^\w\d]+',separator,str.strip()).lower()
 
 def camelcase( str ):
 	str = re.sub(r'[-_\s]',' ', str.strip() )
