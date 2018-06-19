@@ -9,3 +9,4 @@
 .sass-cache/
 .travis.yml
 codesniffer.ruleset.xml
+node_modules/

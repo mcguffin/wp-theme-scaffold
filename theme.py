@@ -65,7 +65,7 @@ class wp_theme:
 		f.close()
 		ignore = [x.replace('\n','') for x in ignore if len(x) > 0 and x[0] != '#']
 		ignore.append('.git/')
-		ignore.append('.gitignore')
+#		ignore.append('.gitignore')
 		subst = ['php','md','scss','js','css','txt','json']
 #		print ignore
 		for root, subdirs, files in os.walk(self.theme_source):

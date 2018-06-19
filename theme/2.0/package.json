@@ -1,21 +1,21 @@
 {
-  "name": "wp-theme-scaffold",
-  "version": "2.0.0",
-  "description": "Eichhofstrasse 14",
+  "name": "{{theme_slug_dash}}",
+  "version": "0.0.1",
+  "description": "{{theme_name}} is a wordpress theme",
   "main": "js/admin/edit.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mcguffin/wp-theme-scaffold.git"
+    "url": "git+https://github.com/mcguffin/{{theme_slug_dash}}.git"
   },
   "author": "Jörn Lund",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mcguffin/wp-theme-scaffold/issues"
+    "url": "https://github.com/mcguffin/{{theme_slug_dash}}/issues"
   },
-  "homepage": "https://github.com/mcguffin/wp-theme-scaffold#readme",
+  "homepage": "https://github.com/mcguffin/{{theme_slug_dash}}#readme",
   "devDependencies": {
     "bootstrap": "^4.0.0",
     "gulp": "^3.9.1",

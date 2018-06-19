@@ -3,6 +3,9 @@
 
 This is a blank WordPress Theme.
 
+ - Bootstrap 3.3.7
+ - Gulp
+
 Components:
  - [ ] Scripts
 	 - [ ] aria-expanded
