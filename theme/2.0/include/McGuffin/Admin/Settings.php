@@ -26,7 +26,7 @@ class Settings extends Core\Singleton {
 
 		// add default options
 		add_option( '{{theme_slug}}_404_page', 0 );
-		add_option( '{{theme_slug}}_google_maps_api_key', '' );
+		add_option( 'mcguffin_google_maps_api_key', '' );
 
 		if ( function_exists( 'acf_add_options_sub_page' ) ) {
 			acf_add_options_sub_page(array(
@@ -70,7 +70,7 @@ class Settings extends Core\Singleton {
 
 
 		// ... and here
-		$option_name = '{{theme_slug}}_google_maps_api_key';
+		$option_name = 'mcguffin_google_maps_api_key';
 		register_setting( $this->optionset , $option_name, 'sanitize_text_field' );
 
 		add_settings_field(

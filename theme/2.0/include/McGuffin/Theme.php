@@ -57,23 +57,116 @@ class Theme extends Core\Singleton {
 
 		load_theme_textdomain( 'mcguffin', get_template_directory() . '/languages' );
 
-		// Add default posts and comments RSS feed links to head.
+		//*
+		add_theme_support( 'post-formats', array(
+			'aside',
+			'gallery',
+			'link',
+			'image',
+			'quote',
+			'status',
+			'video',
+			'audio',
+			'chat',
+		) );
+		/*/
+		remove_theme_support('post-formats');
+		//*/
+
+		//*
+		add_theme_support( 'post-thumbnails', array(
+			'post',
+			'page',
+		) );
+		/*/
+		remove_theme_support( 'post-thumbnails' );
+		//*/
+
+		//*
+		add_theme_support( 'custom-background', array(
+			'default-image'				=> '',
+			'default-preset'			=> 'default',
+			'default-position-x'		=> 'left',
+			'default-position-y'		=> 'top',
+			'default-size'				=> 'auto',
+			'default-repeat'			=> 'repeat',
+			'default-attachment'		=> 'scroll',
+			'default-color'				=> '',
+			'wp-head-callback'			=> '_custom_background_cb',
+			'admin-head-callback'		=> '',
+			'admin-preview-callback'	=> '',
+		) );
+		/*/
+		remove_theme_support( 'custom-background' );
+		//*/
+
+		//*
+		add_theme_support( 'custom-header', array(
+			'default-image'				=> '',
+			'random-default'			=> false,
+			'width'						=> 0,
+			'height'					=> 0,
+			'flex-height'				=> false,
+			'flex-width'				=> false,
+			'default-text-color'		=> '',
+			'header-text'				=> true,
+			'uploads'					=> true,
+			'wp-head-callback'			=> '',
+			'admin-head-callback'		=> '',
+			'admin-preview-callback'	=> '',
+			'video'						=> false,
+			'video-active-callback'		=> 'is_front_page',
+		) );
+		/*/
+		remove_theme_support( 'custom-header' );
+		//*/
+
+		//*
+		add_theme_support( 'custom-logo', array(
+			'height'		=> 100,
+			'width'			=> 400,
+			'flex-height'	=> true,
+			'flex-width'	=> true,
+			'header-text'	=> array( 'site-title', 'site-description' ),
+		) );
+		/*/
+		remove_theme_support( 'custom-logo' );
+		//*/
+
+		//*
 		add_theme_support( 'automatic-feed-links' );
+		/*/
+		remove_theme_support( 'automatic-feed-links' );
+		//*/
 
-		/*
-		 * Let WordPress manage the document title.
-		 * By adding theme support, we declare that this theme does not use a
-		 * hard-coded <title> tag in the document head, and expect WordPress to
-		 * provide it for us.
-		 */
+
+		//*
+		add_theme_support( 'html5', array(
+			'search-form',
+			'comment-form',
+			'comment-list',
+			'gallery',
+			'caption',
+		) );
+		/*/
+		remove_theme_support('html5');
+		//*/
+
+
+
+
+		//*
 		add_theme_support( 'title-tag' );
+		/*/
+		remove_theme_support( 'title-tag' );
+		//*/
 
-		/*
-		 * Enable support for Post Thumbnails on posts and pages.
-		 *
-		 * @link http://codex.wordpress.org/Function_Reference/add_theme_support#Post_Thumbnails
-		 */
-		add_theme_support( 'post-thumbnails' );
+		//*
+		add_theme_support( 'customize-selective-refresh-widgets' );
+		/*/
+		remove_theme_support( 'customize-selective-refresh-widgets' );
+		//*/
+
 
 		/*
 		 * Editor Style
@@ -84,33 +177,8 @@ class Theme extends Core\Singleton {
 
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus( array(
-			'social'	=> esc_html__( 'Social Menu', 'mcguffin' ),
-			'contact'	=> esc_html__( 'Contact Menu (Mobile)', 'mcguffin' ),
+			'main'		=> esc_html__( 'Main Menu', 'mcguffin' ),
 			'footer'	=> esc_html__( 'Footer Menu', 'mcguffin' ),
-		) );
-
-		/*
-		 * Switch default core markup for search form, comment form, and comments
-		 * to output valid HTML5.
-		 */
-		add_theme_support( 'html5', array(
-			'search-form',
-			'comment-form',
-			'comment-list',
-			'gallery',
-			'caption',
-		) );
-
-		/*
-		 * Enable support for Post Formats.
-		 * See http://codex.wordpress.org/Post_Formats
-		 */
-		add_theme_support( 'post-formats', array(
-			'aside',
-			'image',
-			'video',
-			'quote',
-			'link',
 		) );
 	}
 
@@ -172,7 +240,7 @@ class Theme extends Core\Singleton {
 			true
 		);
 
-		if ( $gm_api_key = get_option('{{theme_slug}}_google_maps_api_key') ) {
+		if ( $gm_api_key = get_option('mcguffin_google_maps_api_key') ) {
 			wp_register_script( 'google-maps-js-api',
 				'https://maps.googleapis.com/maps/api/js?v=3&key='. $gm_api_key,
 				array( 'jquery' ),
