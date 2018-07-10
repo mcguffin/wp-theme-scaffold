@@ -30,12 +30,33 @@ class Theme extends Core\Singleton {
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 
 		add_action( 'after_setup_theme', array( $this, 'setup' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ), 9 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		add_filter( 'kses_allowed_protocols', array( $this, 'add_whatsapp_protocol' ) );
 
 		add_filter( 'acf/fields/google_map/api', array( $this, 'google_maps_api_key' ) );
+		add_action( 'wp_head', array( $this, 'print_favicons' ) );
 
+	}
+
+	public function version() {
+		return wp_get_theme()->Version;
+	}
+
+
+	public function print_favicons() {
+		?>
+			<link rel="apple-touch-icon" sizes="180x180" href="<?php echo get_template_directory_uri(); ?>/favicons/apple-touch-icon.png">
+			<link rel="icon" type="image/png" sizes="32x32" href="<?php echo get_template_directory_uri(); ?>/favicons/favicon-32x32.png">
+			<link rel="icon" type="image/png" sizes="16x16" href="<?php echo get_template_directory_uri(); ?>/favicons/favicon-16x16.png">
+			<link rel="manifest" href="<?php echo get_template_directory_uri(); ?>/favicons/site.webmanifest">
+			<link rel="mask-icon" href="<?php echo get_template_directory_uri(); ?>/favicons/safari-pinned-tab.svg" color="#5bbad5">
+			<link rel="shortcut icon" href="favicon.ico">
+			<meta name="msapplication-TileColor" content="#da532c">
+			<meta name="msapplication-config" content="<?php echo get_template_directory_uri(); ?>/favicons/browserconfig.xml">
+			<meta name="theme-color" content="#ffffff">
+		<?php
 	}
 
 	public function admin_init() {
@@ -152,8 +173,23 @@ class Theme extends Core\Singleton {
 		remove_theme_support('html5');
 		//*/
 
-
-
+		//*
+		add_theme_support( 'starter-content', array(
+		    'posts' => array(
+		        'about' => array(
+		            // Use a page template with the predefined about page
+		            'template' => 'sample-page-template.php',
+		        ),
+		        'custom' => array(
+		            'post_type' => 'post',
+		            'post_title' => 'Custom Post',
+		            'thumbnail' => '{{featured-image-logo}}',
+		        ),
+		    ),
+		);
+		/*/
+		remove_theme_support( 'starter-content' );
+		//*/
 
 		//*
 		add_theme_support( 'title-tag' );
@@ -183,13 +219,13 @@ class Theme extends Core\Singleton {
 	}
 
 
-	function enqueue_scripts() {
+	function register_assets() {
 
 		$version	= wp_get_theme()->Version;
 		$bs_version	= '3.3.7';
 
-		wp_enqueue_style( '{{theme_slug_dash}}-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,700italic', array() );
-		wp_enqueue_style( '{{theme_slug_dash}}-style', get_stylesheet_uri(), array( '{{theme_slug_dash}}-fonts' ), $version );
+		wp_register_style( '{{theme_slug_dash}}-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,700italic', array() );
+		wp_register_style( '{{theme_slug_dash}}-style', get_stylesheet_uri(), array( '{{theme_slug_dash}}-fonts' ), $version );
 
 		wp_register_script( 'modernizr',
 			$this->getAssetUrl( '/js/vendor/modernizr-custom.js' ),
@@ -263,6 +299,13 @@ class Theme extends Core\Singleton {
 
 		wp_enqueue_script( '{{theme_slug_dash}}', 	$this->getAssetUrl( '/js/project.js' ), $deps, $version, true );
 	}
+
+	function enqueue_assets() {
+
+		wp_enqueue_style( '{{theme_slug_dash}}' );
+		wp_enqueue_script( '{{theme_slug_dash}}' );
+	}
+
 
 	public function getAssetUrl( $url ) {
 		return trailingslashit( get_template_directory_uri() ) . $url;
