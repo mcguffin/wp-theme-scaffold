@@ -26,6 +26,8 @@ class Theme extends Core\Singleton {
 		Media\SVG::instance();
 		Media\Upload::instance();
 
+		NavMenu\NavMenu::instance();
+
 
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 
@@ -186,7 +188,7 @@ class Theme extends Core\Singleton {
 		            'thumbnail' => '{{featured-image-logo}}',
 		        ),
 		    ),
-		);
+		));
 		/*/
 		remove_theme_support( 'starter-content' );
 		//*/
@@ -211,11 +213,6 @@ class Theme extends Core\Singleton {
 		 */
 		add_editor_style();
 
-		// This theme uses wp_nav_menu() in one location.
-		register_nav_menus( array(
-			'main'		=> esc_html__( 'Main Menu', 'mcguffin' ),
-			'footer'	=> esc_html__( 'Footer Menu', 'mcguffin' ),
-		) );
 	}
 
 
