@@ -215,8 +215,8 @@ class Theme extends Core\Singleton {
 		$version	= wp_get_theme()->Version;
 		$bs_version	= '3.3.7';
 
-		wp_register_style( '{{theme_slug_dash}}-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,700italic', array() );
-		wp_register_style( '{{theme_slug_dash}}-style', get_stylesheet_uri(), array( '{{theme_slug_dash}}-fonts' ), $version );
+		// wp_register_style( '{{theme_slug_dash}}-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,700italic', array() );
+		wp_register_style( '{{theme_slug_dash}}', get_stylesheet_uri(), array( ), $version );
 
 		wp_register_script( 'modernizr',
 			$this->getAssetUrl( '/js/vendor/modernizr-custom.js' ),
