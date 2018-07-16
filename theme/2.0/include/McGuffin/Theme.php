@@ -37,7 +37,6 @@ class Theme extends Core\Singleton {
 
 		add_filter( 'kses_allowed_protocols', array( $this, 'add_whatsapp_protocol' ) );
 
-		add_filter( 'acf/fields/google_map/api', array( $this, 'google_maps_api_key' ) );
 		add_action( 'wp_head', array( $this, 'print_favicons' ) );
 
 	}
@@ -62,11 +61,6 @@ class Theme extends Core\Singleton {
 	}
 
 	public function admin_init() {
-	}
-
-	public function google_maps_api_key( $api = null ) {
-		$api['key'] = get_option('{{theme_slug}}_google_maps_api_key');
-		return $api;
 	}
 
 
