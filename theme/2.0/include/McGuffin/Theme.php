@@ -33,7 +33,7 @@ class Theme extends Core\Singleton {
 
 		add_action( 'after_setup_theme', array( $this, 'setup' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ), 9 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 
 		add_filter( 'kses_allowed_protocols', array( $this, 'add_whatsapp_protocol' ) );
 
@@ -274,6 +274,17 @@ class Theme extends Core\Singleton {
 				$version,
 				true
 			);
+			wp_register_script( 'mcguffin-map',
+				$this->getAssetUrl( '/js/mcguffin-map.js' ),
+				array( 'jquery', 'google-maps-js-api' ),
+				$version,
+				true
+			);
+			wp_localize_script( 'mcguffin-map', 'mcguffin_map', array(
+				'styles'		=> json_decode( file_get_contents( $this->getAssetPath( 'js/map/style.json' ) ) ),
+				'markerImage'	=> $this->getAssetUrl( 'js/map/marker.svg' ),
+			) );
+			$deps[] = 'mcguffin-map';
 		}
 
 		$deps = array(
