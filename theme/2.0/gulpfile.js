@@ -106,7 +106,7 @@ gulp.task( 'scss',	function() {
         	sass( sassOptions )
         	.on('error', sass.logError)
 		)
-        .pipe( autoprefixer( { browsers: ['last 2 versions'] } ) )
+        .pipe( autoprefixer( { browsers: ['last 3 versions'] } ) )
 		.pipe( sourcemaps.write( './' ) )
 		.pipe( gulp.dest('./'));
 });
