@@ -1,73 +1,84 @@
 var autoprefixer	= require('gulp-autoprefixer');
-var gulp			= require('gulp');
-var concat			= require('gulp-concat');
-var uglify			= require('gulp-uglify');
-var sass			= require('gulp-sass');
-var sourcemaps		= require('gulp-sourcemaps');
-var rename			= require('gulp-rename');
-var importer		= require('gulp-fontello-import');
-var replace			= require('gulp-replace');
-var source			= require('vinyl-source-stream');
+var changeCase		= require('change-case');
 var clean			= require('gulp-clean');
-var runSequence		= require('run-sequence');
+var concat			= require('gulp-concat');
+var fs				= require('fs');
+var gulp			= require('gulp');
+var importer		= require('gulp-fontello-import');
 var nodeSass		= require('node-sass');
+var path			= require('path');
+var rename			= require('gulp-rename');
+var replace			= require('gulp-replace');
+var runSequence		= require('run-sequence');
+var sass			= require('gulp-sass');
+var source			= require('vinyl-source-stream');
+var sourcemaps		= require('gulp-sourcemaps');
+var ttf2woff		= require('gulp-ttf2woff');
+var ttf2woff2		= require('gulp-ttf2woff2');
+var uglify			= require('gulp-uglify');
 
-var path = {
-	styles	: ['./src/scss/style.scss','./src/scss/editor-style.scss'],
-	tmp		: './src/tmp/',
-};
 
-var sassOptions = {
-	outputStyle: 'compressed',
-	precision: 8,
-	stopOnError: true,
-	functions: {
-		'base64Encode($string)': function($string) {
-			var buffer = new Buffer( $string.getValue() );
-			return nodeSass.types.String( buffer.toString('base64') );
+var config = {
+	path	: {
+		styles	: ['./src/scss/style.scss','./src/scss/editor-style.scss'],
+		tmp		: './src/tmp/',
+	},
+	scss	: {
+		outputStyle: 'compressed',
+		precision: 8,
+		stopOnError: true,
+		functions: {
+			'base64Encode($string)': function($string) {
+				var buffer = new Buffer( $string.getValue() );
+				return nodeSass.types.String( buffer.toString('base64') );
+			}
 		}
+	},
+	fontello	: {
+		sourceDir			: './src/icons/',
+		sourceConfigFile	: 'config.json',
+		configFile			: 'config-generated.json',
+//		fontDest			: './fonts/',
+//		scssDest			: './src/scss/fonts/',
+	},
+	fonts		: {
+		fontDest	:	'./fonts/',
+		scssDest	:	'./src/scss/fonts/',
 	}
+}
 
-};
 
 
-// Fontello: settings object
-var fontello = {
-	sourceDir			: './src/icons/',
-	sourceConfigFile	: 'config.json',
-	configFile			: 'config-generated.json',
-	fontDest			: './fonts/fontello/',
-	scssDest			: './src/scss/fonts/',
-};
+
 
 // Fontello: copy original fontello config
 gulp.task( 'fontello-config', function(cb) {
-	return gulp.src( fontello.sourceDir + fontello.sourceConfigFile )
-		.pipe( rename( fontello.configFile ) )
-		.pipe( gulp.dest( path.tmp ) );
+	return gulp.src( config.fontello.sourceDir + config.fontello.sourceConfigFile )
+		.pipe( rename( config.fontello.configFile ) )
+		.pipe( gulp.dest( config.path.tmp ) );
 } );
 
 // Fontello: import SVG-Icons into fontello config
 gulp.task( 'fontello-import', ['fontello-config'], function( cb ) {
 	// scan icon dir
 	importer.importSvg({
-		config:	path.tmp + fontello.configFile,
-		svgsrc:	fontello.sourceDir,
+		config:	config.path.tmp + config.fontello.configFile,
+		svgsrc:	config.fontello.sourceDir,
 	},cb);
 });
 
 // Fontello: generate font from fontello config
 gulp.task( 'fontello-generate', ['fontello-import'], function(cb) {
     importer.getFont({
-		config:	path.tmp + fontello.configFile,
-		font:	fontello.fontDest,
-		css:	path.tmp,
+		config:	config.path.tmp + config.fontello.configFile,
+		font:	config.fonts.fontDest + 'fontello/',
+		css:	config.path.tmp,
     },cb);
 } );
 
 // Fontello: generate scss from fontello css
 gulp.task( 'fontello-scss', ['fontello-generate'], function(cb) {
-	var fontConfig	= require( fontello.sourceDir + fontello.sourceConfigFile ),
+	var fontConfig	= require( config.fontello.sourceDir + config.fontello.sourceConfigFile ),
 		fontName	= fontConfig.name,
 		prefix		= fontConfig.css_prefix_text;
 
@@ -76,17 +87,17 @@ gulp.task( 'fontello-scss', ['fontello-generate'], function(cb) {
 
 	var cachebuster = source( '_fontello-vars.scss' );
 	cachebuster.end( "$fontello-cachebuster: '" + (new Date()).getTime().toString(16) + "';\n$fontello-fontname: '"+fontName+"';\n" );
-	cachebuster.pipe( gulp.dest( fontello.scssDest ) )
+	cachebuster.pipe( gulp.dest( config.fonts.scssDest ) )
 
-	return gulp.src( path.tmp + fontName +'-codes.css')
+	return gulp.src( config.path.tmp + fontName +'-codes.css')
 		.pipe( replace(s, r) )
 		.pipe( rename('_fontello-codes.scss') )
-		.pipe( gulp.dest( fontello.scssDest ) );
+		.pipe( gulp.dest( config.fonts.scssDest ) );
 });
 
 // Fontello: cleanup
 gulp.task( 'fontello-clean', function() {
-	return gulp.src( path.tmp + '*.*', { read: false } )
+	return gulp.src( config.path.tmp + '*.*', { read: false } )
 		.pipe( clean() );
 });
 
@@ -94,8 +105,6 @@ gulp.task( 'fontello-clean', function() {
 gulp.task('fontello', function() {
 	runSequence( 'fontello-scss', 'fontello-clean', 'scss' );
 });
-
-
 
 
 
@@ -140,7 +149,7 @@ gulp.task( 'fonts', function() {
 			};
 		},
 		fonts_dir = './src/fonts/',
-		dest_dir = './fonts/',
+		dest_dir = config.fonts.fontDest,
 		font_dirs = fs.readdirSync( fonts_dir ).filter( dir_filter ),
 		font_files, font_specs, src, dest, scss, slug, scss_handle, taskname, scss_handle,
 		tasks = [];
@@ -162,13 +171,14 @@ gulp.task( 'fonts', function() {
 					path.extname( font_files[j] )
 				)
 			);
+			scss_dest = dest_dir.replace(/^\.\//,'') + dest_file;
 
 //			sources.push(src)
 
 			scss += '@font-face {\n';
 			scss += '\tfont-family: \''+font_specs.name+'\';\n';
-			scss += '\tsrc: url(\'' + dest + dest_file + '.woff2\') format(\'woff2\'),\n',
-			scss += '\t\t url(\'' + dest + dest_file + '.woff\') format(\'woff\');\n',
+			scss += '\tsrc: url(\'' + scss_dest + '.woff2\') format(\'woff2\'),\n',
+			scss += '\t\t url(\'' + scss_dest + '.woff\') format(\'woff\');\n',
 			scss += '\tfont-weight: '+font_specs.weight+';\n';
 			scss += '\tfont-style: '+(font_specs.italic ? 'italic' : 'normal')+';\n';
 			scss += '}\n\n';
@@ -202,7 +212,7 @@ gulp.task( 'fonts', function() {
 		// write scss
 		scss_handle = source( '_'+slug+'.scss' );
 		scss_handle.end( scss );
-		scss_handle.pipe( gulp.dest( './src/scss/fonts/' ) );
+		scss_handle.pipe( gulp.dest( config.fonts.scssDest ) );
 
 	}
 
@@ -215,10 +225,10 @@ gulp.task( 'fonts', function() {
 
 
 gulp.task( 'scss',	function() {
-	return gulp.src( path.styles )
+	return gulp.src( config.path.styles )
 		.pipe( sourcemaps.init() )
 		.pipe(
-        	sass( sassOptions )
+        	sass( config.scss )
         	.on('error', sass.logError)
 		)
         .pipe( autoprefixer( { browsers: ['last 3 versions'] } ) )
@@ -230,7 +240,7 @@ gulp.task( 'scss',	function() {
 
 gulp.task('watch', function() {
 	gulp.watch('./src/scss/**/*.scss', [ 'scss' ] );
- 	gulp.watch( fontello.sourceDir + '*.*', [ 'fontello' ] );
+ 	gulp.watch( config.fontello.sourceDir + '*.*', [ 'fontello' ] );
 });
 
 gulp.task('default', ['scss', 'watch'] );
