@@ -32,13 +32,14 @@ class wp_theme:
 		'theme_slug_dash'	: '',
 		'theme_slug_camel'	: '',
 		'grid_columns'		: 12,
-		'screen_sizes'		: 'xs,sm,md,lg'
+		'screen_sizes'		: 'xs,sm,md,lg',
+		'template'			: '2.0'
 	}
 
 	def __init__(self,config):
 		self.config			= self.process_config( config )
 		self.theme_dir		= os.getcwd() + '/' + slugify( self.config['theme_name'], '-' )
-		self.theme_source	= os.path.dirname( os.path.realpath( __file__ ) ) + '/theme/2.0/'
+		self.theme_source	= os.path.dirname( os.path.realpath( __file__ ) ) + '/theme/'+self.config['template']+'/'
 
 	def process_config(self,config):
 		author 						= pwd.getpwuid( os.getuid() ).pw_gecos
@@ -125,13 +126,17 @@ class wp_theme:
 
 
 usage = '''
-usage ./theme.py 'Theme Name' [ --force ]
+usage ./theme.py 'Theme Name' [template] [ --force ]
 '''
 
 defaults = config = wp_theme.defaults
 
 try:
 	config['theme_name']	= sys.argv[1]
+	try:
+		config['template']	= sys.argv[2]
+	except IndexError as e2:
+		pass
 except IndexError as e:
 	print usage
 	sys.exit(0)
