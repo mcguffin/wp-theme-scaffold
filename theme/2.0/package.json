@@ -18,12 +18,13 @@
   "homepage": "https://github.com/mcguffin/{{theme_slug_dash}}#readme",
   "devDependencies": {
     "bootstrap": "^4.0.0",
+    "change-case": "^3.0.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.1",
     "gulp-fontello-import": "0.0.1",
-	"gulp-modernizr": "^2.0.0",
+    "gulp-modernizr": "^2.0.0",
     "gulp-rename": "^1.2.2",
     "gulp-replace": "^0.5.4",
     "gulp-sass": "^3.0.0",
@@ -31,6 +32,8 @@
     "gulp-uglify": "^2.0.0",
     "node-sass": "^4.5.3",
     "run-sequence": "^1.2.2",
+    "gulp-ttf2woff": "^1.1.1",
+    "gulp-ttf2woff2": "^2.0.2",
     "vinyl-source-stream": "^1.1.0"
   },
   "dependencies": {

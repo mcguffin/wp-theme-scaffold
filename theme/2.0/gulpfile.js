@@ -99,6 +99,121 @@ gulp.task('fontello', function() {
 
 
 
+
+gulp.task( 'fonts', function() {
+
+	var dir_filter = function( file ) {
+			return fs.statSync( path.join( fonts_dir, file ) ).isDirectory();
+		},
+		ttf_filter = function( file ) {
+			return path.extname(file) === '.ttf';
+		},
+		get_font_specs = function( fontfile ) {
+			var name = path.basename( fontfile, path.extname( fontfile ) )
+						.replace( /(italic|oblique|thin|hairline|extralight|light|regular|normal|medium|demi|semibold|bold|extrabold|heavy|black)/ig, '' )
+						.replace( /[^a-z0-9]$/ig,''),
+				italic = !! fontfile.match( /(italic|oblique)/i ),
+				weights = [
+					{ weight:'100',	regex: /(thin|hairline)/ig, },
+					{ weight:'200',	regex: /(extralight)/ig, },
+					{ weight:'300',	regex: /(light)/ig, },
+					{ weight:'500',	regex: /(medium)/ig, },
+					{ weight:'600',	regex: /(demi|semibold)/ig, },
+					{ weight:'700',	regex: /(bold)/ig, },
+					{ weight:'800',	regex: /(extrabold|heavy)/ig, },
+					{ weight:'900',	regex: /(black)/ig, },
+					{ weight:'400',	regex: /./i, },
+				],
+				weight, i;
+
+			for ( i = 0; i < weights.length; i++ ) {
+				weight = weights[i].weight;
+				if ( !! fontfile.match(weights[i].regex) ) {
+					break;
+				}
+			}
+			return {
+				name	: changeCase.headerCase(name),
+				italic	: italic,
+				weight	: weight,
+				src		: fontfile,
+			};
+		},
+		fonts_dir = './src/fonts/',
+		dest_dir = './fonts/',
+		font_dirs = fs.readdirSync( fonts_dir ).filter( dir_filter ),
+		font_files, font_specs, src, dest, scss, slug, scss_handle, taskname, scss_handle,
+		tasks = [];
+
+	for ( var i in font_dirs ) {
+		// get font files
+		font_files = fs.readdirSync( fonts_dir + font_dirs[i] ).filter( ttf_filter ),
+		sources = [];
+		// get font names
+		scss = '/* gulp generated @font-face */'+"\n";
+		for ( var j in font_files ) {
+			font_specs = get_font_specs( font_files[j] );
+			slug = changeCase.paramCase( font_specs.name );
+			src = fonts_dir + font_dirs[i] + '/' + font_files[j];
+			dest = dest_dir + slug + '/';
+			dest_file = changeCase.paramCase(
+				path.basename(
+					font_files[j],
+					path.extname( font_files[j] )
+				)
+			);
+
+//			sources.push(src)
+
+			scss += '@font-face {\n';
+			scss += '\tfont-family: \''+font_specs.name+'\';\n';
+			scss += '\tsrc: url(\'' + dest + dest_file + '.woff2\') format(\'woff2\'),\n',
+			scss += '\t\t url(\'' + dest + dest_file + '.woff\') format(\'woff\');\n',
+			scss += '\tfont-weight: '+font_specs.weight+';\n';
+			scss += '\tfont-style: '+(font_specs.italic ? 'italic' : 'normal')+';\n';
+			scss += '}\n\n';
+			taskname = changeCase.paramCase( font_specs.name ) + '-' + font_specs.weight + (font_specs.italic?'i':'');
+
+			(function(taskname){
+				console.log( 'Begin woff: ' + taskname );
+				tasks.push(gulp.src([src])
+					.pipe(ttf2woff())
+					.pipe(rename({basename:dest_file}))
+					.pipe(gulp.dest( dest ))
+					.on('end',function(){
+						console.log( 'Done woff: ' + taskname );
+					})
+				);
+			})(taskname);
+
+			(function(taskname){
+				console.log( 'Begin woff2: ' + taskname );
+				tasks.push(gulp.src([src])
+					.pipe(ttf2woff2())
+					.pipe(rename({basename:dest_file}))
+					.pipe(gulp.dest( dest ))
+					.on('end',function(){
+						console.log( 'Done woff2: ' + taskname );
+					})
+				);
+			})(taskname);
+		}
+
+		// write scss
+		scss_handle = source( '_'+slug+'.scss' );
+		scss_handle.end( scss );
+		scss_handle.pipe( gulp.dest( './src/scss/fonts/' ) );
+
+	}
+
+	return tasks;
+
+ });
+
+
+
+
+
 gulp.task( 'scss',	function() {
 	return gulp.src( path.styles )
 		.pipe( sourcemaps.init() )
