@@ -156,7 +156,8 @@ else:
  	os.chdir( maker.theme_dir );
  	subprocess.call( ['npm', 'install'])
  	subprocess.call( ['gulp', 'fontello'])
-# 	subprocess.call( ['gulp'])
-#	subprocess.call(["sass", '{path:s}/sass/style.scss'.format( path = maker.theme_dir ), '{path:s}/style.css'.format( path = maker.theme_dir ), ' --style', 'compressed', '--precision', '8', '--trace' ])
-#	subprocess.call(["sass", '{path:s}/sass/editor-style.scss'.format( path = maker.theme_dir ), '{path:s}/editor-style.css'.format( path = maker.theme_dir ), ' --style', 'compressed', '--precision', '8', '--trace' ])
+	subprocess.call( ['git', 'init'])
+	subprocess.call( ['git', 'add', '.'])
+	subprocess.call( ['git', 'commit', '-m "Initial"'])
+	subprocess.call( ['atom', '.'])
 	print 'done'
