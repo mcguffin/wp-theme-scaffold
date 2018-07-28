@@ -66,6 +66,7 @@ class wp_theme:
 		f.close()
 		ignore = [x.replace('\n','') for x in ignore if len(x) > 0 and x[0] != '#']
 		ignore.append('.git/')
+		ignore.append('.DS_Store')
 #		ignore.append('.gitignore')
 		subst = ['php','md','scss','js','css','txt','json']
 #		print ignore
@@ -156,8 +157,9 @@ else:
  	os.chdir( maker.theme_dir );
  	subprocess.call( ['npm', 'install'])
  	subprocess.call( ['gulp', 'fontello'])
+ 	print 'Init git'
 	subprocess.call( ['git', 'init'])
 	subprocess.call( ['git', 'add', '.'])
 	subprocess.call( ['git', 'commit', '-m "Initial"'])
+ 	print 'Edit'
 	subprocess.call( ['atom', '.'])
-	print 'done'
