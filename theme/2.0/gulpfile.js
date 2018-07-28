@@ -2,6 +2,7 @@ var autoprefixer	= require('gulp-autoprefixer');
 var changeCase		= require('change-case');
 var clean			= require('gulp-clean');
 var concat			= require('gulp-concat');
+var File			= require('vinyl');
 var fs				= require('fs');
 var gulp			= require('gulp');
 var importer		= require('gulp-fontello-import');
@@ -13,6 +14,7 @@ var runSequence		= require('run-sequence');
 var sass			= require('gulp-sass');
 var source			= require('vinyl-source-stream');
 var sourcemaps		= require('gulp-sourcemaps');
+var Stream			= require('stream');
 var ttf2woff		= require('gulp-ttf2woff');
 var ttf2woff2		= require('gulp-ttf2woff2');
 var uglify			= require('gulp-uglify');
@@ -49,73 +51,63 @@ var config = {
 
 
 
+var fontelloFn = {
+	config	: function(cb) {
+		console.log('run fontello config')
+		return gulp.src( config.fontello.sourceDir + config.fontello.sourceConfigFile )
+			.pipe( rename( config.fontello.configFile ) )
+			.pipe( gulp.dest( config.path.tmp ) );
+	},
+	import	: function( cb ) {
+		console.log('run fontello import')
+		// scan icon dir
+		importer.importSvg({
+			config:	config.path.tmp + config.fontello.configFile,
+			svgsrc:	config.fontello.sourceDir,
+		},cb);
+	},
+	generate	: function(cb) {
+	    importer.getFont({
+			config:	config.path.tmp + config.fontello.configFile,
+			font:	config.fonts.fontDest + 'fontello/',
+			css:	config.path.tmp,
+	    },cb);
+	},
+	scss : function(cb) {
 
+		var fontConfig	= require( config.fontello.sourceDir + config.fontello.sourceConfigFile ),
+			fontName	= fontConfig.name,
+			prefix		= fontConfig.css_prefix_text;
+		fs.writeFileSync(
+			config.fonts.scssDest + '_fontello-vars.scss',
+			"/* Generated file */" +
+			"$fontello-cachebuster: '" + (new Date()).getTime().toString(16) + "';\n" +
+			"$fontello-fontname: '"+fontName+"';\n"
+		)
 
-// Fontello: copy original fontello config
-gulp.task( 'fontello-config', function(cb) {
-	return gulp.src( config.fontello.sourceDir + config.fontello.sourceConfigFile )
-		.pipe( rename( config.fontello.configFile ) )
-		.pipe( gulp.dest( config.path.tmp ) );
-} );
+		var s = new RegExp( "\."+prefix+"([a-z0-9-_]+):before \{ content: '\\\\([a-f0-9]+)'; \}", 'g' );
+		var r = "$" + prefix + "$1: '\\$2';\n." + prefix + "$1:before { content: $" + prefix + "$1; }";
 
-// Fontello: import SVG-Icons into fontello config
-gulp.task( 'fontello-import', ['fontello-config'], function( cb ) {
-	// scan icon dir
-	importer.importSvg({
-		config:	config.path.tmp + config.fontello.configFile,
-		svgsrc:	config.fontello.sourceDir,
-	},cb);
-});
+		return gulp.src( config.path.tmp + fontName +'-codes.css')
+			.pipe( replace(s, r) )
+			.pipe( rename('_fontello-codes.scss') )
+			.pipe( gulp.dest( config.fonts.scssDest ) );
+	},
+	clean : function() {
+		return gulp.src( config.path.tmp + '*.*', { read: false } )
+			.pipe( clean() );
+	}
+}
 
-// Fontello: generate font from fontello config
-gulp.task( 'fontello-generate', ['fontello-import'], function(cb) {
-    importer.getFont({
-		config:	config.path.tmp + config.fontello.configFile,
-		font:	config.fonts.fontDest + 'fontello/',
-		css:	config.path.tmp,
-    },cb);
-} );
-
-// Fontello: generate scss from fontello css
-gulp.task( 'fontello-scss', ['fontello-generate'], function(cb) {
-	var fontConfig	= require( config.fontello.sourceDir + config.fontello.sourceConfigFile ),
-		fontName	= fontConfig.name,
-		prefix		= fontConfig.css_prefix_text;
-
-	var s = new RegExp( "\."+prefix+"([a-z0-9-_]+):before \{ content: '\\\\([a-f0-9]+)'; \}", 'g' );
-	var r = "$" + prefix + "$1: '\\$2';\n." + prefix + "$1:before { content: $" + prefix + "$1; }";
-
-	var cachebuster = source( '_fontello-vars.scss' );
-	cachebuster.end( "$fontello-cachebuster: '" + (new Date()).getTime().toString(16) + "';\n$fontello-fontname: '"+fontName+"';\n" );
-	cachebuster.pipe( gulp.dest( config.fonts.scssDest ) )
-
-	return gulp.src( config.path.tmp + fontName +'-codes.css')
-		.pipe( replace(s, r) )
-		.pipe( rename('_fontello-codes.scss') )
-		.pipe( gulp.dest( config.fonts.scssDest ) );
-});
-
-// Fontello: cleanup
-gulp.task( 'fontello-clean', function() {
-	return gulp.src( config.path.tmp + '*.*', { read: false } )
-		.pipe( clean() );
-});
-
-// Fontello: main task
-gulp.task('fontello', function() {
-	runSequence( 'fontello-scss', 'fontello-clean', 'scss' );
-});
+gulp.task('fontello', gulp.series( fontelloFn.config, fontelloFn.import, fontelloFn.generate, fontelloFn.scss, fontelloFn.clean ) );
 
 
 
-
-gulp.task( 'fonts', function() {
-
-	var dir_filter = function( file ) {
-			return fs.statSync( path.join( fonts_dir, file ) ).isDirectory();
-		},
-		ttf_filter = function( file ) {
-			return path.extname(file) === '.ttf';
+var webfonts = function( config ) {
+	var stream = new Stream.Transform({objectMode: true}),
+		config = config || {},
+		conf = {
+			font_dir: './fonts/',
 		},
 		get_font_specs = function( fontfile ) {
 			var name = path.basename( fontfile, path.extname( fontfile ) )
@@ -147,33 +139,31 @@ gulp.task( 'fonts', function() {
 				weight	: weight,
 				src		: fontfile,
 			};
-		},
-		fonts_dir = './src/fonts/',
-		dest_dir = config.fonts.fontDest,
-		font_dirs = fs.readdirSync( fonts_dir ).filter( dir_filter ),
-		font_files, font_specs, src, dest, scss, slug, scss_handle, taskname, scss_handle,
-		tasks = [];
+		};
+	Object.keys(config).forEach(function(k){
+		conf[k] = config[k];
+	})
 
-	for ( var i in font_dirs ) {
-		// get font files
-		font_files = fs.readdirSync( fonts_dir + font_dirs[i] ).filter( ttf_filter ),
-		sources = [];
-		// get font names
-		scss = '/* gulp generated @font-face */'+"\n";
-		for ( var j in font_files ) {
-			font_specs = get_font_specs( font_files[j] );
-			slug = changeCase.paramCase( font_specs.name );
-			src = fonts_dir + font_dirs[i] + '/' + font_files[j];
-			dest = dest_dir + slug + '/';
-			dest_file = changeCase.paramCase(
-				path.basename(
-					font_files[j],
-					path.extname( font_files[j] )
-				)
-			);
-			scss_dest = dest_dir.replace(/^\.\//,'') + dest_file;
+	stream._transform = function ( file, unused, callback) {
+		// do transformations...
+		var ttf = [],
+			scss = '/* Generated file. Do not edit. */\n',
+			slug = changeCase.paramCase(file.basename);
 
-//			sources.push(src)
+		fs.readdirSync(file.path).forEach(function(el,i){
+			//ttf.push( el )
+			if ( path.extname( el ) !== '.ttf') {
+				return;
+			}
+			var font_specs = get_font_specs( el ),
+				dest_file = changeCase.paramCase(
+					path.basename(
+						el,
+						path.extname( el )
+					)
+				);
+
+			scss_dest = conf.font_dir.replace(/^\.\//,'') + slug + '/' + dest_file;
 
 			scss += '@font-face {\n';
 			scss += '\tfont-family: \''+font_specs.name+'\';\n';
@@ -182,45 +172,45 @@ gulp.task( 'fonts', function() {
 			scss += '\tfont-weight: '+font_specs.weight+';\n';
 			scss += '\tfont-style: '+(font_specs.italic ? 'italic' : 'normal')+';\n';
 			scss += '}\n\n';
-			taskname = changeCase.paramCase( font_specs.name ) + '-' + font_specs.weight + (font_specs.italic?'i':'');
+			//*
+			if ( ! fs.existsSync( conf.font_dir + '/' + slug + '/' + dest_file + '.woff' ) ) {
+				gulp.task(dest_file+'-woff',function(){
+					return gulp.src( file.path + '/' + el )
+						.pipe( ttf2woff() )
+						.pipe( rename( { basename: dest_file } ) )
+						.pipe(gulp.dest( conf.font_dir + '/' + slug + '/' ) )
+				});
+				gulp.task(dest_file+'-woff')();
+			}
 
-			(function(taskname){
-				console.log( 'Begin woff: ' + taskname );
-				tasks.push(gulp.src([src])
-					.pipe(ttf2woff())
-					.pipe(rename({basename:dest_file}))
-					.pipe(gulp.dest( dest ))
-					.on('end',function(){
-						console.log( 'Done woff: ' + taskname );
-					})
-				);
-			})(taskname);
+			if ( ! fs.existsSync( conf.font_dir + '/' + slug + '/' + dest_file + '.woff2' ) ) {
+				gulp.task(dest_file+'-woff2',function(){
+					return gulp.src( file.path + '/' + el )
+						.pipe( ttf2woff2() )
+						.pipe( rename( { basename: dest_file } ) )
+						.pipe(gulp.dest( conf.font_dir + '/' + slug + '/' ) )
+				});
+				gulp.task( dest_file + '-woff2' )();
+			}
 
-			(function(taskname){
-				console.log( 'Begin woff2: ' + taskname );
-				tasks.push(gulp.src([src])
-					.pipe(ttf2woff2())
-					.pipe(rename({basename:dest_file}))
-					.pipe(gulp.dest( dest ))
-					.on('end',function(){
-						console.log( 'Done woff2: ' + taskname );
-					})
-				);
-			})(taskname);
-		}
+		});
 
-		// write scss
-		scss_handle = source( '_'+slug+'.scss' );
-		scss_handle.end( scss );
-		scss_handle.pipe( gulp.dest( config.fonts.scssDest ) );
+		// make scss out of it
+		file.contents = Buffer.from(scss);
+		file.basename = '_'+slug+'.scss';
 
+		callback( null, file ); // signal finished
 	}
-
-	return tasks;
-
- });
+	return stream;
+}
 
 
+
+gulp.task('fonts',function( task_done_cb ){
+	return gulp.src('./src/fonts/*')
+		.pipe( webfonts( { font_dir: config.fonts.fontDest	} ) )
+		.pipe( gulp.dest( config.fonts.scssDest ) )
+} );
 
 
 
