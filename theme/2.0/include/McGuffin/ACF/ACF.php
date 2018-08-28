@@ -21,11 +21,12 @@ class ACF extends Core\Singleton {
 				'page_title' 	=> __('JCK-Options','mcguffin'),
 				'menu_title' 	=> __('JCK-Options','mcguffin'),
 				'parent_slug' 	=> 'themes.php',
-				'post_id' 		=> '{{theme_slug}}_options',
+				'post_id' 		=> '___theme_slug____options',
 				'autoload'		=> true,
 				'capability'	=> 'edit_pages',
 			));
 		}
+
 		if ( function_exists( 'acf_add_customizer_section' ) ) {
 
 			$panel_id = acf_add_customizer_panel( __( 'Site-Footer', 'mcguffin' ) );
@@ -39,7 +40,7 @@ class ACF extends Core\Singleton {
 				'description'			=> '',
 				'description_hidden'	=> false,
 				'storage_type'			=> 'option',
-				'post_id' 				=> '{{theme_slug}}_options',
+				'post_id' 				=> '___theme_slug____options',
 			) );
 
 		}

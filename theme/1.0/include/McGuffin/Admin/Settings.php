@@ -25,8 +25,8 @@ class Settings extends Core\Singleton {
 		add_action( 'admin_init' , array( &$this , 'register_settings' ) );
 
 		// add default options
-		add_option( '{{theme_slug}}_404_page', 0 );
-		add_option( '{{theme_slug}}_google_maps_api_key', '' );
+		add_option( '___theme_slug____404_page', 0 );
+		add_option( '___theme_slug____google_maps_api_key', '' );
 
 		acf_add_options_sub_page(array(
 			'page_title' 	=> __('Company','mcguffin'),
@@ -46,13 +46,13 @@ class Settings extends Core\Singleton {
 	 *	@uses checkbox
 	 */
 	function register_settings() {
-		$settings_section = '{{theme_slug}}_settings';
+		$settings_section = '___theme_slug____settings';
 		// more settings go here ...
 
-		add_settings_section( $settings_section, __( '{{theme_name}}',  'mcguffin' ), array( &$this, 'settings_description' ), $this->optionset );
+		add_settings_section( $settings_section, __( '___theme_name___',  'mcguffin' ), array( &$this, 'settings_description' ), $this->optionset );
 
 		// ... and here
-		$option_name = '{{theme_slug}}_404_page';
+		$option_name = '___theme_slug____404_page';
 		register_setting( $this->optionset , $option_name, 'intval' );
 
 		add_settings_field(
@@ -68,7 +68,7 @@ class Settings extends Core\Singleton {
 
 
 		// ... and here
-		$option_name = '{{theme_slug}}_google_maps_api_key';
+		$option_name = '___theme_slug____google_maps_api_key';
 		register_setting( $this->optionset , $option_name, 'sanitize_text_field' );
 
 		add_settings_field(

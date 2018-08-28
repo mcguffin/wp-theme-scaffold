@@ -31,8 +31,6 @@ class wp_theme:
 		'theme_slug'		: '',
 		'theme_slug_dash'	: '',
 		'theme_slug_camel'	: '',
-		'grid_columns'		: 12,
-		'screen_sizes'		: 'xs,sm,md,lg',
 		'template'			: '2.0'
 	}
 
@@ -67,9 +65,9 @@ class wp_theme:
 		ignore = [x.replace('\n','') for x in ignore if len(x) > 0 and x[0] != '#']
 		ignore.append('.git/')
 		ignore.append('.DS_Store')
-#		ignore.append('.gitignore')
+
 		subst = ['php','md','scss','js','css','txt','json']
-#		print ignore
+
 		for root, subdirs, files in os.walk(self.theme_source):
 			relroot = root.replace( self.theme_source, '' ) + '/'
 
@@ -89,11 +87,15 @@ class wp_theme:
 					continue;
 				source = root + '/' + file
 				target = dir + '/' + self._substitute_filename( file )
-#				print [1 for x in subst if file.match];
-				print file
-				if  [x for x in subst if re.findall('\.'+x+'$',file)]:
 
-					content = pystache.render( self._read_file_contents(source),self.config)
+				print file
+
+				if  [x for x in subst if re.findall('\.'+x+'$',file)]:
+					#
+					# content = pystache.render( self._read_file_contents(source),self.config)
+					content = self._read_file_contents(source)
+					for key,value in self.config.iteritems():
+						content = content.replace( '___%s___' % key, str(value) )
 
 					fout = codecs.open( target , 'wb' , encoding='utf-8' )
 					fout.write(content);
@@ -101,7 +103,6 @@ class wp_theme:
 				else:
 					shutil.copyfile(source , target)
 
-		#
 		pass
 
 
@@ -132,10 +133,12 @@ usage ./theme.py 'Theme Name' [template] [ --force ]
 
 defaults = config = wp_theme.defaults
 
+
 try:
 	config['theme_name']	= sys.argv[1]
 	try:
-		config['template']	= sys.argv[2]
+		if sys.argv[2] != '--force':
+			config['template']	= sys.argv[2]
 	except IndexError as e2:
 		pass
 except IndexError as e:
@@ -145,8 +148,10 @@ except IndexError as e:
 
 print "Generating Theme:", config['theme_name']
 maker = wp_theme(config)
+
 if '--force' in sys.argv and os.path.exists(maker.theme_dir):
 	shutil.rmtree( maker.theme_dir )
+
 result = maker.make()
 
 if isinstance(result, Exception):

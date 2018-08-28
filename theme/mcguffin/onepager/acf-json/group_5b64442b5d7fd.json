@@ -1,0 +1,53 @@
+{
+    "key": "group_5b64442b5d7fd",
+    "title": "Map Widget",
+    "fields": [
+        {
+            "key": "field_5b64443193aa1",
+            "label": "Map",
+            "name": "map",
+            "type": "open_street_map",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "leaflet",
+            "center_lat": "",
+            "center_lng": "",
+            "zoom": "",
+            "height": 400,
+            "allow_map_layers": 0,
+            "default_leaflet_layers": [
+                "",
+                "OpenStreetMap"
+            ],
+            "default_osm_layer": "mapnik",
+            "marker_lat": "",
+            "marker_lng": "",
+            "address": "",
+            "map_layers": []
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "widget",
+                "operator": "==",
+                "value": "map"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1533298601
+}

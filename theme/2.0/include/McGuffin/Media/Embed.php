@@ -3,6 +3,10 @@
 
 namespace McGuffin\Media;
 
+if ( ! defined('ABSPATH') ) {
+	die('FU!');
+}
+
 use McGuffin\Core;
 
 class Embed extends Core\Singleton {

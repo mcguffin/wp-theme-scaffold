@@ -1,13 +1,10 @@
 <?php
-/**
- * _s functions and definitions.
- *
- * @link https://codex.wordpress.org/Functions_File_Explained
- *
- * @package _s
- */
 
 namespace McGuffin;
+
+if ( ! defined('ABSPATH') ) {
+	die('FU!');
+}
 
 /**
  * Base Class
@@ -27,6 +24,8 @@ class Theme extends Core\Singleton {
 		Media\Upload::instance();
 
 		NavMenu\NavMenu::instance();
+
+		Widgets\Widgets::instance();
 
 
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
@@ -215,8 +214,8 @@ class Theme extends Core\Singleton {
 		$version	= wp_get_theme()->Version;
 		$bs_version	= '3.3.7';
 
-		// wp_register_style( '{{theme_slug_dash}}-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,700italic', array() );
-		wp_register_style( '{{theme_slug_dash}}', get_stylesheet_uri(), array( ), $version );
+		// wp_register_style( '___theme_slug_dash___-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,700italic', array() );
+		wp_register_style( '___theme_slug_dash___', get_stylesheet_uri(), array( ), $version );
 
 		wp_register_script( 'modernizr',
 			$this->getAssetUrl( '/js/vendor/modernizr-custom.js' ),
@@ -299,13 +298,13 @@ class Theme extends Core\Singleton {
 			'objectfit-polyfil'
 		);
 
-		wp_enqueue_script( '{{theme_slug_dash}}', 	$this->getAssetUrl( '/js/project.js' ), $deps, $version, true );
+		wp_enqueue_script( '___theme_slug_dash___', 	$this->getAssetUrl( '/js/project.js' ), $deps, $version, true );
 	}
 
 	function enqueue_assets() {
 
-		wp_enqueue_style( '{{theme_slug_dash}}' );
-		wp_enqueue_script( '{{theme_slug_dash}}' );
+		wp_enqueue_style( '___theme_slug_dash___' );
+		wp_enqueue_script( '___theme_slug_dash___' );
 	}
 
 

@@ -33,7 +33,7 @@ class Customizer extends Core\Singleton {
 
 		$version = wp_get_theme()->Version;
 
-		wp_enqueue_script( '{{theme_slug}}_customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), $version, true );
+		wp_enqueue_script( '___theme_slug____customizer', get_template_directory_uri() . '/js/customizer.js', array( 'customize-preview' ), $version, true );
 
 	}
 

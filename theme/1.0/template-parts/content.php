@@ -15,7 +15,7 @@
 
 		<?php if ( 'post' == get_post_type() ) : ?>
 		<div class="entry-meta">
-			<?php {{theme_slug}}_posted_on(); ?>
+			<?php ___theme_slug____posted_on(); ?>
 		</div><!-- .entry-meta -->
 		<?php endif; ?>
 	</header><!-- .entry-header -->
@@ -38,6 +38,6 @@
 	</div><!-- .entry-content -->
 
 	<footer class="entry-footer">
-		<?php {{theme_slug}}_entry_footer(); ?>
+		<?php ___theme_slug____entry_footer(); ?>
 	</footer><!-- .entry-footer -->
 </article><!-- #post-## -->

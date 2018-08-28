@@ -1,0 +1,63 @@
+
+
+/*--------------------------------------------------------------
+# Site variables
+--------------------------------------------------------------*/
+@import "bootstrap-variables";
+
+/*--------------------------------------------------------------
+# Fonts
+--------------------------------------------------------------*/
+@import "fonts/fonts";
+
+/*--------------------------------------------------------------
+# Bootstrap
+--------------------------------------------------------------*/
+@import "../../node_modules/bootstrap/scss/bootstrap";
+
+
+/*--------------------------------------------------------------
+# Fonts
+--------------------------------------------------------------*/
+@import "project/typography";
+
+
+body {
+	&.webkit strong,
+	&.webkit b {
+		&.font-weight-light  { font-weight: $font-weight-light !important; }
+		&.font-weight-normal { font-weight: $font-weight-normal !important; }
+		&.font-weight-bold   { font-weight: $font-weight-bold !important; }
+	}
+}
+.mce-content-body {
+	margin:10px;
+
+	.btn[data-mce-selected],
+	.btn[data-mce-selected="inline-boundary"] {
+		// background
+		// border-radius
+		margin:0;
+		// padding
+		border: $btn-border-width solid transparent;
+		@include button-size($btn-padding-y, $btn-padding-x, $font-size-base, $btn-line-height, $btn-border-radius);
+		box-shadow:0 0 2px 5px #bfe6ff;
+	}
+
+	@each $color, $value in $theme-colors {
+		.btn-#{$color} {
+			&[data-mce-selected],
+			&[data-mce-selected="inline-boundary"] {
+				@include button-variant($value, $value);
+			}
+		}
+		.btn-outline-#{$color} {
+			&[data-mce-selected],
+			&[data-mce-selected="inline-boundary"] {
+				@include button-outline-variant($value);
+			}
+		}
+	}
+
+
+}

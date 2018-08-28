@@ -9,7 +9,7 @@
 
 get_header();
 
-if ( $page_id = get_option( '{{theme_slug}}_404_page' ) ) {
+if ( $page_id = get_option( '___theme_slug____404_page' ) ) {
 
 	setup_postdata( $page_id );
 
@@ -44,7 +44,7 @@ if ( $page_id = get_option( '{{theme_slug}}_404_page' ) ) {
 
 					<?php the_widget( 'WP_Widget_Recent_Posts' ); ?>
 
-					<?php if ( {{theme_slug}}_categorized_blog() ) : // Only show the widget if site has multiple categories. ?>
+					<?php if ( ___theme_slug____categorized_blog() ) : // Only show the widget if site has multiple categories. ?>
 					<div class="widget widget_categories">
 						<h2 class="widget-title"><?php esc_html_e( 'Most Used Categories', 'mcguffin' ); ?></h2>
 						<ul>

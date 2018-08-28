@@ -47,7 +47,7 @@ class Theme extends Core\Singleton {
 	}
 
 	public function google_maps_api_key( $api = null ) {
-		$api['key'] = get_option('{{theme_slug}}_google_maps_api_key');
+		$api['key'] = get_option('___theme_slug____google_maps_api_key');
 		return $api;
 	}
 
@@ -125,8 +125,8 @@ class Theme extends Core\Singleton {
 		$version	= wp_get_theme()->Version;
 		$bs_version	= '3.3.7';
 
-		wp_enqueue_style( '{{theme_slug_dash}}-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,700italic', array() );
-		wp_enqueue_style( '{{theme_slug_dash}}-style', get_stylesheet_uri(), array( '{{theme_slug_dash}}-fonts' ), $version );
+		wp_enqueue_style( '___theme_slug_dash___-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,700italic', array() );
+		wp_enqueue_style( '___theme_slug_dash___-style', get_stylesheet_uri(), array( '___theme_slug_dash___-fonts' ), $version );
 
 		wp_register_script( 'modernizr',
 			$this->getAssetUrl( '/js/modernizr.custom.js' ),
@@ -177,7 +177,7 @@ class Theme extends Core\Singleton {
 			true
 		);
 		wp_register_script( 'google-maps-js-api',
-			'https://maps.googleapis.com/maps/api/js?v=3&key='. get_option('{{theme_slug}}_google_maps_api_key'),
+			'https://maps.googleapis.com/maps/api/js?v=3&key='. get_option('___theme_slug____google_maps_api_key'),
 			array( 'jquery' ),
 			$version,
 			true
@@ -195,7 +195,7 @@ class Theme extends Core\Singleton {
 			'objectfit-polyfil'
 		);
 
-		wp_enqueue_script( '{{theme_slug_dash}}', 	$this->getAssetUrl( '/js/project.js' ), $deps, $version, true );
+		wp_enqueue_script( '___theme_slug_dash___', 	$this->getAssetUrl( '/js/project.js' ), $deps, $version, true );
 	}
 
 	public function getAssetUrl( $url ) {

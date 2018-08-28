@@ -2,6 +2,10 @@
 
 namespace McGuffin\Admin;
 
+if ( ! defined('ABSPATH') ) {
+	die('FU!');
+}
+
 use McGuffin\Core;
 
 if ( ! defined('ABSPATH') )
@@ -25,7 +29,7 @@ class Settings extends Core\Singleton {
 		add_action( 'admin_init' , array( &$this , 'register_settings' ) );
 
 		// add default options
-		add_option( '{{theme_slug}}_404_page', 0 );
+		add_option( 'mcguffin_404_page', 0 );
 		add_option( 'mcguffin_google_maps_api_key', '' );
 
 		if ( function_exists( 'acf_add_options_sub_page' ) ) {
@@ -48,13 +52,13 @@ class Settings extends Core\Singleton {
 	 *	@uses checkbox
 	 */
 	function register_settings() {
-		$settings_section = '{{theme_slug}}_settings';
+		$settings_section = 'mcguffin_settings';
 		// more settings go here ...
 
-		add_settings_section( $settings_section, __( '{{theme_name}}',  'mcguffin' ), array( &$this, 'settings_description' ), $this->optionset );
+		add_settings_section( $settings_section, __( '___theme_name___',  'mcguffin' ), array( &$this, 'settings_description' ), $this->optionset );
 
 		// ... and here
-		$option_name = '{{theme_slug}}_404_page';
+		$option_name = 'mcguffin_404_page';
 		register_setting( $this->optionset , $option_name, 'intval' );
 
 		add_settings_field(

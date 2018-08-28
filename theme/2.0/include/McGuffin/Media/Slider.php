@@ -3,6 +3,10 @@
 
 namespace McGuffin\Media;
 
+if ( ! defined('ABSPATH') ) {
+	die('FU!');
+}
+
 use McGuffin\Admin;
 use McGuffin\Core;
 

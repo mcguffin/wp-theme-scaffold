@@ -1,4 +1,4 @@
-{{theme_name}}
+___theme_name___
 ==============
 
 This is a blank WordPress Theme.

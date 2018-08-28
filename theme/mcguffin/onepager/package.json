@@ -1,0 +1,44 @@
+{
+  "name": "blank-theme",
+  "version": "0.0.1",
+  "description": "Blank Theme is a wordpress theme",
+  "main": "js/admin/edit.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcguffin/blank-theme.git"
+  },
+  "author": "Jörn Lund",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcguffin/blank-theme/issues"
+  },
+  "homepage": "https://github.com/mcguffin/blank-theme#readme",
+  "devDependencies": {
+    "bootstrap": "^4.0.0",
+    "change-case": "^3.0.2",
+	"gulp": "^4.0.0",
+    "gulp-autoprefixer": "^3.1.0",
+    "gulp-clean": "^0.3.2",
+    "gulp-concat": "^2.6.1",
+    "gulp-fontello-import": "0.0.1",
+    "gulp-modernizr": "^3.0.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
+    "gulp-sass": "^4.0.1",
+    "gulp-sourcemaps": "^1.9.1",
+    "gulp-ttf2woff": "^1.1.1",
+    "gulp-ttf2woff2": "^2.0.2",
+    "gulp-uglify": "^2.0.0",
+    "node-sass": "^4.5.3",
+    "run-sequence": "^1.2.2",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "jquery": "^1.12.0",
+    "npm": "^6.2.0",
+    "popper": "^1.0.1"
+  }
+}
