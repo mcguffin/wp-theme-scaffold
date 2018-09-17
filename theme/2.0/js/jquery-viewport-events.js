@@ -1,7 +1,7 @@
 /**
  *	Viewport Events
  *	===============
- *	Version 1.1.0
+ *	Version 1.1.1
  *
  *	(c) 2018 Jörn Lund
  *	https://github.com/mcguffin
@@ -43,6 +43,7 @@
  *
  *	Changelog:
  *	----------
+ *	1.1.1 init() when $.fn.viewportState() is called
  *	1.1.0 - Add Prefix param
  *	      - Trigger global 'viewport'
  *	1.0.0 initial
@@ -88,6 +89,7 @@
 		}
 
 		if ( elHeight > viewportHeight ) {
+
 			if ( elTop < viewportBottom && elTop > viewportTop ) {
 				return 'in:enter';
 			}
@@ -116,6 +118,7 @@
 		inited = true;
 
 		$(window).on('scroll', setGeom );
+		setGeom();
 	}
 
 	$.fn.extend({
@@ -130,7 +133,7 @@
 
 				self.each( function(i,el) {
 					var $el = $(el),
-						substate = getViewportState( $el, customOffset ),
+						substate = getViewportState( $el, 'function' === typeof customOffset ? customOffset() : customOffset ),
 						prevSubstate = $el.data( prefix + '-substate'),
 						state = substate.substr( 0, substate.indexOf(':') );
 						prevState = $el.data( prefix + '-state'),
@@ -169,9 +172,11 @@
 		viewportState:function(customOffset) {
 			customOffset = customOffset || 0;
 
+			init();
+
 			return getViewportState( this, customOffset );
 		}
 	});
-
+//	setGeom();
 
 })(jQuery);

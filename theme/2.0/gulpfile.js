@@ -9,8 +9,8 @@ var importer		= require('gulp-fontello-import');
 var nodeSass		= require('node-sass');
 var path			= require('path');
 var rename			= require('gulp-rename');
+var gulpCopy		= require('gulp-copy');
 var replace			= require('gulp-replace');
-var runSequence		= require('run-sequence');
 var sass			= require('gulp-sass');
 var source			= require('vinyl-source-stream');
 var sourcemaps		= require('gulp-sourcemaps');
@@ -40,8 +40,6 @@ var config = {
 		sourceDir			: './src/icons/',
 		sourceConfigFile	: 'config.json',
 		configFile			: 'config-generated.json',
-//		fontDest			: './fonts/',
-//		scssDest			: './src/scss/fonts/',
 	},
 	fonts		: {
 		fontDest	:	'./fonts/',
@@ -214,6 +212,17 @@ gulp.task('fonts',function( task_done_cb ){
 
 
 
+gulp.task('vendor-scripts',function(){
+	return gulp.src([
+			'node_modules/bootstrap/dist/js/bootstrap.js',
+			'node_modules/bootstrap/dist/js/bootstrap.bundle.js',
+			'node_modules/bootstrap/dist/js/bootstrap.min.js',
+			'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js',
+		])
+		.pipe( gulpCopy('js/vendor/bootstrap/', { prefix: 4 } ) );
+});
+
+
 gulp.task( 'scss',	function() {
 	return gulp.src( config.path.styles )
 		.pipe( sourcemaps.init() )
@@ -229,8 +238,11 @@ gulp.task( 'scss',	function() {
 
 
 gulp.task('watch', function() {
-	gulp.watch('./src/scss/**/*.scss', [ 'scss' ] );
- 	gulp.watch( config.fontello.sourceDir + '*.*', [ 'fontello' ] );
+	gulp.watch('./src/scss/**/*.scss', gulp.parallel( 'scss' ) );
+ 	gulp.watch( config.fontello.sourceDir + '*.*', gulp.parallel( 'fontello' ) );
 });
 
-gulp.task('default', ['scss', 'watch'] );
+
+gulp.task( 'init', gulp.parallel('fontello', 'fonts', 'vendor-scripts', 'scss' ) );
+
+gulp.task( 'default', gulp.parallel('scss', 'watch') );

@@ -15,17 +15,25 @@ class ACF extends Core\Singleton {
 	 *	@inheritdoc
 	 */
 	protected function __construct() {
-
-		if ( function_exists( 'acf_add_options_sub_page' ) ) {
-			acf_add_options_sub_page( array(
-				'page_title' 	=> __('JCK-Options','mcguffin'),
-				'menu_title' 	=> __('JCK-Options','mcguffin'),
-				'parent_slug' 	=> 'themes.php',
-				'post_id' 		=> '___theme_slug____options',
-				'autoload'		=> true,
-				'capability'	=> 'edit_pages',
-			));
+		if ( ! function_exists('acf') ) {
+			return;
 		}
+
+		acf_add_options_sub_page( array(
+			'page_title' 	=> __('___theme_name___ Configration','mcguffin'),
+			'menu_title' 	=> __('Configuration','mcguffin'),
+			'parent_slug' 	=> 'themes.php',
+			'post_id' 		=> '___theme_slug____options',
+			'autoload'		=> true,
+			'capability'	=> 'manage_options',
+			'post_id'		=> 'general',
+		));
+
+		acf_register_form(array(
+			'id' => 'acf-form',
+			'post_id' => 'new_post',
+			'new_post' => false,
+		));
 
 		if ( function_exists( 'acf_add_customizer_section' ) ) {
 
@@ -50,16 +58,6 @@ class ACF extends Core\Singleton {
 
 		add_filter( 'acf/fields/google_map/api', array( $this, 'google_maps_api_key' ) );
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-
-	}
-
-	public function enqueue_scripts() {
-		$core = \McGuffin\Theme::instance();
-		$core->register_assets();
-
-		wp_enqueue_script( 'theme-acf-patch',$core->getAssetUrl( 'js/admin/acf.js' ), array( 'acf-input', 'acf-pro-input', 'jquery-viewport-events' ), $core->version());
-		wp_enqueue_style('theme-acf-patch',$core->getAssetUrl( 'css/admin/acf.css' ), array( ), $core->version());
 	}
 
 	public function editor_settings( $settings, $editor_id ) {

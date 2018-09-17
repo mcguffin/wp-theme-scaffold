@@ -15,6 +15,7 @@
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer">
+		<pre>SB:<?php dynamic_sidebar( 'footer' ); ?></pre>
 		<div class="site-info container">
 			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'mcguffin' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'mcguffin' ), 'WordPress' ); ?></a>
 			<span class="sep"> | </span>

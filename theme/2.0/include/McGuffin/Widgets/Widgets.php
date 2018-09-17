@@ -11,7 +11,7 @@ class Widgets extends Core\Singleton {
 
 	}
 	function widgets_init() {
-		
+
 		register_sidebar( array(
 			'name'          => esc_html__( 'Footer', 'polyplanet'),
 			'id'            => 'footer',
@@ -24,8 +24,10 @@ class Widgets extends Core\Singleton {
 
 		while ( have_rows ('widgets', 'general' ) ) {
 			the_row();
+//var_dump(get_sub_field('id-base'),get_sub_field('name'));
 			register_widget( new GenericWidget( get_sub_field('id-base'), get_sub_field('name') ) );
 		}
+//exit();
 	}
 
 	function widget_title_shy( $title ) {

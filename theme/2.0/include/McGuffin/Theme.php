@@ -16,6 +16,7 @@ class Theme extends Core\Singleton {
 			Admin\Settings::instance();
 		}
 
+		ACF\ACF::instance();
 		Admin\Customizer::instance();
 
 		Media\Embed::instance();
@@ -27,11 +28,12 @@ class Theme extends Core\Singleton {
 
 		Widgets\Widgets::instance();
 
-
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 
 		add_action( 'after_setup_theme', array( $this, 'setup' ) );
+
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_assets' ), 9 );
+
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 
 		add_filter( 'kses_allowed_protocols', array( $this, 'add_whatsapp_protocol' ) );
@@ -39,7 +41,9 @@ class Theme extends Core\Singleton {
 		add_action( 'wp_head', array( $this, 'print_favicons' ) );
 
 	}
-
+	/**
+	 *	@return string Theme version
+	 */
 	public function version() {
 		return wp_get_theme()->Version;
 	}
@@ -59,16 +63,25 @@ class Theme extends Core\Singleton {
 		<?php
 	}
 
+	/**
+	 *	@action admin_init
+	 */
 	public function admin_init() {
 	}
 
 
 
+	/**
+	 *	@filter kses_allowed_protocols
+	 */
 	public function add_whatsapp_protocol( $protocols ) {
 		$protocols[] = 'whatsapp';
 		return $protocols;
 	}
 
+	/**
+	 *	@action after_setup_theme
+	 */
 	public function setup() {
 
 		load_theme_textdomain( 'mcguffin', get_template_directory() . '/languages' );
@@ -98,7 +111,7 @@ class Theme extends Core\Singleton {
 		remove_theme_support( 'post-thumbnails' );
 		//*/
 
-		//*
+		/*
 		add_theme_support( 'custom-background', array(
 			'default-image'				=> '',
 			'default-preset'			=> 'default',
@@ -116,7 +129,7 @@ class Theme extends Core\Singleton {
 		remove_theme_support( 'custom-background' );
 		//*/
 
-		//*
+		/*
 		add_theme_support( 'custom-header', array(
 			'default-image'				=> '',
 			'random-default'			=> false,
@@ -212,7 +225,7 @@ class Theme extends Core\Singleton {
 	function register_assets() {
 
 		$version	= wp_get_theme()->Version;
-		$bs_version	= '3.3.7';
+		$bs_version	= '4.1.3';
 
 		// wp_register_style( '___theme_slug_dash___-fonts', 'https://fonts.googleapis.com/css?family=Lato:400,300,400italic,700,700italic', array() );
 		wp_register_style( '___theme_slug_dash___', get_stylesheet_uri(), array( ), $version );
@@ -224,7 +237,7 @@ class Theme extends Core\Singleton {
 			true
 		);
 		wp_register_script( 'bootstrap',
-			$this->getAssetUrl( '/js/vendor/bootstrap/bootstrap.js' ),
+			$this->getAssetUrl( '/js/vendor/bootstrap/bootstrap.min.js' ),
 			array('jquery'),
 			$bs_version,
 			true

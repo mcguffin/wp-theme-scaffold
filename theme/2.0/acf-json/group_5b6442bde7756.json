@@ -1,6 +1,6 @@
 {
     "key": "group_5b6442bde7756",
-    "title": "Custom Widgets",
+    "title": "Custom Widget Types",
     "fields": [
         {
             "key": "field_5b6442d0392ec",
@@ -18,8 +18,8 @@
             "collapsed": "",
             "min": 0,
             "max": 0,
-            "layout": "table",
-            "button_label": "Add Widget",
+            "layout": "block",
+            "button_label": "Add Widget Type",
             "sub_fields": [
                 {
                     "key": "field_5b6442eb392ed",
@@ -50,7 +50,7 @@
                     "label": "ID-Base",
                     "name": "id-base",
                     "type": "text",
-                    "instructions": "This must be unique",
+                    "instructions": "Has to be unique.",
                     "required": 1,
                     "conditional_logic": 0,
                     "wrapper": {
@@ -77,17 +77,17 @@
             {
                 "param": "options_page",
                 "operator": "==",
-                "value": "acf-options-setting"
+                "value": "acf-options-configuration"
             }
         ]
     ],
     "menu_order": 0,
     "position": "normal",
-    "style": "default",
+    "style": "seamless",
     "label_placement": "top",
     "instruction_placement": "label",
     "hide_on_screen": "",
     "active": 1,
     "description": "",
-    "modified": 1533297541
+    "modified": 1535534621
 }

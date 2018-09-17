@@ -1,0 +1,86 @@
+{
+    "key": "group_5b937946c1d92",
+    "title": "3rd Party",
+    "fields": [
+        {
+            "key": "field_5b93794b85617",
+            "label": "Important Table",
+            "name": "table",
+            "type": "table",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "use_header": 1,
+            "show_column": 1,
+            "show_column_sortable": 0,
+            "show_column_weight": 250,
+            "allow_quickedit": 1,
+            "allow_bulkedit": 1
+        },
+        {
+            "key": "field_5b9cad3c22ef6",
+            "label": "RGBA Color",
+            "name": "rgba_color",
+            "type": "extended-color-picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "color_palette": "#ffffff;#000000;rgba(0,0,0,0.5);rgba(255,128,0,0.5)",
+            "hide_palette": 0,
+            "show_column": 1,
+            "show_column_weight": 1000,
+            "allow_quickedit": 1,
+            "allow_bulkedit": 1
+        },
+        {
+            "key": "field_5b9cad5f22ef7",
+            "label": "RGBA Color (no Palette)",
+            "name": "rgba_color_hide_palette",
+            "type": "extended-color-picker",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "default_value": "",
+            "color_palette": "",
+            "hide_palette": 1,
+            "show_column": 1,
+            "show_column_weight": 1000,
+            "allow_quickedit": 1,
+            "allow_bulkedit": 1
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1537032832
+}

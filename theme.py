@@ -43,7 +43,7 @@ class wp_theme:
 		author 						= pwd.getpwuid( os.getuid() ).pw_gecos
 
 		config['theme_author'] 		= author.decode('utf-8')#.encode('utf-8')
-		config['this_year'] 		= date.today().year
+		config['this_year'] 		= str( date.today().year )
 
 		config['theme_name'] 		= config['theme_name']
 		config['theme_slug'] 		= slugify( config['theme_name'] )
@@ -64,6 +64,7 @@ class wp_theme:
 		f.close()
 		ignore = [x.replace('\n','') for x in ignore if len(x) > 0 and x[0] != '#']
 		ignore.append('.git/')
+		ignore.append('node_modules/')
 		ignore.append('.DS_Store')
 
 		subst = ['php','md','scss','js','css','txt','json']
@@ -93,9 +94,11 @@ class wp_theme:
 				if  [x for x in subst if re.findall('\.'+x+'$',file)]:
 					#
 					# content = pystache.render( self._read_file_contents(source),self.config)
-					content = self._read_file_contents(source)
-					for key,value in self.config.iteritems():
-						content = content.replace( '___%s___' % key, str(value) )
+					content = self._read_file_contents(source)#.decode("utf-8")
+					for key,value in self.config.items():
+						#print(repr(content),repr(key),repr(value))
+						s = u'___%s___' % (key)
+						content = content.replace( s, value )
 
 					fout = codecs.open( target , 'wb' , encoding='utf-8' )
 					fout.write(content);

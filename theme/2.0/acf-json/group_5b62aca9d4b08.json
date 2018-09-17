@@ -1,0 +1,137 @@
+{
+    "key": "group_5b62aca9d4b08",
+    "title": "Leaflet Field",
+    "fields": [
+        {
+            "key": "field_5b62ad2333525",
+            "label": "Leaflet Map iFrame",
+            "name": "leaflet_map_iframe",
+            "type": "open_street_map",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "osm",
+            "layers": [
+                "OpenStreetMap"
+            ],
+            "center_lat": "-37.8144261818956",
+            "center_lng": "144.96516119688752",
+            "zoom": 14,
+            "allow_map_layers": 1,
+            "height": 410,
+            "max_markers": "",
+            "leaflet_map": {
+                "center_lat": "-37.81411",
+                "center_lng": "144.96328",
+                "zoom": "14",
+                "layers": [
+                    "OpenStreetMap"
+                ],
+                "markers": []
+            }
+        },
+        {
+            "key": "field_5b62ad5a33526",
+            "label": "Leaflet Map JS",
+            "name": "leaflet_map_js",
+            "type": "open_street_map",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "leaflet",
+            "layers": [
+                "OpenStreetMap.BlackAndWhite",
+                "OpenSeaMap",
+                "HikeBike.HillShading"
+            ],
+            "center_lat": "54.71867162094022",
+            "center_lng": "8.508567810058596",
+            "zoom": 12,
+            "allow_map_layers": 1,
+            "height": 400,
+            "max_markers": 10,
+            "leaflet_map": {
+                "center_lat": "-37.81411",
+                "center_lng": "144.96328",
+                "zoom": "14",
+                "layers": [
+                    "OpenStreetMap"
+                ],
+                "markers": []
+            }
+        },
+        {
+            "key": "field_5b810fa795309",
+            "label": "Leaflet Map JS (no markers)",
+            "name": "leaflet_map_no_markers",
+            "type": "open_street_map",
+            "instructions": "",
+            "required": 0,
+            "conditional_logic": 0,
+            "wrapper": {
+                "width": "",
+                "class": "",
+                "id": ""
+            },
+            "return_format": "osm",
+            "layers": [
+                "OpenStreetMap"
+            ],
+            "center_lat": "54.69293165957686",
+            "center_lng": "8.54935482144356",
+            "zoom": 12,
+            "allow_map_layers": 0,
+            "height": 400,
+            "max_markers": 0,
+            "leaflet_map": {
+                "center_lat": "-37.81411",
+                "center_lng": "144.96328",
+                "zoom": "14",
+                "layers": [
+                    "OpenStreetMap"
+                ],
+                "markers": []
+            }
+        }
+    ],
+    "location": [
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "page"
+            },
+            {
+                "param": "page_template",
+                "operator": "==",
+                "value": "default"
+            }
+        ],
+        [
+            {
+                "param": "post_type",
+                "operator": "==",
+                "value": "post"
+            }
+        ]
+    ],
+    "menu_order": 0,
+    "position": "normal",
+    "style": "default",
+    "label_placement": "top",
+    "instruction_placement": "label",
+    "hide_on_screen": "",
+    "active": 1,
+    "description": "",
+    "modified": 1535712015
+}

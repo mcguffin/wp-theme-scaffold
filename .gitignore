@@ -7,3 +7,11 @@
 .svn/
 .svnignore
 theme/my*
+package-lock.json
+theme/**/*/src/scss/fonts/_fontello-vars.scss
+theme/**/*/src/scss/fonts/_fontello-codes.scss
+theme/**/*/style.css
+theme/**/*/style.css.*
+theme/**/*/editor-style.css
+theme/**/*/editor-style.css.*
+theme/**/*/fonts/fontello/*
